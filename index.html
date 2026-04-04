@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#FF6B00" />
+  <meta name="description" content="Nutze dein Handy während du YouTube auf dem TV schaust. Like, kommentiere und abonniere direkt vom Sofa." />
+  <title>VoiceComment TV – Dein YouTube-Fernbedienung</title>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="VoiceComment TV" />
+  <meta property="og:description" content="Dein Handy als YouTube-Fernbedienung" />
+  <meta property="og:url" content="https://voicecomment-tv.vip" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== LANDING ===== -->
+  <div class="screen active" id="screen-landing">
+    <div class="landing-header">
+      <div class="logo">
+        <div class="logo-icon">▶</div>
+        VoiceComment TV
+      </div>
+      <button class="lang-btn" id="lang-toggle" onclick="toggleLang()">🌐 DE</button>
+    </div>
+
+    <div class="landing-hero">
+      <div class="hero-badge" data-i18n="badge">✨ Kostenlos testen</div>
+      <h1 class="hero-title" data-i18n="hero-title">
+        Dein Handy als<br><span>YouTube-Fernbedienung</span>
+      </h1>
+      <p class="hero-sub" data-i18n="hero-sub">
+        Like, kommentiere und abonniere direkt vom Sofa — ganz ohne TV-Fernbedienung.
+      </p>
+
+      <div class="hero-visual">
+        <div class="tv-mock"><div class="tv-screen">▶</div></div>
+        <div class="arrow-anim">→</div>
+        <div class="phone-mock">
+          <div class="phone-dot orange"></div>
+          <div class="phone-dot blue"></div>
+          <div class="phone-dot green"></div>
+        </div>
+        <div class="hero-visual-text">
+          <strong data-i18n="visual-title">Einfach verbinden</strong>
+          <span data-i18n="visual-sub">QR-Code scannen oder Link öffnen — fertig!</span>
+        </div>
+      </div>
+
+      <div class="steps-row">
+        <div class="step"><div class="step-num">1</div><div class="step-txt" data-i18n="step1">Kanal suchen</div></div>
+        <div class="step-arrow">→</div>
+        <div class="step"><div class="step-num">2</div><div class="step-txt" data-i18n="step2">Video wählen</div></div>
+        <div class="step-arrow">→</div>
+        <div class="step"><div class="step-num">3</div><div class="step-txt" data-i18n="step3">Interagieren</div></div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-pill">
+          <span class="num">80%</span>
+          <span class="lbl" data-i18n="stat1">nutzen Handy beim TV schauen</span>
+        </div>
+        <div class="stat-pill">
+          <span class="num">3 sek</span>
+          <span class="lbl" data-i18n="stat2">bis zur ersten Interaktion</span>
+        </div>
+        <div class="stat-pill">
+          <span class="num">100%</span>
+          <span class="lbl" data-i18n="stat3">kostenlos & im Browser</span>
+        </div>
+      </div>
+
+      <button class="cta-btn" onclick="goTo('screen-search')" data-i18n="cta">🚀 Jetzt kostenlos starten</button>
+      <p class="cta-sub" data-i18n="cta-sub">Keine App nötig · Kein Account nötig · Sofort loslegen</p>
+
+      <!-- QR Code Bereich -->
+      <div class="qr-section">
+        <div class="qr-box" id="qr-box"></div>
+        <div class="qr-text">
+          <strong data-i18n="qr-title">Auf dem Handy öffnen</strong>
+          <span data-i18n="qr-sub">QR-Code scannen oder voicecomment-tv.vip eingeben</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Google AdSense Platzhalter -->
+    <div class="ad-banner">
+      <span>📢</span>
+      <span data-i18n="ad">Werbung</span>
+      <!-- HIER: Google AdSense Code einfügen -->
+      <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXX" data-ad-slot="XXXXX"></ins> -->
+    </div>
+  </div>
+
+  <!-- ===== SUCHE ===== -->
+  <div class="screen" id="screen-search">
+    <div class="topbar">
+      <button class="back-btn" onclick="goTo('screen-landing')">←</button>
+      <span class="topbar-logo">VoiceComment TV</span>
+      <span class="breadcrumb" data-i18n="bc-search">Kanal suchen</span>
+    </div>
+
+    <div class="search-body">
+      <div class="search-label" data-i18n="search-label">Welchen Kanal schaust du? 📺</div>
+      <p class="search-hint" data-i18n="search-hint">Gib den Kanalnamen ein oder nutze das Mikrofon</p>
+
+      <div class="search-input-wrap">
+        <input class="search-input" id="search-input" type="text"
+          data-placeholder-de="z.B. MontanaBlack, MrBeast ..."
+          data-placeholder-en="e.g. MontanaBlack, MrBeast ..."
+          placeholder="z.B. MontanaBlack, MrBeast ..."
+          oninput="onSearch(this.value)" autocomplete="off" />
+        <button class="mic-btn" id="mic-btn" onclick="startVoice()" title="Spracheingabe">🎤</button>
+      </div>
+
+      <div id="search-results" class="search-results" style="display:none"></div>
+
+      <div id="history-section" style="display:none">
+        <div class="section-title" data-i18n="history">Zuletzt geschaut</div>
+        <div class="history-chips" id="history-chips"></div>
+      </div>
+
+      <div class="section-title" data-i18n="popular">Beliebte Kanäle</div>
+      <div class="search-results" id="popular-results"></div>
+    </div>
+  </div>
+
+  <!-- ===== VIDEOS ===== -->
+  <div class="screen" id="screen-videos">
+    <div class="topbar">
+      <button class="back-btn" onclick="goTo('screen-search')">←</button>
+      <span class="topbar-logo" id="video-topbar-name">Kanal</span>
+      <span class="breadcrumb" data-i18n="bc-videos">Videos</span>
+    </div>
+
+    <div class="channel-hero">
+      <div class="channel-hero-avatar" id="ch-avatar">🎬</div>
+      <div class="channel-hero-info">
+        <div class="channel-hero-name" id="ch-name">Kanalname</div>
+        <div class="channel-hero-subs" id="ch-subs">Abonnenten</div>
+      </div>
+      <button class="sub-btn" id="sub-hero-btn" onclick="toggleSub()">Abonnieren</button>
+    </div>
+
+    <div class="videos-body">
+      <div class="live-badge" id="live-badge" style="display:none">
+        <div class="live-dot"></div> LIVE
+      </div>
+      <div id="videos-list"></div>
+    </div>
+
+    <div class="ad-banner">📢 <span data-i18n="ad">Werbung</span></div>
+  </div>
+
+  <!-- ===== AKTIONEN ===== -->
+  <div class="screen" id="screen-action">
+    <div class="topbar">
+      <button class="back-btn" onclick="goTo('screen-videos')">←</button>
+      <span class="topbar-logo">VoiceComment TV</span>
+      <span class="breadcrumb" data-i18n="bc-action">Interaktion</span>
+    </div>
+
+    <div class="action-hero">
+      <div class="video-selected">
+        <div class="video-selected-thumb" id="action-thumb">▶</div>
+        <div>
+          <div class="video-selected-title" id="action-title">Videotitel</div>
+          <div class="video-selected-ch" id="action-ch">Kanal</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-body">
+      <div class="action-title" data-i18n="action-title">Was möchtest du tun?</div>
+      <p class="action-sub" data-i18n="action-sub">Wähle eine Aktion — YouTube öffnet sich automatisch</p>
+
+      <div class="action-grid">
+        <button class="action-btn btn-like" id="like-btn" onclick="doLike()">
+          <span class="icon">👍</span>
+          <span class="label" data-i18n="btn-like">Daumen hoch</span>
+          <span class="hint" data-i18n="btn-like-hint">Video liken</span>
+        </button>
+        <button class="action-btn btn-sub" id="sub-btn" onclick="doSubscribe()">
+          <span class="icon">🔔</span>
+          <span class="label" data-i18n="btn-sub">Abonnieren</span>
+          <span class="hint" data-i18n="btn-sub-hint">Kanal folgen</span>
+        </button>
+        <button class="action-btn btn-comment" onclick="toggleComment()">
+          <span class="icon">💬</span>
+          <span class="label" data-i18n="btn-comment">Kommentieren</span>
+          <span class="hint" data-i18n="btn-comment-hint">Meinung schreiben</span>
+        </button>
+        <button class="action-btn btn-shop" onclick="doShop()">
+          <span class="icon">🛒</span>
+          <span class="label" data-i18n="btn-shop">Produkt</span>
+          <span class="hint" data-i18n="btn-shop-hint">Shop öffnen</span>
+        </button>
+      </div>
+
+      <div class="comment-panel" id="comment-panel">
+        <textarea class="comment-textarea" id="comment-text"
+          data-placeholder-de="Dein Kommentar..."
+          data-placeholder-en="Your comment..."
+          placeholder="Dein Kommentar..."></textarea>
+        <button class="comment-send" onclick="sendComment()" data-i18n="comment-send">
+          Kommentar auf YouTube öffnen ↗
+        </button>
+      </div>
+
+      <button class="change-video-btn" onclick="goTo('screen-search')">
+        ↩ <span data-i18n="change-video">Anderen Kanal / Video wählen</span>
+      </button>
+    </div>
+
+    <div class="ad-banner">📢 <span data-i18n="ad">Werbung</span></div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- QR Code Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
