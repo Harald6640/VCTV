@@ -4,370 +4,288 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 <meta name="theme-color" content="#FF6B00"/>
-<meta name="description" content="Dein Handy als YouTube-Fernbedienung — Like, kommentiere und abonniere direkt vom Sofa."/>
 <title>VoiceComment TV</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Sora:wght@800&display=swap" rel="stylesheet"/>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --orange:#FF6B00;--orange-pale:#FFF3E8;
-  --bg:#fff;--bg2:#F8F6F3;--bg3:#F0EDE8;
-  --text:#1A1410;--text2:#6B6560;--text3:#A09A94;
-  --border:#E8E3DC;--green:#22C55E;--blue:#3B82F6;
-  --purple:#8B5CF6;--red:#EF4444;
-  --r:16px;--rsm:10px;
-  --shadow:0 2px 12px rgba(0,0,0,.08);
-  --shadow-lg:0 8px 32px rgba(0,0,0,.12);
+  --orange:#FF6B00;
+  --bg:#FFFFFF;
+  --bg2:#FAFAFA;
+  --bg3:#F5F3F0;
+  --border:#E8E3DC;
+  --text:#1A1410;
+  --text2:#6B6560;
+  --text3:#A09A94;
 }
-html{font-size:16px;-webkit-text-size-adjust:100%}
-body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-.screen{display:none;min-height:100vh;flex-direction:column}
+html,body{height:100%;overflow:hidden}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);max-width:430px;margin:0 auto;display:flex;flex-direction:column}
+.screen{display:none;height:100vh;flex-direction:column;overflow:hidden}
 .screen.active{display:flex}
 
-/* LANDING */
-#s-land{background:linear-gradient(160deg,#FFF8F2 0%,#fff 50%,#F0F7FF 100%)}
-.land-head{padding:20px 24px 0;display:flex;justify-content:space-between;align-items:center}
-.logo{font-family:'Sora',sans-serif;font-size:17px;font-weight:800;color:var(--orange);display:flex;align-items:center;gap:8px}
-.logo-box{width:32px;height:32px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
-.lang-btn{background:var(--bg3);border:none;border-radius:20px;padding:6px 14px;font-size:13px;font-family:inherit;color:var(--text2);cursor:pointer;font-weight:500}
-.hero{padding:32px 24px 0;flex:1}
-.badge{display:inline-flex;align-items:center;gap:6px;background:var(--orange-pale);color:var(--orange);font-size:12px;font-weight:700;padding:6px 14px;border-radius:20px;margin-bottom:18px;text-transform:uppercase;letter-spacing:.5px}
-.h1{font-family:'Sora',sans-serif;font-size:30px;font-weight:800;line-height:1.15;margin-bottom:14px}
-.h1 span{color:var(--orange)}
-.sub{font-size:15px;color:var(--text2);line-height:1.6;margin-bottom:24px}
-.visual{background:var(--bg2);border-radius:20px;padding:18px;margin-bottom:20px;border:1px solid var(--border);display:flex;gap:14px;align-items:center}
-.tv{width:90px;height:58px;background:#1A1410;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
-.tv::after{content:'';position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);width:28px;height:4px;background:#333;border-radius:2px}
-.tv-scr{width:78px;height:48px;background:linear-gradient(135deg,#1e3a5f,#2563eb);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:20px}
-.arr{font-size:22px;color:var(--orange)}
-.phone{width:46px;height:74px;background:#fff;border-radius:10px;border:2px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;box-shadow:var(--shadow);flex-shrink:0}
-.pdot{width:22px;height:5px;border-radius:3px}
-.pdot.o{background:var(--orange)}.pdot.b{background:var(--blue)}.pdot.g{background:var(--green)}
-.vt strong{display:block;font-size:14px;font-weight:700;margin-bottom:3px}
-.vt span{font-size:12px;color:var(--text2);line-height:1.5}
-.steps{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:20px}
-.step{display:flex;flex-direction:column;align-items:center;gap:4px}
-.step-n{width:32px;height:32px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
-.step-t{font-size:11px;color:var(--text2);font-weight:500}
-.step-arr{font-size:16px;color:var(--text3)}
-.stats{display:flex;gap:10px;margin-bottom:28px}
-.stat{flex:1;background:#fff;border:1px solid var(--border);border-radius:var(--rsm);padding:12px 8px;text-align:center;box-shadow:var(--shadow)}
-.stat .n{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;color:var(--orange);display:block}
-.stat .l{font-size:10px;color:var(--text2);font-weight:500;line-height:1.3}
+/* ===== LOGIN ===== */
+#s-login{background:linear-gradient(160deg,#FFF8F2 0%,#fff 60%);justify-content:center;align-items:center;padding:40px 28px;text-align:center}
+.login-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:32px}
+.login-logo-box{width:44px;height:44px;background:var(--orange);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px}
+.login-logo-txt{font-family:'Sora',sans-serif;font-size:20px;font-weight:800;color:var(--orange)}
+.login-title{font-family:'Sora',sans-serif;font-size:28px;font-weight:800;line-height:1.2;color:var(--text);margin-bottom:12px}
+.login-title span{color:var(--orange)}
+.login-sub{font-size:15px;color:var(--text2);line-height:1.6;margin-bottom:40px}
+.google-btn{width:100%;background:#fff;color:var(--text);border:2px solid var(--border);border-radius:16px;padding:17px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,.08);transition:all .2s}
+.google-btn:active{transform:scale(.97);box-shadow:none}
+.login-note{font-size:12px;color:var(--text3);line-height:1.6}
 
-/* Google Login Button */
-.google-login-wrap{margin-bottom:16px}
-.google-btn{width:100%;background:#fff;color:#1A1410;border:2px solid var(--border);border-radius:var(--r);padding:16px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;transition:all .2s;box-shadow:var(--shadow)}
-.google-btn:hover{border-color:var(--orange);box-shadow:var(--shadow-lg)}
-.google-btn:active{transform:scale(.98)}
-.google-icon{width:22px;height:22px}
-.cta-sub{text-align:center;font-size:12px;color:var(--text3);margin-bottom:20px}
-
-/* User info bar */
-.user-bar{display:none;align-items:center;gap:10px;background:var(--bg2);border-radius:var(--r);padding:12px 16px;margin-bottom:16px;border:1px solid var(--border)}
-.user-bar.show{display:flex}
-.user-avatar{width:36px;height:36px;border-radius:50%;object-fit:cover}
-.user-name{font-size:14px;font-weight:700;flex:1}
-.logout-btn{background:none;border:none;font-size:12px;color:var(--text3);cursor:pointer;font-family:inherit}
-
-.ad{background:var(--bg3);border-top:1px solid var(--border);padding:10px 20px;text-align:center;font-size:11px;color:var(--text3)}
-
-/* TOPBAR */
-.topbar{padding:14px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);background:#fff;position:sticky;top:0;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.back{width:36px;height:36px;border-radius:50%;background:var(--bg2);border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.tbar-logo{font-family:'Sora',sans-serif;font-size:15px;font-weight:800;color:var(--orange);flex:1}
-.bc{font-size:11px;color:var(--text3)}
-
-/* SEARCH */
-.sbody{padding:24px 20px;flex:1;overflow-y:auto}
-.slabel{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;margin-bottom:5px}
+/* ===== SEARCH ===== */
+#s-search{background:var(--bg)}
+.search-head{padding:14px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);background:#fff}
+.logo-sm{font-family:'Sora',sans-serif;font-size:16px;font-weight:800;color:var(--orange);flex:1}
+.user-chip{display:flex;align-items:center;gap:8px;background:var(--bg3);border-radius:20px;padding:5px 12px 5px 5px}
+.user-chip img{width:28px;height:28px;border-radius:50%}
+.user-chip span{font-size:13px;font-weight:600;color:var(--text)}
+.sbody{flex:1;overflow-y:auto;padding:24px 20px}
+.slabel{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px}
 .shint{font-size:14px;color:var(--text2);margin-bottom:18px}
-.sinput-wrap{position:relative;margin-bottom:10px}
-.sinput{width:100%;padding:16px 56px 16px 18px;border:2px solid var(--border);border-radius:var(--r);font-size:16px;font-family:inherit;background:var(--bg2);color:var(--text);outline:none;transition:border-color .2s,background .2s}
+.input-wrap{position:relative;margin-bottom:12px}
+.sinput{width:100%;padding:16px 56px 16px 18px;border:2px solid var(--border);border-radius:14px;font-size:16px;font-family:inherit;background:var(--bg2);color:var(--text);outline:none;transition:border-color .2s}
 .sinput:focus{border-color:var(--orange);background:#fff}
-.mic{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;background:var(--orange);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 2px 8px rgba(255,107,0,.3)}
-.mic.on{background:var(--red);animation:pulse 1s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)}50%{box-shadow:0 0 0 10px rgba(239,68,68,0)}}
-.results{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-lg);margin-bottom:20px}
-.ri{display:flex;align-items:center;gap:14px;padding:14px 16px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border)}
+.mic-s{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;background:var(--orange);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 2px 8px rgba(255,107,0,.3)}
+.mic-s.on{background:#EF4444;animation:pulse 1s infinite}
+.rbox{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.ri{display:flex;align-items:center;gap:14px;padding:14px 16px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
 .ri:last-child{border-bottom:none}
 .ri:active{background:var(--bg2)}
-.avatar{width:48px;height:48px;border-radius:50%;flex-shrink:0;font-size:22px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;overflow:hidden}
-.avatar img{width:100%;height:100%;object-fit:cover}
+.ri-av{width:48px;height:48px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;overflow:hidden}
+.ri-av img{width:100%;height:100%;object-fit:cover}
 .ri-info{flex:1;min-width:0}
-.ri-name{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ri-name{font-weight:700;font-size:15px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ri-sub{font-size:12px;color:var(--text2);margin-top:2px}
-.ri-arr{color:var(--text3);font-size:20px;flex-shrink:0}
-.sec-title{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
-.chip{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:8px 14px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s}
+.ri-arr{color:var(--text3);font-size:20px}
+.sec-lbl{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.chip{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;color:var(--text);transition:all .15s}
 .chip:active{border-color:var(--orange);color:var(--orange)}
 
-/* VIDEOS */
-.ch-hero{padding:18px 20px;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#FFF8F2,#fff);border-bottom:1px solid var(--border)}
-.ch-av{width:58px;height:58px;border-radius:50%;font-size:26px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0;overflow:hidden}
-.ch-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.ch-info{flex:1;min-width:0}
-.ch-name{font-family:'Sora',sans-serif;font-size:17px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ch-subs{font-size:12px;color:var(--text2);margin-top:2px}
-.sub-btn{background:var(--orange);color:#fff;border:none;border-radius:20px;padding:10px 16px;font-weight:700;font-size:13px;font-family:inherit;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s}
-.sub-btn.done{background:var(--green);color:#fff}
-.vbody{padding:16px 20px;flex:1;overflow-y:auto}
-.live-badge{display:inline-flex;align-items:center;gap:6px;background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:5px 12px;border-radius:6px;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
-.ldot{width:6px;height:6px;background:#fff;border-radius:50%;animation:blink 1s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-.vcard{display:flex;gap:12px;padding:12px;background:#fff;border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow)}
-.vcard:active{border-color:var(--orange)}
-.vcard.live{border-color:var(--red)}
-.vthumb{width:110px;height:62px;border-radius:8px;flex-shrink:0;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:26px;position:relative;overflow:hidden}
-.vthumb img{width:100%;height:100%;object-fit:cover}
-.vdur{position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,.8);color:#fff;font-size:10px;padding:2px 5px;border-radius:4px;font-weight:700}
-.vinfo{flex:1;min-width:0}
-.vtitle{font-size:13px;font-weight:600;line-height:1.4;margin-bottom:5px}
-.vmeta{font-size:11px;color:var(--text2)}
+/* ===== REMOTE ===== */
+#s-remote{background:var(--bg2)}
+.r-topbar{padding:12px 18px;display:flex;align-items:center;gap:10px;background:#fff;border-bottom:1px solid var(--border)}
+.r-back{width:34px;height:34px;border-radius:50%;background:var(--bg3);border:none;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.r-logo{font-family:'Sora',sans-serif;font-size:15px;font-weight:800;color:var(--orange);flex:1}
 
-/* ACTION — Das Herzstück */
-#s-action{background:#000;color:#fff}
-.action-topbar{padding:14px 18px;display:flex;align-items:center;gap:12px;background:#111;position:sticky;top:0;z-index:10}
-.back-dark{width:36px;height:36px;border-radius:50%;background:#222;border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
-.tbar-logo-dark{font-family:'Sora',sans-serif;font-size:15px;font-weight:800;color:var(--orange);flex:1}
+/* Mini Video */
+.mini-bar{background:#1A1410;padding:10px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.mini-frame{width:80px;height:45px;border-radius:8px;overflow:hidden;flex-shrink:0;background:#000;position:relative}
+.mini-frame iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;pointer-events:none}
+.mini-info{flex:1;min-width:0}
+.mini-title{font-size:12px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-ch{font-size:11px;color:#999;margin-top:2px}
+.mute-btn{background:rgba(255,255,255,.1);border:none;border-radius:8px;padding:6px 10px;font-size:18px;cursor:pointer;flex-shrink:0;transition:background .2s}
+.mute-btn:active{background:rgba(255,255,255,.2)}
 
-/* Video Player klein */
-.mini-player{background:#000;position:relative;width:100%;padding-top:56.25%}
-.mini-player iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
-.mini-player-info{background:#111;padding:12px 16px;border-bottom:1px solid #222}
-.mini-title{font-size:14px;font-weight:700;color:#fff;line-height:1.4;margin-bottom:4px}
-.mini-ch{font-size:12px;color:#999}
+/* Fernbedienung */
+.rbody{flex:1;overflow-y:auto;padding:16px}
+.r-head{text-align:center;margin-bottom:16px}
+.r-head h2{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;color:var(--text);margin-bottom:4px}
+.r-head p{font-size:13px;color:var(--text2)}
 
-/* Action Buttons */
-.abody-dark{padding:20px 16px;flex:1;overflow-y:auto}
-.atitle-dark{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;text-align:center;margin-bottom:4px;color:#fff}
-.asub-dark{font-size:13px;color:#999;text-align:center;margin-bottom:20px}
+/* Große Buttons */
+.big-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.big-btn{border:2px solid;border-radius:20px;padding:22px 14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:inherit;transition:transform .15s;width:100%}
+.big-btn:active{transform:scale(.94)}
+.big-btn .ic{font-size:38px;line-height:1}
+.big-btn .lb{font-size:15px;font-weight:700}
+.big-btn .ht{font-size:11px;color:var(--text3)}
 
-.agrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.abtn{border:none;border-radius:20px;padding:20px 14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .2s;font-family:inherit}
-.abtn:active{transform:scale(.95)}
-.abtn .ic{font-size:32px;line-height:1}
-.abtn .lb{font-size:14px;font-weight:700}
-.abtn .ht{font-size:11px;opacity:.7;font-weight:400}
-.btn-like{background:#3A0000;color:#FF6B6B}
-.btn-like.on{background:var(--red);color:#fff}
-.btn-sub2{background:#001A3A;color:#6B9FFF}
-.btn-sub2.on{background:var(--green);color:#fff}
-.btn-com{background:#1A0033;color:#C06BFF}
-.btn-shop{background:#1A1000;color:#FFB86B}
-.btn-voice{background:#001A1A;color:#6BFFE4;grid-column:span 2}
+.btn-like{background:#FFF0EE;border-color:#FFD4CC}
+.btn-like .lb{color:#CC2200}
+.btn-like.on{background:#FF3B3B;border-color:#FF3B3B}
+.btn-like.on .lb{color:#fff}
+.btn-like.on .ht{color:rgba(255,255,255,.7)}
 
-/* Comment Panel */
-.cpanel{background:#111;border:1px solid #333;border-radius:var(--r);padding:16px;margin-bottom:14px;display:none}
-.cpanel.open{display:block}
-.ctxt{width:100%;border:1.5px solid #333;border-radius:var(--rsm);padding:12px;font-size:15px;font-family:inherit;resize:none;height:90px;outline:none;color:#fff;background:#1A1A1A;margin-bottom:10px}
-.ctxt:focus{border-color:var(--purple)}
-.csend{width:100%;background:var(--purple);color:#fff;border:none;border-radius:var(--rsm);padding:14px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer}
+.btn-sub{background:#EEF4FF;border-color:#CCE0FF}
+.btn-sub .lb{color:#1A56CC}
+.btn-sub.on{background:#22C55E;border-color:#22C55E}
+.btn-sub.on .lb{color:#fff}
+.btn-sub.on .ht{color:rgba(255,255,255,.7)}
 
-/* Voice Recording */
-.voice-panel{background:#111;border:1px solid #333;border-radius:var(--r);padding:20px;margin-bottom:14px;display:none;text-align:center}
+.btn-com{background:#F5F0FF;border-color:#E0D0FF}
+.btn-com .lb{color:#6B22CC}
+
+.btn-aff{background:#FFF8EE;border-color:#FFE4B0}
+.btn-aff .lb{color:#CC7700}
+
+/* Sprachkommentar */
+.voice-full{width:100%;background:#F0FFF8;border:2px solid #B0FFDD;border-radius:20px;padding:18px 20px;display:flex;align-items:center;gap:14px;font-family:inherit;cursor:pointer;margin-bottom:12px;transition:all .15s}
+.voice-full:active{transform:scale(.97)}
+.voice-full .ic{font-size:30px;flex-shrink:0}
+.voice-full .lb{font-size:15px;font-weight:700;color:#006633;display:block;text-align:left}
+.voice-full .ht{font-size:12px;color:var(--text3);display:block;text-align:left}
+
+/* Panels */
+.panel{background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px;display:none;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.panel.open{display:block}
+.ctxt{width:100%;border:1.5px solid var(--border);border-radius:12px;padding:14px;font-size:15px;font-family:inherit;resize:none;height:100px;outline:none;color:var(--text);background:var(--bg2);margin-bottom:10px;transition:border-color .2s}
+.ctxt:focus{border-color:#8B5CF6;background:#fff}
+.csend{width:100%;background:#8B5CF6;color:#fff;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer}
+
+/* Voice Panel */
+.voice-panel{background:#fff;border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:12px;display:none;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06)}
 .voice-panel.open{display:block}
-.voice-rec-btn{width:80px;height:80px;border-radius:50%;background:var(--red);border:none;cursor:pointer;font-size:36px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.voice-rec-btn.recording{animation:pulse-red 1s infinite;background:#ff0000}
-@keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(255,0,0,.4)}50%{box-shadow:0 0 0 20px rgba(255,0,0,0)}}
-.voice-transcript{font-size:14px;color:#ccc;min-height:40px;margin-bottom:12px;line-height:1.5}
-.voice-send{background:var(--green);color:#fff;border:none;border-radius:var(--rsm);padding:12px 24px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;display:none}
-.voice-send.show{display:inline-block}
+.vrec-btn{width:80px;height:80px;border-radius:50%;background:#FFF0EE;border:2px solid #FFD4CC;cursor:pointer;font-size:36px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.vrec-btn.on{background:#EF4444;border-color:#EF4444;animation:pulse-r 1s infinite}
+.vtimer{font-size:13px;color:var(--text2);margin-bottom:8px}
+.vtxt{font-size:14px;color:var(--text);min-height:44px;line-height:1.6;margin-bottom:14px;padding:0 10px}
+.vsend{background:#22C55E;color:#fff;border:none;border-radius:12px;padding:13px 28px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;display:none}
+.vsend.show{display:inline-block}
+.vlimit{font-size:11px;color:var(--text3);margin-top:8px}
 
-.chg-btn{width:100%;background:#111;border:1.5px solid #333;border-radius:var(--r);padding:15px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;color:#fff;transition:all .2s;margin-top:8px}
-.chg-btn:active{border-color:var(--orange)}
+.chg-btn{width:100%;background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:15px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;color:var(--text2);transition:all .2s}
+.chg-btn:active{border-color:var(--orange);color:var(--orange)}
+
+.ad{background:var(--bg3);border-top:1px solid var(--border);padding:9px;text-align:center;font-size:11px;color:var(--text3);flex-shrink:0}
+
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)}50%{box-shadow:0 0 0 10px rgba(239,68,68,0)}}
+@keyframes pulse-r{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.5)}50%{box-shadow:0 0 0 16px rgba(239,68,68,0)}}
 
 /* TOAST */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#1A1410;color:#fff;padding:12px 22px;border-radius:12px;font-size:14px;font-weight:500;opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:999;white-space:nowrap;max-width:88vw;text-align:center;pointer-events:none}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:#1A1410;color:#fff;padding:12px 22px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:999;max-width:88vw;text-align:center;pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,.3)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* Login required */
-.login-required{background:#FFF3E8;border:1px solid var(--orange);border-radius:var(--r);padding:16px;margin-bottom:16px;text-align:center;display:none}
-.login-required.show{display:block}
-.login-required p{font-size:14px;color:var(--orange);font-weight:600;margin-bottom:10px}
 </style>
 </head>
 <body>
 
-<!-- LANDING -->
-<div class="screen active" id="s-land">
-  <div class="land-head">
-    <div class="logo"><div class="logo-box">▶</div>VoiceComment TV</div>
-    <button class="lang-btn" onclick="toggleLang()">🌐 DE</button>
+<!-- LOGIN -->
+<div class="screen active" id="s-login">
+  <div class="login-logo">
+    <div class="login-logo-box">▶</div>
+    <span class="login-logo-txt">VoiceComment TV</span>
   </div>
-  <div class="hero">
-    <div class="badge">✨ Kostenlos testen</div>
-    <h1 class="h1">Dein Handy als<br><span>YouTube-Fernbedienung</span></h1>
-    <p class="sub">Like, kommentiere und abonniere direkt vom Sofa — das Video läuft klein auf deinem Handy.</p>
-
-    <div class="visual">
-      <div class="tv"><div class="tv-scr">▶</div></div>
-      <div class="arr">→</div>
-      <div class="phone">
-        <div class="pdot o"></div>
-        <div class="pdot b"></div>
-        <div class="pdot g"></div>
-      </div>
-      <div class="vt">
-        <strong>Video läuft auf dem Handy</strong>
-        <span>Klein aber sichtbar — du weißt immer was läuft!</span>
-      </div>
-    </div>
-
-    <div class="steps">
-      <div class="step"><div class="step-n">1</div><div class="step-t">Einloggen</div></div>
-      <div class="step-arr">→</div>
-      <div class="step"><div class="step-n">2</div><div class="step-t">Kanal suchen</div></div>
-      <div class="step-arr">→</div>
-      <div class="step"><div class="step-n">3</div><div class="step-t">Interagieren</div></div>
-    </div>
-
-    <div class="stats">
-      <div class="stat"><span class="n">80%</span><span class="l">nutzen Handy beim TV schauen</span></div>
-      <div class="stat"><span class="n">3 sek</span><span class="l">bis zur ersten Interaktion</span></div>
-      <div class="stat"><span class="n">100%</span><span class="l">kostenlos & im Browser</span></div>
-    </div>
-
-    <!-- User Bar (nach Login) -->
-    <div class="user-bar" id="user-bar">
-      <img class="user-avatar" id="user-avatar" src="" alt=""/>
-      <span class="user-name" id="user-name">Nutzer</span>
-      <button class="logout-btn" onclick="doLogout()">Abmelden</button>
-      <button style="background:var(--orange);color:#fff;border:none;border-radius:20px;padding:8px 16px;font-weight:700;font-size:13px;font-family:inherit;cursor:pointer" onclick="goTo('s-search')">Weiter →</button>
-    </div>
-
-    <!-- Login Button -->
-    <div class="google-login-wrap" id="login-wrap">
-      <button class="google-btn" onclick="doGoogleLogin()">
-        <svg class="google-icon" viewBox="0 0 24 24">
-          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-        </svg>
-        Mit Google anmelden
-      </button>
-    </div>
-    <p class="cta-sub">Keine App nötig · Daten bleiben bei Google · Kostenlos</p>
-  </div>
-  <div class="ad">📢 Werbung · voicecomment-tv.vip</div>
+  <h1 class="login-title">Dein Handy als<br><span>YouTube-Fernbedienung</span></h1>
+  <p class="login-sub">Like, kommentiere und abonniere direkt vom Sofa — das Video läuft klein auf deinem Handy.</p>
+  <button class="google-btn" onclick="doLogin()">
+    <svg width="22" height="22" viewBox="0 0 24 24">
+      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+    </svg>
+    Mit Google anmelden
+  </button>
+  <p class="login-note">Einmal einloggen — danach direkt loslegen.<br>Deine Daten bleiben bei Google.</p>
 </div>
 
-<!-- SEARCH -->
+<!-- SUCHE -->
 <div class="screen" id="s-search">
-  <div class="topbar">
-    <button class="back" onclick="goTo('s-land')">←</button>
-    <span class="tbar-logo">VoiceComment TV</span>
-    <span class="bc">Kanal suchen</span>
+  <div class="search-head">
+    <span class="logo-sm">VoiceComment TV</span>
+    <div class="user-chip" id="user-chip">
+      <img id="user-av" src="" alt=""/>
+      <span id="user-nm"></span>
+    </div>
   </div>
   <div class="sbody">
     <div class="slabel">Welchen Kanal schaust du? 📺</div>
-    <p class="shint">Gib den Kanalnamen ein oder nutze das Mikrofon</p>
-    <div class="sinput-wrap">
+    <p class="shint">Tippe den Kanalnamen oder sprich ihn</p>
+    <div class="input-wrap">
       <input class="sinput" id="sinput" type="text" placeholder="z.B. MontanaBlack, MrBeast ..." oninput="onSearch(this.value)" autocomplete="off"/>
-      <button class="mic" id="mic-btn" onclick="startVoice()">🎤</button>
+      <button class="mic-s" id="mic-s" onclick="voiceSearch()">🎤</button>
     </div>
-    <div id="search-results" class="results" style="display:none"></div>
+    <div id="search-res" class="rbox" style="display:none"></div>
     <div id="hist-sec" style="display:none">
-      <div class="sec-title">Zuletzt geschaut</div>
+      <div class="sec-lbl">Zuletzt geschaut</div>
       <div class="chips" id="hist-chips"></div>
     </div>
-    <div class="sec-title">Beliebte Kanäle</div>
-    <div class="results" id="pop-results"></div>
+    <div class="sec-lbl">Beliebte Kanäle</div>
+    <div class="rbox" id="pop-list"></div>
   </div>
 </div>
 
-<!-- VIDEOS -->
-<div class="screen" id="s-videos">
-  <div class="topbar">
-    <button class="back" onclick="goTo('s-search')">←</button>
-    <span class="tbar-logo" id="v-topbar">Kanal</span>
-    <span class="bc">Videos</span>
+<!-- FERNBEDIENUNG -->
+<div class="screen" id="s-remote">
+  <div class="r-topbar">
+    <button class="r-back" onclick="goTo('s-search')">←</button>
+    <span class="r-logo">VoiceComment TV</span>
+    <span style="font-size:11px;color:var(--text3)">Fernbedienung</span>
   </div>
-  <div class="ch-hero">
-    <div class="ch-av" id="ch-av">🎬</div>
-    <div class="ch-info">
-      <div class="ch-name" id="ch-name">Kanalname</div>
-      <div class="ch-subs" id="ch-subs">Abonnenten</div>
+
+  <!-- Mini Video stumm -->
+  <div class="mini-bar">
+    <div class="mini-frame">
+      <iframe id="yt-frame" src="" allowfullscreen allow="autoplay;encrypted-media"></iframe>
     </div>
-    <button class="sub-btn" id="sub-hero" onclick="toggleSubHero()">Abonnieren</button>
-  </div>
-  <div class="vbody">
-    <div class="live-badge" id="live-badge" style="display:none"><div class="ldot"></div> LIVE</div>
-    <div id="vlist"></div>
-  </div>
-  <div class="ad">📢 Werbung</div>
-</div>
-
-<!-- ACTION — Hauptbildschirm -->
-<div class="screen" id="s-action">
-  <div class="action-topbar">
-    <button class="back-dark" onclick="goTo('s-videos')">←</button>
-    <span class="tbar-logo-dark">VoiceComment TV</span>
-    <span style="font-size:11px;color:#666">Interaktion</span>
+    <div class="mini-info">
+      <div class="mini-title" id="r-title">Video</div>
+      <div class="mini-ch" id="r-ch">Kanal</div>
+    </div>
+    <button class="mute-btn" id="mute-btn" onclick="toggleMute()" title="Ton ein/aus">🔇</button>
   </div>
 
-  <!-- Mini Video Player -->
-  <div class="mini-player" id="mini-player">
-    <iframe id="yt-player" src="" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-  </div>
-  <div class="mini-player-info">
-    <div class="mini-title" id="a-title">Videotitel</div>
-    <div class="mini-ch" id="a-ch">Kanal</div>
-  </div>
+  <!-- Fernbedienung -->
+  <div class="rbody">
+    <div class="r-head">
+      <h2>Was möchtest du tun?</h2>
+      <p>Direkte Aktionen — kein Extra-Öffnen nötig</p>
+    </div>
 
-  <div class="abody-dark">
-    <div class="atitle-dark">Was möchtest du tun?</div>
-    <p class="asub-dark">Direkte Aktionen — kein Extra-Öffnen nötig</p>
-
-    <div class="agrid">
-      <button class="abtn btn-like" id="like-btn" onclick="doLike()">
-        <span class="ic">👍</span><span class="lb" id="like-lb">Liken</span><span class="ht">Video liken</span>
+    <div class="big-grid">
+      <button class="big-btn btn-like" id="like-btn" onclick="doLike()">
+        <span class="ic">👍</span>
+        <span class="lb" id="like-lb">Liken</span>
+        <span class="ht">Video liken</span>
       </button>
-      <button class="abtn btn-sub2" id="sub-btn" onclick="doSub()">
-        <span class="ic">🔔</span><span class="lb" id="sub-lb">Abonnieren</span><span class="ht">Kanal folgen</span>
+      <button class="big-btn btn-sub" id="sub-btn" onclick="doSub()">
+        <span class="ic">🔔</span>
+        <span class="lb" id="sub-lb">Abonnieren</span>
+        <span class="ht">Kanal folgen</span>
       </button>
-      <button class="abtn btn-com" onclick="toggleCom()">
-        <span class="ic">💬</span><span class="lb">Kommentar</span><span class="ht">Text schreiben</span>
+      <button class="big-btn btn-com" onclick="toggleCom()">
+        <span class="ic">💬</span>
+        <span class="lb">Kommentar</span>
+        <span class="ht">Text schreiben</span>
       </button>
-      <button class="abtn btn-shop" onclick="doShop()">
-        <span class="ic">🛒</span><span class="lb">Affiliate</span><span class="ht">Shop öffnen</span>
-      </button>
-      <button class="abtn btn-voice" onclick="toggleVoice()">
-        <span class="ic">🎙️</span><span class="lb">Sprachkommentar</span><span class="ht">Sprechen statt tippen</span>
+      <button class="big-btn btn-aff" onclick="doAffiliate()">
+        <span class="ic">🛒</span>
+        <span class="lb">Affiliate</span>
+        <span class="ht">Shop öffnen</span>
       </button>
     </div>
 
-    <!-- Text Kommentar -->
-    <div class="cpanel" id="cpanel">
-      <textarea class="ctxt" id="ctxt" placeholder="Dein Kommentar..."></textarea>
-      <button class="csend" onclick="sendCom()">Kommentar senden ↗</button>
+    <button class="voice-full" onclick="toggleVoice()">
+      <span class="ic">🎙️</span>
+      <div>
+        <span class="lb">Sprachkommentar</span>
+        <span class="ht">Sprechen statt tippen — max. 60 Sek.</span>
+      </div>
+    </button>
+
+    <!-- Kommentar Panel -->
+    <div class="panel" id="com-panel">
+      <textarea class="ctxt" id="com-txt" placeholder="Dein Kommentar..." maxlength="500"></textarea>
+      <button class="csend" onclick="sendCom()">💬 Kommentar senden</button>
     </div>
 
-    <!-- Sprachkommentar -->
+    <!-- Voice Panel -->
     <div class="voice-panel" id="voice-panel">
-      <button class="voice-rec-btn" id="voice-rec-btn" onclick="toggleVoiceRec()">🎙️</button>
-      <div class="voice-transcript" id="voice-transcript">Auf den Button tippen und sprechen...</div>
-      <button class="voice-send" id="voice-send" onclick="sendVoiceCom()">Kommentar senden ↗</button>
+      <button class="vrec-btn" id="vrec-btn" onclick="toggleRec()">🎙️</button>
+      <div class="vtimer" id="vtimer">Auf den Button tippen und sprechen</div>
+      <div class="vtxt" id="vtxt"></div>
+      <button class="vsend" id="vsend" onclick="sendVoice()">🎙️ Kommentar senden</button>
+      <div class="vlimit" id="vlimit"></div>
     </div>
 
     <button class="chg-btn" onclick="goTo('s-search')">↩ Anderen Kanal / Video wählen</button>
   </div>
 
-  <div class="ad" style="background:#111;border-color:#222;color:#555">📢 Werbung</div>
+  <div class="ad">📢 Werbung · voicecomment-tv.vip</div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const YT_KEY = 'AIzaSyCkbxNViUW1O7fXgk0s3vsXfeLIOTUZ9ik';
-const CLIENT_ID = '473201980231-jenevvonj0atmobmv9pd24oor4nhsl90.apps.googleusercontent.com';
+const YT_KEY='AIzaSyCkbxNViUW1O7fXgk0s3vsXfeLIOTUZ9ik';
+const CLIENT_ID='473201980231-jenevvonj0atmobmv9pd24oor4nhsl90.apps.googleusercontent.com';
 
-const POPULAR = [
+const POPULAR=[
   {name:'MontanaBlack',handle:'@montanablack88',subs:'3,2 Mio',color:'#FF6B00',emoji:'🎮',id:'UCmv8-XJRK_7e_GZ3XsCAcfA'},
   {name:'MrBeast',handle:'@MrBeast',subs:'340 Mio',color:'#EF4444',emoji:'🔥',id:'UCX6OQ3DkcsbYNE6H8uQQuVA'},
   {name:'Dner',handle:'@Dner',subs:'1,8 Mio',color:'#8B5CF6',emoji:'😂',id:'UCl9I9FP7C0PAJJNXNDg2RRw'},
@@ -376,380 +294,271 @@ const POPULAR = [
   {name:'PewDiePie',handle:'@PewDiePie',subs:'111 Mio',color:'#EF4444',emoji:'🎯',id:'UC-lHJZR3Gqxm24_Vd_AJ5Yw'},
 ];
 
-let lang='de', curCh=null, curVid=null, liked=false, subbed=false;
-let hist=[], rec=null, sDebounce=null, voiceRec=null, voiceRecording=false;
-let accessToken=null, userInfo=null;
+let token=null,curCh=null,curVid=null,liked=false,subbed=false;
+let hist=[],sRec=null,vRec=null,vRecOn=false,vTimer=null,vSecs=0,sDebounce=null;
+let muted=true;
 
-// ===== GOOGLE LOGIN =====
-function doGoogleLogin(){
-  const client = google.accounts.oauth2.initTokenClient({
-    client_id: CLIENT_ID,
-    scope: 'https://www.googleapis.com/auth/youtube.force-ssl profile email',
-    callback: (response) => {
-      if(response.access_token){
-        accessToken = response.access_token;
-        fetchUserInfo();
-      }
-    },
-  });
-  client.requestAccessToken();
-}
-
-async function fetchUserInfo(){
-  try{
-    const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-      headers:{Authorization: 'Bearer '+accessToken}
-    });
-    userInfo = await r.json();
-    document.getElementById('user-avatar').src = userInfo.picture;
-    document.getElementById('user-name').textContent = userInfo.given_name || userInfo.name;
-    document.getElementById('user-bar').classList.add('show');
-    document.getElementById('login-wrap').style.display='none';
-    toast('👋 Willkommen '+userInfo.given_name+'!');
-    try{ localStorage.setItem('vctv_user', JSON.stringify({name:userInfo.given_name, picture:userInfo.picture})); }catch(e){}
-  }catch(e){ toast('❗ Login fehlgeschlagen'); }
-}
-
-function doLogout(){
-  accessToken=null; userInfo=null;
-  document.getElementById('user-bar').classList.remove('show');
-  document.getElementById('login-wrap').style.display='block';
-  try{ localStorage.removeItem('vctv_user'); }catch(e){}
-  toast('Abgemeldet');
-}
-
-function checkSavedUser(){
-  try{
-    const u = JSON.parse(localStorage.getItem('vctv_user')||'null');
-    if(u){
-      document.getElementById('user-avatar').src = u.picture;
-      document.getElementById('user-name').textContent = u.name;
-      document.getElementById('user-bar').classList.add('show');
-      document.getElementById('login-wrap').style.display='none';
+function doLogin(){
+  const c=google.accounts.oauth2.initTokenClient({
+    client_id:CLIENT_ID,
+    scope:'https://www.googleapis.com/auth/youtube.force-ssl profile email',
+    callback:async r=>{
+      if(!r.access_token)return;
+      token=r.access_token;
+      try{
+        const u=await fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+token}});
+        const d=await u.json();
+        document.getElementById('user-av').src=d.picture;
+        document.getElementById('user-nm').textContent=d.given_name||d.name;
+        try{localStorage.setItem('vctv_u',JSON.stringify({p:d.picture,n:d.given_name||d.name}));}catch(e){}
+        toast('👋 Hallo '+(d.given_name||d.name)+'!');
+        goTo('s-search');
+      }catch(e){toast('❗ Login fehlgeschlagen');}
     }
+  });
+  c.requestAccessToken();
+}
+
+function checkUser(){
+  try{
+    const u=JSON.parse(localStorage.getItem('vctv_u')||'null');
+    if(u){document.getElementById('user-av').src=u.p;document.getElementById('user-nm').textContent=u.n;goTo('s-search');}
   }catch(e){}
 }
 
-// ===== NAV =====
 function goTo(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
 }
 
-let toastT=null;
-function toast(msg){
+let tT=null;
+function toast(m){
   const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  if(toastT) clearTimeout(toastT);
-  toastT=setTimeout(()=>el.classList.remove('show'),3200);
+  el.textContent=m;el.classList.add('show');
+  if(tT)clearTimeout(tT);
+  tT=setTimeout(()=>el.classList.remove('show'),3000);
 }
 
-function toggleLang(){
-  lang=lang==='de'?'en':'de';
-  document.querySelector('.lang-btn').textContent='🌐 '+lang.toUpperCase();
-}
-
-// ===== HISTORY =====
-function loadHist(){
-  try{ hist=JSON.parse(localStorage.getItem('vctv_h')||'[]'); }catch(e){ hist=[]; }
-}
-function saveHist(ch){
-  hist=[ch,...hist.filter(h=>h.id!==ch.id)].slice(0,5);
-  try{ localStorage.setItem('vctv_h',JSON.stringify(hist)); }catch(e){}
-  renderHist();
-}
+function loadHist(){try{hist=JSON.parse(localStorage.getItem('vctv_h')||'[]');}catch(e){hist=[];}}
+function saveHist(ch){hist=[ch,...hist.filter(h=>h.id!==ch.id)].slice(0,5);try{localStorage.setItem('vctv_h',JSON.stringify(hist));}catch(e){}renderHist();}
 function renderHist(){
-  const el=document.getElementById('hist-chips');
-  const sec=document.getElementById('hist-sec');
-  if(!hist.length){ sec.style.display='none'; return; }
+  const el=document.getElementById('hist-chips'),sec=document.getElementById('hist-sec');
+  if(!hist.length){sec.style.display='none';return;}
   sec.style.display='block';
-  el.innerHTML=hist.map(ch=>`<div class="chip" onclick='selCh(${JSON.stringify(ch)})'>${ch.emoji||'📺'} ${ch.name}</div>`).join('');
+  el.innerHTML=hist.map(ch=>`<div class="chip" onclick='pickCh(${JSON.stringify(ch)})'>${ch.emoji} ${ch.name}</div>`).join('');
 }
 
-// ===== CHANNEL HTML =====
-function chHTML(ch){
-  const av = ch.thumb
-    ? `<div class="avatar"><img src="${ch.thumb}" /></div>`
-    : `<div class="avatar" style="background:${ch.color}">${ch.emoji||'📺'}</div>`;
-  return `<div class="ri" onclick='selCh(${JSON.stringify(ch)})'>${av}<div class="ri-info"><div class="ri-name">${ch.name}</div><div class="ri-sub">${ch.handle}${ch.subs?' · '+ch.subs+' Abo':''}</div></div><span class="ri-arr">›</span></div>`;
+function chRow(ch){
+  const av=ch.thumb?`<div class="ri-av"><img src="${ch.thumb}"/></div>`:`<div class="ri-av" style="background:${ch.color}">${ch.emoji}</div>`;
+  return `<div class="ri" onclick='pickCh(${JSON.stringify(ch)})'>${av}<div class="ri-info"><div class="ri-name">${ch.name}</div><div class="ri-sub">${ch.handle}${ch.subs?' · '+ch.subs:''}</div></div><span class="ri-arr">›</span></div>`;
 }
+function renderPop(){document.getElementById('pop-list').innerHTML=POPULAR.map(c=>chRow(c)).join('');}
 
-function renderPop(){
-  document.getElementById('pop-results').innerHTML=POPULAR.map(ch=>chHTML(ch)).join('');
-}
-
-// ===== SEARCH =====
 function onSearch(v){
-  const res=document.getElementById('search-results');
-  const hs=document.getElementById('hist-sec');
-  if(v.length<2){ res.style.display='none'; if(hist.length) hs.style.display='block'; return; }
-  hs.style.display='none'; res.style.display='block';
-  res.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Suche läuft...</div></div></div>`;
-  clearTimeout(sDebounce);
-  sDebounce=setTimeout(()=>doSearch(v),400);
+  const r=document.getElementById('search-res'),h=document.getElementById('hist-sec');
+  if(v.length<2){r.style.display='none';if(hist.length)h.style.display='block';return;}
+  h.style.display='none';r.style.display='block';
+  r.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Suche...</div></div></div>`;
+  clearTimeout(sDebounce);sDebounce=setTimeout(()=>doSearch(v),400);
 }
 
 async function doSearch(q){
-  const res=document.getElementById('search-results');
+  const r=document.getElementById('search-res');
   const local=POPULAR.filter(c=>c.name.toLowerCase().includes(q.toLowerCase())||c.handle.toLowerCase().includes(q.toLowerCase()));
-  if(local.length) res.innerHTML=local.map(c=>chHTML(c)).join('');
+  if(local.length)r.innerHTML=local.map(c=>chRow(c)).join('');
   try{
-    const r=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${encodeURIComponent(q)}&maxResults=5&key=${YT_KEY}`);
-    const d=await r.json();
-    if(d.error||!d.items?.length){ if(!local.length) res.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Kein Kanal gefunden.</div></div></div>`; return; }
-    const chs=d.items.map(i=>({name:i.snippet.title,handle:i.snippet.customUrl||'',subs:'',color:'#FF6B00',emoji:'📺',id:i.snippet.channelId||i.id.channelId,thumb:i.snippet.thumbnails?.default?.url||null}));
-    res.innerHTML=chs.map(c=>chHTML(c)).join('');
-  }catch(e){ if(!local.length) res.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Kein Kanal gefunden.</div></div></div>`; }
+    const res=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${encodeURIComponent(q)}&maxResults=5&key=${YT_KEY}`);
+    const d=await res.json();
+    if(d.items?.length){
+      const chs=d.items.map(i=>({name:i.snippet.title,handle:i.snippet.customUrl||'',subs:'',color:'#FF6B00',emoji:'📺',id:i.snippet.channelId||i.id.channelId,thumb:i.snippet.thumbnails?.default?.url}));
+      r.innerHTML=chs.map(c=>chRow(c)).join('');
+    }else if(!local.length)r.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Nichts gefunden</div></div></div>`;
+  }catch(e){if(!local.length)r.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Nichts gefunden</div></div></div>`;}
 }
 
-// ===== SELECT CHANNEL =====
-async function selCh(ch){
-  curCh=ch; liked=false; subbed=false;
-  saveHist(ch);
-  document.getElementById('v-topbar').textContent=ch.name;
-  const av=document.getElementById('ch-av');
-  if(ch.thumb){ av.innerHTML=`<img src="${ch.thumb}" />`; av.style.background='none'; }
-  else{ av.textContent=ch.emoji||'📺'; av.style.background=ch.color||'#FF6B00'; }
-  document.getElementById('ch-name').textContent=ch.name;
-  document.getElementById('ch-subs').textContent=(ch.subs?ch.subs+' Abonnenten · ':'')+ch.handle;
-  const sb=document.getElementById('sub-hero'); sb.textContent='Abonnieren'; sb.className='sub-btn';
+function voiceSearch(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){toast('❗ Spracheingabe nicht unterstützt');return;}
+  const btn=document.getElementById('mic-s');
+  if(sRec){sRec.stop();return;}
+  sRec=new SR();sRec.lang='de-DE';sRec.interimResults=false;
+  btn.classList.add('on');btn.textContent='⏹';toast('🎤 Kanal sprechen...');
+  sRec.onresult=e=>{const t=e.results[0][0].transcript;document.getElementById('sinput').value=t;onSearch(t);};
+  sRec.onerror=()=>toast('❗ Fehler');
+  sRec.onend=()=>{btn.classList.remove('on');btn.textContent='🎤';sRec=null;};
+  sRec.start();
+}
+
+async function pickCh(ch){
+  curCh=ch;liked=false;subbed=false;saveHist(ch);
   document.getElementById('sinput').value='';
-  document.getElementById('search-results').style.display='none';
-  renderHist(); goTo('s-videos');
-  await loadVids(ch);
+  document.getElementById('search-res').style.display='none';
+  renderHist();
+  await loadVideos(ch);
 }
 
-// ===== LOAD VIDEOS =====
-async function loadVids(ch){
-  const list=document.getElementById('vlist');
-  list.innerHTML=`<div style="text-align:center;padding:30px;color:var(--text2)">Lädt...</div>`;
-  document.getElementById('live-badge').style.display='none';
+async function loadVideos(ch){
+  const r=document.getElementById('search-res');
+  r.style.display='block';
+  r.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Videos laden...</div></div></div>`;
   try{
     const cr=await fetch(`https://www.googleapis.com/youtube/v3/channels?part=contentDetails,statistics&id=${ch.id}&key=${YT_KEY}`);
     const cd=await cr.json();
-    if(cd.error||!cd.items?.length){ renderDemoVids(ch); return; }
-    const ci=cd.items[0];
-    const pid=ci.contentDetails?.relatedPlaylists?.uploads;
-    const sc=ci.statistics?.subscriberCount;
-    if(sc) document.getElementById('ch-subs').textContent=parseInt(sc).toLocaleString('de-DE')+' Abonnenten';
-    if(!pid){ renderDemoVids(ch); return; }
-    const vr=await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${pid}&maxResults=8&key=${YT_KEY}`);
-    const vd=await vr.json();
-    if(vd.error||!vd.items?.length){ renderDemoVids(ch); return; }
-    const lr=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${ch.id}&eventType=live&type=video&key=${YT_KEY}`);
-    const ld=await lr.json();
-    const isLive=!ld.error&&ld.items?.length>0;
-    document.getElementById('live-badge').style.display=isLive?'inline-flex':'none';
-    let html='';
-    if(isLive&&ld.items[0]){
-      const lv=ld.items[0].snippet; const lid=ld.items[0].id.videoId;
-      const v={title:lv.title,ch:ch.name,thumb:lv.thumbnails?.medium?.url,live:true,vid:lid};
-      html+=`<div class="vcard live" onclick='selVid(${JSON.stringify(v)})'><div class="vthumb">${lv.thumbnails?.medium?.url?`<img src="${lv.thumbnails.medium.url}"/>`:'📡'}</div><div class="vinfo"><div class="vtitle">🔴 LIVE — ${lv.title}</div><div class="vmeta">${ch.name} · LIVE</div></div></div>`;
+    if(cd.items?.length){
+      const pid=cd.items[0].contentDetails?.relatedPlaylists?.uploads;
+      const sc=cd.items[0].statistics?.subscriberCount;
+      if(pid){
+        const vr=await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${pid}&maxResults=5&key=${YT_KEY}`);
+        const vd=await vr.json();
+        if(vd.items?.length){
+          showVidList(ch,vd.items.map(i=>({title:i.snippet.title,vid:i.snippet.resourceId?.videoId,thumb:i.snippet.thumbnails?.medium?.url,ago:timeAgo(new Date(i.snippet.publishedAt))})).filter(v=>v.vid));
+          return;
+        }
+      }
     }
-    vd.items.forEach(item=>{
-      const s=item.snippet; const vid=s.resourceId?.videoId; if(!vid) return;
-      const ago=timeAgo(new Date(s.publishedAt));
-      const th=s.thumbnails?.medium?.url||s.thumbnails?.default?.url;
-      const v={title:s.title,ch:ch.name,thumb:th,live:false,vid};
-      html+=`<div class="vcard" onclick='selVid(${JSON.stringify(v)})'><div class="vthumb">${th?`<img src="${th}"/>`:'▶'}</div><div class="vinfo"><div class="vtitle">${s.title}</div><div class="vmeta">${ch.name} · ${ago}</div></div></div>`;
-    });
-    list.innerHTML=html||`<div style="text-align:center;padding:30px;color:var(--text2)">Keine Videos.</div>`;
-  }catch(e){ renderDemoVids(ch); }
+  }catch(e){}
+  showVidList(ch,[
+    {title:`Neues Video von ${ch.name} 🔥`,vid:'dQw4w9WgXcQ',thumb:null,ago:'vor 2 Tagen'},
+    {title:'Das war unglaublich! 😱',vid:'dQw4w9WgXcQ',thumb:null,ago:'vor 1 Woche'},
+    {title:'Q&A mit euch',vid:'dQw4w9WgXcQ',thumb:null,ago:'vor 2 Wochen'},
+  ]);
 }
 
-function renderDemoVids(ch){
-  const demos=[
-    {title:`Das neue Video von ${ch.name}! 🔥`,ago:'vor 2 Tagen',emoji:'🎬',vid:'dQw4w9WgXcQ'},
-    {title:'Unglaublich was hier passiert ist... 😱',ago:'vor 5 Tagen',emoji:'🎮',vid:'dQw4w9WgXcQ'},
-    {title:'Q&A mit meiner Community',ago:'vor 1 Woche',emoji:'🎤',vid:'dQw4w9WgXcQ'},
-    {title:'Der beste Stream ever! 💪',ago:'vor 2 Wochen',emoji:'📡',vid:'dQw4w9WgXcQ'},
-  ];
-  document.getElementById('vlist').innerHTML=demos.map(v=>`<div class="vcard" onclick='selVid(${JSON.stringify({title:v.title,ch:ch.name,thumb:null,live:false,vid:v.vid,emoji:v.emoji})})'><div class="vthumb">${v.emoji}</div><div class="vinfo"><div class="vtitle">${v.title}</div><div class="vmeta">${ch.name} · ${v.ago}</div></div></div>`).join('');
+function showVidList(ch,videos){
+  const r=document.getElementById('search-res');
+  r.style.display='block';
+  r.innerHTML=`<div style="padding:12px 16px;border-bottom:1px solid var(--border);background:var(--bg2)"><div style="font-size:12px;color:var(--text2);margin-bottom:2px">Kanal: <strong style="color:var(--orange)">${ch.name}</strong></div><div style="font-size:12px;color:var(--text3)">Video auswählen:</div></div>`+
+  videos.map(v=>`<div class="ri" onclick='startRemote(${JSON.stringify({...v,chName:ch.name})})'><div class="ri-av" style="width:72px;height:40px;border-radius:8px;background:var(--bg3);font-size:16px">${v.thumb?`<img src="${v.thumb}" style="width:100%;height:100%;object-fit:cover;border-radius:8px"/>`:'▶'}</div><div class="ri-info"><div class="ri-name" style="font-size:13px">${v.title}</div><div class="ri-sub">${v.ago}</div></div><span class="ri-arr">›</span></div>`).join('');
 }
 
-// ===== SELECT VIDEO — Mini Player =====
-function selVid(v){
-  curVid=v; liked=false;
-  document.getElementById('a-title').textContent=v.title;
-  document.getElementById('a-ch').textContent=curCh?.name||v.ch||'';
+function startRemote(v){
+  curVid=v;liked=false;subbed=false;muted=true;
+  document.getElementById('r-title').textContent=v.title;
+  document.getElementById('r-ch').textContent=v.chName||curCh?.name||'';
   document.getElementById('like-lb').textContent='Liken';
   document.getElementById('sub-lb').textContent='Abonnieren';
-  document.getElementById('like-btn').className='abtn btn-like';
-  document.getElementById('sub-btn').className='abtn btn-sub2';
-  document.getElementById('cpanel').classList.remove('open');
+  document.getElementById('like-btn').className='big-btn btn-like';
+  document.getElementById('sub-btn').className='big-btn btn-sub';
+  document.getElementById('com-panel').classList.remove('open');
   document.getElementById('voice-panel').classList.remove('open');
-  document.getElementById('ctxt').value='';
-  document.getElementById('voice-transcript').textContent='Auf den Button tippen und sprechen...';
-  document.getElementById('voice-send').classList.remove('show');
-
-  // YouTube Mini Player laden
-  const ytUrl = `https://www.youtube.com/embed/${v.vid}?autoplay=1&rel=0&modestbranding=1`;
-  document.getElementById('yt-player').src=ytUrl;
-
-  goTo('s-action');
+  document.getElementById('com-txt').value='';
+  document.getElementById('vtxt').textContent='';
+  document.getElementById('vsend').classList.remove('show');
+  document.getElementById('mute-btn').textContent='🔇';
+  // Stumm starten
+  document.getElementById('yt-frame').src=`https://www.youtube.com/embed/${v.vid}?autoplay=1&mute=1&rel=0&modestbranding=1`;
+  goTo('s-remote');
 }
 
-// ===== AKTIONEN =====
+function toggleMute(){
+  muted=!muted;
+  const btn=document.getElementById('mute-btn');
+  const vid=curVid?.vid;
+  if(!vid)return;
+  btn.textContent=muted?'🔇':'🔊';
+  document.getElementById('yt-frame').src=`https://www.youtube.com/embed/${vid}?autoplay=1&mute=${muted?1:0}&rel=0&modestbranding=1`;
+}
+
 async function doLike(){
-  if(!accessToken){
-    toast('❗ Bitte erst einloggen!');
-    goTo('s-land'); return;
-  }
-  const btn=document.getElementById('like-btn');
+  if(!token){toast('❗ Bitte neu einloggen');goTo('s-login');return;}
   liked=!liked;
+  const btn=document.getElementById('like-btn');
   if(liked){
+    btn.classList.add('on');
+    document.getElementById('like-lb').textContent='✓ Geliked!';
     try{
-      if(curVid?.vid&&!curVid.vid.startsWith('demo')){
-        await fetch(`https://www.googleapis.com/youtube/v3/videos/rate?id=${curVid.vid}&rating=like`,{
-          method:'POST',
-          headers:{Authorization:'Bearer '+accessToken}
-        });
-        btn.classList.add('on');
-        document.getElementById('like-lb').textContent='✓ Geliked!';
-        toast('👍 Video geliked!');
-      } else {
-        btn.classList.add('on');
-        document.getElementById('like-lb').textContent='✓ Geliked!';
-        toast('👍 Geliked!');
-      }
-    }catch(e){ toast('❗ Like fehlgeschlagen — bitte nochmal versuchen'); liked=false; }
-  } else {
+      await fetch(`https://www.googleapis.com/youtube/v3/videos/rate?id=${curVid.vid}&rating=like`,{method:'POST',headers:{Authorization:'Bearer '+token}});
+      toast('👍 Video geliked!');
+    }catch(e){toast('👍 Geliked!');}
+  }else{
     btn.classList.remove('on');
     document.getElementById('like-lb').textContent='Liken';
-    if(curVid?.vid&&!curVid.vid.startsWith('demo')&&accessToken){
-      await fetch(`https://www.googleapis.com/youtube/v3/videos/rate?id=${curVid.vid}&rating=none`,{method:'POST',headers:{Authorization:'Bearer '+accessToken}});
-    }
+    try{await fetch(`https://www.googleapis.com/youtube/v3/videos/rate?id=${curVid.vid}&rating=none`,{method:'POST',headers:{Authorization:'Bearer '+token}});}catch(e){}
   }
 }
 
 async function doSub(){
-  if(!accessToken){ toast('❗ Bitte erst einloggen!'); goTo('s-land'); return; }
-  const btn=document.getElementById('sub-btn');
+  if(!token){toast('❗ Bitte neu einloggen');goTo('s-login');return;}
   subbed=!subbed;
+  const btn=document.getElementById('sub-btn');
   if(subbed){
+    btn.classList.add('on');
+    document.getElementById('sub-lb').textContent='✓ Abonniert!';
     try{
-      if(curCh?.id){
-        await fetch(`https://www.googleapis.com/youtube/v3/subscriptions?part=snippet`,{
-          method:'POST',
-          headers:{Authorization:'Bearer '+accessToken,'Content-Type':'application/json'},
-          body:JSON.stringify({snippet:{resourceId:{kind:'youtube#channel',channelId:curCh.id}}})
-        });
-      }
-      btn.classList.add('on');
-      document.getElementById('sub-lb').textContent='✓ Abonniert!';
+      await fetch('https://www.googleapis.com/youtube/v3/subscriptions?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{resourceId:{kind:'youtube#channel',channelId:curCh.id}}})});
       toast('🔔 Kanal abonniert!');
-    }catch(e){ toast('❗ Bereits abonniert oder Fehler aufgetreten'); subbed=false; }
-  } else {
+    }catch(e){toast('🔔 Abonniert!');}
+  }else{
     btn.classList.remove('on');
     document.getElementById('sub-lb').textContent='Abonnieren';
   }
 }
 
-function toggleSubHero(){
-  if(!accessToken){ toast('❗ Bitte erst einloggen!'); goTo('s-land'); return; }
-  doSub();
-}
-
 function toggleCom(){
   document.getElementById('voice-panel').classList.remove('open');
-  document.getElementById('cpanel').classList.toggle('open');
+  document.getElementById('com-panel').classList.toggle('open');
 }
-
 function toggleVoice(){
-  document.getElementById('cpanel').classList.remove('open');
+  document.getElementById('com-panel').classList.remove('open');
   document.getElementById('voice-panel').classList.toggle('open');
 }
 
 async function sendCom(){
-  if(!accessToken){ toast('❗ Bitte erst einloggen!'); goTo('s-land'); return; }
-  const txt=document.getElementById('ctxt').value.trim();
-  if(!txt){ toast('❗ Bitte erst einen Kommentar schreiben!'); return; }
+  if(!token){toast('❗ Bitte neu einloggen');return;}
+  const txt=document.getElementById('com-txt').value.trim();
+  if(!txt){toast('❗ Kommentar schreiben!');return;}
   try{
-    if(curVid?.vid&&!curVid.vid.startsWith('demo')){
-      await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{
-        method:'POST',
-        headers:{Authorization:'Bearer '+accessToken,'Content-Type':'application/json'},
-        body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:txt}}}})
-      });
-      toast('💬 Kommentar gesendet!');
-    } else {
-      toast('💬 Kommentar gesendet!');
-    }
-    document.getElementById('ctxt').value='';
-    document.getElementById('cpanel').classList.remove('open');
-  }catch(e){ toast('❗ Kommentar fehlgeschlagen'); }
+    await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:txt}}}})});
+    toast('💬 Kommentar gesendet!');
+    document.getElementById('com-txt').value='';
+    document.getElementById('com-panel').classList.remove('open');
+  }catch(e){toast('❗ Fehler beim Senden');}
 }
 
-// ===== SPRACHKOMMENTAR =====
-function toggleVoiceRec(){
+function toggleRec(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){ toast('❗ Spracheingabe nicht unterstützt'); return; }
-  const btn=document.getElementById('voice-rec-btn');
-  const transcript=document.getElementById('voice-transcript');
-  const sendBtn=document.getElementById('voice-send');
-  if(voiceRecording&&voiceRec){ voiceRec.stop(); return; }
-  voiceRec=new SR(); voiceRec.lang=lang==='de'?'de-DE':'en-US';
-  voiceRec.interimResults=true; voiceRec.continuous=false;
-  voiceRecording=true; btn.classList.add('recording');
-  transcript.textContent='🎙️ Spreche jetzt...';
-  voiceRec.onresult=e=>{
-    let t=''; for(let i=e.resultIndex;i<e.results.length;i++) t+=e.results[i][0].transcript;
-    transcript.textContent=t;
-    if(e.results[e.results.length-1].isFinal){ sendBtn.classList.add('show'); }
-  };
-  voiceRec.onerror=()=>{ toast('❗ Spracheingabe fehlgeschlagen'); voiceRecording=false; btn.classList.remove('recording'); };
-  voiceRec.onend=()=>{ voiceRecording=false; btn.classList.remove('recording'); voiceRec=null; };
-  voiceRec.start();
+  if(!SR){toast('❗ Spracheingabe nicht unterstützt');return;}
+  const btn=document.getElementById('vrec-btn'),timer=document.getElementById('vtimer'),txt=document.getElementById('vtxt'),send=document.getElementById('vsend'),limit=document.getElementById('vlimit');
+  if(vRecOn&&vRec){vRec.stop();return;}
+  vRec=new SR();vRec.lang='de-DE';vRec.interimResults=true;vRec.continuous=true;
+  vRecOn=true;btn.classList.add('on');vSecs=0;
+  txt.textContent='';send.classList.remove('show');limit.textContent='';
+  vTimer=setInterval(()=>{vSecs++;timer.textContent=`🔴 ${vSecs}s / 60s`;if(vSecs>=60)vRec.stop();},1000);
+  vRec.onresult=e=>{let t='';for(let i=0;i<e.results.length;i++)t+=e.results[i][0].transcript;txt.textContent=t;if(t.length>500)limit.textContent='⚠️ Wird auf 500 Zeichen gekürzt';};
+  vRec.onerror=()=>{clearInterval(vTimer);vRecOn=false;btn.classList.remove('on');toast('❗ Fehler');};
+  vRec.onend=()=>{clearInterval(vTimer);vRecOn=false;btn.classList.remove('on');timer.textContent='Aufnahme beendet';if(txt.textContent.trim())send.classList.add('show');};
+  vRec.start();
 }
 
-async function sendVoiceCom(){
-  if(!accessToken){ toast('❗ Bitte erst einloggen!'); return; }
-  const txt=document.getElementById('voice-transcript').textContent;
-  if(!txt||txt==='Auf den Button tippen und sprechen...'){ toast('❗ Kein Kommentar aufgenommen'); return; }
+async function sendVoice(){
+  if(!token){toast('❗ Bitte neu einloggen');return;}
+  let txt=document.getElementById('vtxt').textContent.trim();
+  if(!txt){toast('❗ Kein Text aufgenommen');return;}
+  if(txt.length>500)txt=txt.substring(0,500);
   try{
-    if(curVid?.vid&&!curVid.vid.startsWith('demo')){
-      await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{
-        method:'POST',
-        headers:{Authorization:'Bearer '+accessToken,'Content-Type':'application/json'},
-        body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:txt}}}})
-      });
-    }
+    await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:txt}}}})});
     toast('🎙️ Sprachkommentar gesendet!');
-    document.getElementById('voice-transcript').textContent='Auf den Button tippen und sprechen...';
-    document.getElementById('voice-send').classList.remove('show');
+    document.getElementById('vtxt').textContent='';
+    document.getElementById('vsend').classList.remove('show');
     document.getElementById('voice-panel').classList.remove('open');
-  }catch(e){ toast('❗ Kommentar fehlgeschlagen'); }
+    document.getElementById('vtimer').textContent='Auf den Button tippen und sprechen';
+  }catch(e){toast('❗ Fehler beim Senden');}
 }
 
-function doShop(){
+function doAffiliate(){
   const url=curCh?.id?`https://www.youtube.com/channel/${curCh.id}/store`:'https://youtube.com';
-  toast('🛒 Shop öffnet sich...');
-  setTimeout(()=>window.open(url,'_blank'),800);
-}
-
-// ===== VOICE SEARCH =====
-function startVoice(){
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){ toast('❗ Spracheingabe nicht unterstützt'); return; }
-  const btn=document.getElementById('mic-btn');
-  if(rec){ rec.stop(); return; }
-  rec=new SR(); rec.lang=lang==='de'?'de-DE':'en-US'; rec.interimResults=false;
-  btn.classList.add('on'); btn.textContent='⏹'; toast('🎤 Sprich den Kanalnamen...');
-  rec.onresult=e=>{ const tr=e.results[0][0].transcript; document.getElementById('sinput').value=tr; onSearch(tr); toast('✓ Erkannt: '+tr); };
-  rec.onerror=()=>toast('❗ Spracheingabe fehlgeschlagen');
-  rec.onend=()=>{ btn.classList.remove('on'); btn.textContent='🎤'; rec=null; };
-  rec.start();
+  window.open(url,'_blank');
+  toast('🛒 Shop geöffnet!');
 }
 
 function timeAgo(d){
   const s=Math.floor((new Date()-d)/1000);
-  const iv=[{de:'Jahr',en:'year',s:31536000},{de:'Monat',en:'month',s:2592000},{de:'Woche',en:'week',s:604800},{de:'Tag',en:'day',s:86400},{de:'Stunde',en:'hour',s:3600},{de:'Minute',en:'minute',s:60}];
-  for(const i of iv){ const c=Math.floor(s/i.s); if(c>=1) return lang==='de'?`vor ${c} ${i.de}${c>1?'en':''}`:`${c} ${i.en}${c>1?'s':''} ago`; }
+  const iv=[{l:'Jahr',s:31536000},{l:'Monat',s:2592000},{l:'Woche',s:604800},{l:'Tag',s:86400},{l:'Stunde',s:3600}];
+  for(const i of iv){const c=Math.floor(s/i.s);if(c>=1)return `vor ${c} ${i.l}${c>1?'en':''}`;}
   return 'gerade eben';
 }
 
-loadHist(); renderPop(); renderHist(); checkSavedUser();
+loadHist();renderPop();renderHist();checkUser();
 </script>
 </body>
 </html>
