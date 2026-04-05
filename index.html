@@ -1,234 +1,620 @@
 <!DOCTYPE html>
 <html lang="de">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2004613695225348"
-     crossorigin="anonymous"></script>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <meta name="theme-color" content="#FF6B00" />
-  <meta name="description" content="Nutze dein Handy während du YouTube auf dem TV schaust. Like, kommentiere und abonniere direkt vom Sofa." />
-  <title>VoiceComment TV – Dein YouTube-Fernbedienung</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#FF6B00" />
+<meta name="description" content="Nutze dein Handy während du YouTube auf dem TV schaust. Like, kommentiere und abonniere direkt vom Sofa." />
+<meta property="og:title" content="VoiceComment TV" />
+<meta property="og:description" content="Dein Handy als YouTube-Fernbedienung" />
+<title>VoiceComment TV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@700;800&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --orange:#FF6B00;
+  --orange-pale:#FFF3E8;
+  --bg:#FFFFFF;
+  --bg2:#F8F6F3;
+  --bg3:#F0EDE8;
+  --text:#1A1410;
+  --text2:#6B6560;
+  --text3:#A09A94;
+  --border:#E8E3DC;
+  --green:#22C55E;
+  --blue:#3B82F6;
+  --purple:#8B5CF6;
+  --red:#EF4444;
+  --r:16px;
+  --rsm:10px;
+  --shadow:0 2px 12px rgba(0,0,0,0.08);
+  --shadow-lg:0 8px 32px rgba(0,0,0,0.12);
+}
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  max-width:430px;
+  margin:0 auto;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+.screen{display:none;min-height:100vh;flex-direction:column}
+.screen.active{display:flex}
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="VoiceComment TV" />
-  <meta property="og:description" content="Dein Handy als YouTube-Fernbedienung" />
-  <meta property="og:url" content="https://voicecomment-tv.vip" />
+/* LANDING */
+#s-land{background:linear-gradient(160deg,#FFF8F2 0%,#fff 50%,#F0F7FF 100%)}
+.land-head{padding:20px 24px 0;display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:'Sora',sans-serif;font-size:17px;font-weight:800;color:var(--orange);display:flex;align-items:center;gap:8px}
+.logo-box{width:32px;height:32px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+.lang-btn{background:var(--bg3);border:none;border-radius:20px;padding:6px 14px;font-size:13px;font-family:inherit;color:var(--text2);cursor:pointer;font-weight:500}
+.hero{padding:32px 24px 0;flex:1}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--orange-pale);color:var(--orange);font-size:12px;font-weight:700;padding:6px 14px;border-radius:20px;margin-bottom:18px;text-transform:uppercase;letter-spacing:.5px}
+.h1{font-family:'Sora',sans-serif;font-size:30px;font-weight:800;line-height:1.15;margin-bottom:14px}
+.h1 span{color:var(--orange)}
+.sub{font-size:15px;color:var(--text2);line-height:1.6;margin-bottom:24px}
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Sora:wght@700;800&display=swap" rel="stylesheet" />
+/* Visual */
+.visual{background:var(--bg2);border-radius:20px;padding:18px;margin-bottom:20px;border:1px solid var(--border);display:flex;gap:14px;align-items:center}
+.tv{width:90px;height:58px;background:#1A1410;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
+.tv::after{content:'';position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);width:28px;height:4px;background:#333;border-radius:2px}
+.tv-scr{width:78px;height:48px;background:linear-gradient(135deg,#1e3a5f,#2563eb);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.arr{font-size:22px;color:var(--orange)}
+.phone{width:46px;height:74px;background:#fff;border-radius:10px;border:2px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;box-shadow:var(--shadow);flex-shrink:0}
+.pdot{width:22px;height:5px;border-radius:3px}
+.pdot.o{background:var(--orange)}
+.pdot.b{background:var(--blue)}
+.pdot.g{background:var(--green)}
+.vt strong{display:block;font-size:14px;font-weight:700;margin-bottom:3px}
+.vt span{font-size:12px;color:var(--text2);line-height:1.5}
 
-  <link rel="stylesheet" href="style.css" />
+/* Steps */
+.steps{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:20px}
+.step{display:flex;flex-direction:column;align-items:center;gap:4px}
+.step-n{width:32px;height:32px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.step-t{font-size:11px;color:var(--text2);font-weight:500}
+.step-arr{font-size:16px;color:var(--text3)}
+
+/* Stats */
+.stats{display:flex;gap:10px;margin-bottom:28px}
+.stat{flex:1;background:#fff;border:1px solid var(--border);border-radius:var(--rsm);padding:12px 8px;text-align:center;box-shadow:var(--shadow)}
+.stat .n{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;color:var(--orange);display:block}
+.stat .l{font-size:10px;color:var(--text2);font-weight:500;line-height:1.3}
+
+/* CTA */
+.cta{width:100%;background:var(--orange);color:#fff;border:none;border-radius:var(--r);padding:18px;font-family:inherit;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(255,107,0,.35);margin-bottom:10px;transition:transform .2s}
+.cta:active{transform:scale(.98)}
+.cta-sub{text-align:center;font-size:12px;color:var(--text3);margin-bottom:20px}
+
+/* Ad */
+.ad{background:var(--bg3);border-top:1px solid var(--border);padding:10px 20px;text-align:center;font-size:11px;color:var(--text3)}
+
+/* TOPBAR */
+.topbar{padding:14px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);background:#fff;position:sticky;top:0;z-index:10;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.back{width:36px;height:36px;border-radius:50%;background:var(--bg2);border:none;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tbar-logo{font-family:'Sora',sans-serif;font-size:15px;font-weight:800;color:var(--orange);flex:1}
+.bc{font-size:11px;color:var(--text3)}
+
+/* SEARCH */
+.sbody{padding:24px 20px;flex:1;overflow-y:auto}
+.slabel{font-family:'Sora',sans-serif;font-size:22px;font-weight:700;margin-bottom:5px}
+.shint{font-size:14px;color:var(--text2);margin-bottom:18px}
+.sinput-wrap{position:relative;margin-bottom:10px}
+.sinput{width:100%;padding:16px 56px 16px 18px;border:2px solid var(--border);border-radius:var(--r);font-size:16px;font-family:inherit;background:var(--bg2);color:var(--text);outline:none;transition:border-color .2s,background .2s}
+.sinput:focus{border-color:var(--orange);background:#fff}
+.mic{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;background:var(--orange);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 2px 8px rgba(255,107,0,.3)}
+.mic.on{background:var(--red);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)}50%{box-shadow:0 0 0 10px rgba(239,68,68,0)}}
+.results{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-lg);margin-bottom:20px}
+.ri{display:flex;align-items:center;gap:14px;padding:14px 16px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border)}
+.ri:last-child{border-bottom:none}
+.ri:active{background:var(--bg2)}
+.avatar{width:48px;height:48px;border-radius:50%;flex-shrink:0;font-size:22px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+.ri-info{flex:1;min-width:0}
+.ri-name{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ri-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.ri-arr{color:var(--text3);font-size:20px;flex-shrink:0}
+.sec-title{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.chip{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:8px 14px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s}
+.chip:active{border-color:var(--orange);color:var(--orange)}
+
+/* VIDEOS */
+.ch-hero{padding:18px 20px;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#FFF8F2,#fff);border-bottom:1px solid var(--border)}
+.ch-av{width:58px;height:58px;border-radius:50%;font-size:26px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0;overflow:hidden}
+.ch-av img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.ch-info{flex:1;min-width:0}
+.ch-name{font-family:'Sora',sans-serif;font-size:17px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ch-subs{font-size:12px;color:var(--text2);margin-top:2px}
+.sub-btn{background:var(--orange);color:#fff;border:none;border-radius:20px;padding:10px 16px;font-weight:700;font-size:13px;font-family:inherit;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s}
+.sub-btn.done{background:var(--bg3);color:var(--text2)}
+.vbody{padding:16px 20px;flex:1;overflow-y:auto}
+.live-badge{display:inline-flex;align-items:center;gap:6px;background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:5px 12px;border-radius:6px;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.ldot{width:6px;height:6px;background:#fff;border-radius:50%;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.vcard{display:flex;gap:12px;padding:12px;background:#fff;border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;cursor:pointer;transition:all .15s;box-shadow:var(--shadow)}
+.vcard:active{border-color:var(--orange)}
+.vcard.live{border-color:var(--red)}
+.vthumb{width:110px;height:62px;border-radius:8px;flex-shrink:0;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:26px;position:relative;overflow:hidden}
+.vthumb img{width:100%;height:100%;object-fit:cover}
+.vdur{position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,.8);color:#fff;font-size:10px;padding:2px 5px;border-radius:4px;font-weight:700}
+.vinfo{flex:1;min-width:0}
+.vtitle{font-size:13px;font-weight:600;line-height:1.4;margin-bottom:5px}
+.vmeta{font-size:11px;color:var(--text2)}
+
+/* ACTION */
+#s-action{background:linear-gradient(180deg,#FFF8F2 0%,var(--bg) 40%)}
+.a-hero{padding:16px 20px;border-bottom:1px solid var(--border)}
+.vsel{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:12px;box-shadow:var(--shadow)}
+.vsel-thumb{width:80px;height:46px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;overflow:hidden}
+.vsel-thumb img{width:100%;height:100%;object-fit:cover}
+.vsel-title{font-size:13px;font-weight:600;line-height:1.4}
+.vsel-ch{font-size:11px;color:var(--text2);margin-top:3px}
+.abody{padding:22px 20px;flex:1;overflow-y:auto}
+.atitle{font-family:'Sora',sans-serif;font-size:20px;font-weight:800;text-align:center;margin-bottom:5px}
+.asub{font-size:14px;color:var(--text2);text-align:center;margin-bottom:24px}
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.abtn{border:none;border-radius:20px;padding:22px 14px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .2s;font-family:inherit}
+.abtn:active{transform:scale(.95)}
+.abtn .ic{font-size:34px;line-height:1}
+.abtn .lb{font-size:15px;font-weight:700}
+.abtn .ht{font-size:11px;opacity:.7;font-weight:400}
+.btn-like{background:#FEE2E2;color:#B91C1C}
+.btn-like.on{background:var(--red);color:#fff}
+.btn-sub2{background:#DBEAFE;color:#1D4ED8}
+.btn-sub2.on{background:var(--green);color:#fff}
+.btn-com{background:#EDE9FE;color:#6D28D9}
+.btn-shop{background:#FEF3C7;color:#B45309}
+.cpanel{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:14px;display:none}
+.cpanel.open{display:block}
+.ctxt{width:100%;border:1.5px solid var(--border);border-radius:var(--rsm);padding:12px;font-size:15px;font-family:inherit;resize:none;height:90px;outline:none;color:var(--text);background:var(--bg2);margin-bottom:10px;transition:border-color .2s}
+.ctxt:focus{border-color:var(--purple);background:#fff}
+.csend{width:100%;background:var(--purple);color:#fff;border:none;border-radius:var(--rsm);padding:14px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer}
+.chg-btn{width:100%;background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--r);padding:15px;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;color:var(--text);transition:all .2s}
+.chg-btn:active{border-color:var(--orange);color:var(--orange)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:#1A1410;color:#fff;padding:12px 22px;border-radius:12px;font-size:14px;font-weight:500;opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:999;white-space:nowrap;max-width:88vw;text-align:center;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
 </head>
 <body>
 
-  <!-- ===== LANDING ===== -->
-  <div class="screen active" id="screen-landing">
-    <div class="landing-header">
-      <div class="logo">
-        <div class="logo-icon">▶</div>
-        VoiceComment TV
-      </div>
-      <button class="lang-btn" id="lang-toggle" onclick="toggleLang()">🌐 DE</button>
+<!-- LANDING -->
+<div class="screen active" id="s-land">
+  <div class="land-head">
+    <div class="logo">
+      <div class="logo-box">▶</div>
+      VoiceComment TV
     </div>
+    <button class="lang-btn" onclick="toggleLang()">🌐 DE</button>
+  </div>
+  <div class="hero">
+    <div class="badge" id="t-badge">✨ Kostenlos testen</div>
+    <h1 class="h1" id="t-h1">Dein Handy als<br><span>YouTube-Fernbedienung</span></h1>
+    <p class="sub" id="t-sub">Like, kommentiere und abonniere direkt vom Sofa — ganz ohne TV-Fernbedienung.</p>
 
-    <div class="landing-hero">
-      <div class="hero-badge" data-i18n="badge">✨ Kostenlos testen</div>
-      <h1 class="hero-title" data-i18n="hero-title">
-        Dein Handy als<br><span>YouTube-Fernbedienung</span>
-      </h1>
-      <p class="hero-sub" data-i18n="hero-sub">
-        Like, kommentiere und abonniere direkt vom Sofa — ganz ohne TV-Fernbedienung.
-      </p>
-
-      <div class="hero-visual">
-        <div class="tv-mock"><div class="tv-screen">▶</div></div>
-        <div class="arrow-anim">→</div>
-        <div class="phone-mock">
-          <div class="phone-dot orange"></div>
-          <div class="phone-dot blue"></div>
-          <div class="phone-dot green"></div>
-        </div>
-        <div class="hero-visual-text">
-          <strong data-i18n="visual-title">Einfach verbinden</strong>
-          <span data-i18n="visual-sub">QR-Code scannen oder Link öffnen — fertig!</span>
-        </div>
+    <div class="visual">
+      <div class="tv"><div class="tv-scr">▶</div></div>
+      <div class="arr">→</div>
+      <div class="phone">
+        <div class="pdot o"></div>
+        <div class="pdot b"></div>
+        <div class="pdot g"></div>
       </div>
-
-      <div class="steps-row">
-        <div class="step"><div class="step-num">1</div><div class="step-txt" data-i18n="step1">Kanal suchen</div></div>
-        <div class="step-arrow">→</div>
-        <div class="step"><div class="step-num">2</div><div class="step-txt" data-i18n="step2">Video wählen</div></div>
-        <div class="step-arrow">→</div>
-        <div class="step"><div class="step-num">3</div><div class="step-txt" data-i18n="step3">Interagieren</div></div>
-      </div>
-
-      <div class="stats-row">
-        <div class="stat-pill">
-          <span class="num">80%</span>
-          <span class="lbl" data-i18n="stat1">nutzen Handy beim TV schauen</span>
-        </div>
-        <div class="stat-pill">
-          <span class="num">3 sek</span>
-          <span class="lbl" data-i18n="stat2">bis zur ersten Interaktion</span>
-        </div>
-        <div class="stat-pill">
-          <span class="num">100%</span>
-          <span class="lbl" data-i18n="stat3">kostenlos & im Browser</span>
-        </div>
-      </div>
-
-      <button class="cta-btn" onclick="goTo('screen-search')" data-i18n="cta">🚀 Jetzt kostenlos starten</button>
-      <p class="cta-sub" data-i18n="cta-sub">Keine App nötig · Kein Account nötig · Sofort loslegen</p>
-
-      <!-- QR Code Bereich -->
-      <div class="qr-section">
-        <div class="qr-box" id="qr-box"></div>
-        <div class="qr-text">
-          <strong data-i18n="qr-title">Auf dem Handy öffnen</strong>
-          <span data-i18n="qr-sub">QR-Code scannen oder voicecomment-tv.vip eingeben</span>
-        </div>
+      <div class="vt">
+        <strong id="t-vt">Einfach verbinden</strong>
+        <span id="t-vs">QR-Code scannen oder Link öffnen — fertig!</span>
       </div>
     </div>
 
-    <!-- Google AdSense Platzhalter -->
-    <div class="ad-banner">
-      <span>📢</span>
-      <span data-i18n="ad">Werbung</span>
-      <!-- HIER: Google AdSense Code einfügen -->
-      <!-- <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXX" data-ad-slot="XXXXX"></ins> -->
+    <div class="steps">
+      <div class="step"><div class="step-n">1</div><div class="step-t" id="t-s1">Kanal suchen</div></div>
+      <div class="step-arr">→</div>
+      <div class="step"><div class="step-n">2</div><div class="step-t" id="t-s2">Video wählen</div></div>
+      <div class="step-arr">→</div>
+      <div class="step"><div class="step-n">3</div><div class="step-t" id="t-s3">Interagieren</div></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><span class="n">80%</span><span class="l" id="t-st1">nutzen Handy beim TV schauen</span></div>
+      <div class="stat"><span class="n">3 sek</span><span class="l" id="t-st2">bis zur ersten Interaktion</span></div>
+      <div class="stat"><span class="n">100%</span><span class="l" id="t-st3">kostenlos & im Browser</span></div>
+    </div>
+
+    <button class="cta" onclick="goTo('s-search')" id="t-cta">🚀 Jetzt kostenlos starten</button>
+    <p class="cta-sub" id="t-ctasub">Keine App nötig · Kein Account nötig · Sofort loslegen</p>
+  </div>
+  <div class="ad">📢 Werbung · voicecomment-tv.vip</div>
+</div>
+
+<!-- SEARCH -->
+<div class="screen" id="s-search">
+  <div class="topbar">
+    <button class="back" onclick="goTo('s-land')">←</button>
+    <span class="tbar-logo">VoiceComment TV</span>
+    <span class="bc" id="t-bc1">Kanal suchen</span>
+  </div>
+  <div class="sbody">
+    <div class="slabel" id="t-slabel">Welchen Kanal schaust du? 📺</div>
+    <p class="shint" id="t-shint">Gib den Kanalnamen ein oder nutze das Mikrofon</p>
+    <div class="sinput-wrap">
+      <input class="sinput" id="sinput" type="text" placeholder="z.B. MontanaBlack, MrBeast ..." oninput="onSearch(this.value)" autocomplete="off" />
+      <button class="mic" id="mic-btn" onclick="startVoice()">🎤</button>
+    </div>
+    <div id="search-results" class="results" style="display:none"></div>
+    <div id="hist-sec" style="display:none">
+      <div class="sec-title" id="t-hist">Zuletzt geschaut</div>
+      <div class="chips" id="hist-chips"></div>
+    </div>
+    <div class="sec-title" id="t-pop">Beliebte Kanäle</div>
+    <div class="results" id="pop-results"></div>
+  </div>
+</div>
+
+<!-- VIDEOS -->
+<div class="screen" id="s-videos">
+  <div class="topbar">
+    <button class="back" onclick="goTo('s-search')">←</button>
+    <span class="tbar-logo" id="v-topbar">Kanal</span>
+    <span class="bc" id="t-bc2">Videos</span>
+  </div>
+  <div class="ch-hero">
+    <div class="ch-av" id="ch-av">🎬</div>
+    <div class="ch-info">
+      <div class="ch-name" id="ch-name">Kanalname</div>
+      <div class="ch-subs" id="ch-subs">Abonnenten</div>
+    </div>
+    <button class="sub-btn" id="sub-hero" onclick="toggleSub()">Abonnieren</button>
+  </div>
+  <div class="vbody">
+    <div class="live-badge" id="live-badge" style="display:none"><div class="ldot"></div> LIVE</div>
+    <div id="vlist"></div>
+  </div>
+  <div class="ad">📢 Werbung</div>
+</div>
+
+<!-- ACTION -->
+<div class="screen" id="s-action">
+  <div class="topbar">
+    <button class="back" onclick="goTo('s-videos')">←</button>
+    <span class="tbar-logo">VoiceComment TV</span>
+    <span class="bc" id="t-bc3">Interaktion</span>
+  </div>
+  <div class="a-hero">
+    <div class="vsel">
+      <div class="vsel-thumb" id="a-thumb">▶</div>
+      <div>
+        <div class="vsel-title" id="a-title">Videotitel</div>
+        <div class="vsel-ch" id="a-ch">Kanal</div>
+      </div>
     </div>
   </div>
-
-  <!-- ===== SUCHE ===== -->
-  <div class="screen" id="screen-search">
-    <div class="topbar">
-      <button class="back-btn" onclick="goTo('screen-landing')">←</button>
-      <span class="topbar-logo">VoiceComment TV</span>
-      <span class="breadcrumb" data-i18n="bc-search">Kanal suchen</span>
-    </div>
-
-    <div class="search-body">
-      <div class="search-label" data-i18n="search-label">Welchen Kanal schaust du? 📺</div>
-      <p class="search-hint" data-i18n="search-hint">Gib den Kanalnamen ein oder nutze das Mikrofon</p>
-
-      <div class="search-input-wrap">
-        <input class="search-input" id="search-input" type="text"
-          data-placeholder-de="z.B. MontanaBlack, MrBeast ..."
-          data-placeholder-en="e.g. MontanaBlack, MrBeast ..."
-          placeholder="z.B. MontanaBlack, MrBeast ..."
-          oninput="onSearch(this.value)" autocomplete="off" />
-        <button class="mic-btn" id="mic-btn" onclick="startVoice()" title="Spracheingabe">🎤</button>
-      </div>
-
-      <div id="search-results" class="search-results" style="display:none"></div>
-
-      <div id="history-section" style="display:none">
-        <div class="section-title" data-i18n="history">Zuletzt geschaut</div>
-        <div class="history-chips" id="history-chips"></div>
-      </div>
-
-      <div class="section-title" data-i18n="popular">Beliebte Kanäle</div>
-      <div class="search-results" id="popular-results"></div>
-    </div>
-  </div>
-
-  <!-- ===== VIDEOS ===== -->
-  <div class="screen" id="screen-videos">
-    <div class="topbar">
-      <button class="back-btn" onclick="goTo('screen-search')">←</button>
-      <span class="topbar-logo" id="video-topbar-name">Kanal</span>
-      <span class="breadcrumb" data-i18n="bc-videos">Videos</span>
-    </div>
-
-    <div class="channel-hero">
-      <div class="channel-hero-avatar" id="ch-avatar">🎬</div>
-      <div class="channel-hero-info">
-        <div class="channel-hero-name" id="ch-name">Kanalname</div>
-        <div class="channel-hero-subs" id="ch-subs">Abonnenten</div>
-      </div>
-      <button class="sub-btn" id="sub-hero-btn" onclick="toggleSub()">Abonnieren</button>
-    </div>
-
-    <div class="videos-body">
-      <div class="live-badge" id="live-badge" style="display:none">
-        <div class="live-dot"></div> LIVE
-      </div>
-      <div id="videos-list"></div>
-    </div>
-
-    <div class="ad-banner">📢 <span data-i18n="ad">Werbung</span></div>
-  </div>
-
-  <!-- ===== AKTIONEN ===== -->
-  <div class="screen" id="screen-action">
-    <div class="topbar">
-      <button class="back-btn" onclick="goTo('screen-videos')">←</button>
-      <span class="topbar-logo">VoiceComment TV</span>
-      <span class="breadcrumb" data-i18n="bc-action">Interaktion</span>
-    </div>
-
-    <div class="action-hero">
-      <div class="video-selected">
-        <div class="video-selected-thumb" id="action-thumb">▶</div>
-        <div>
-          <div class="video-selected-title" id="action-title">Videotitel</div>
-          <div class="video-selected-ch" id="action-ch">Kanal</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="action-body">
-      <div class="action-title" data-i18n="action-title">Was möchtest du tun?</div>
-      <p class="action-sub" data-i18n="action-sub">Wähle eine Aktion — YouTube öffnet sich automatisch</p>
-
-      <div class="action-grid">
-        <button class="action-btn btn-like" id="like-btn" onclick="doLike()">
-          <span class="icon">👍</span>
-          <span class="label" data-i18n="btn-like">Daumen hoch</span>
-          <span class="hint" data-i18n="btn-like-hint">Video liken</span>
-        </button>
-        <button class="action-btn btn-sub" id="sub-btn" onclick="doSubscribe()">
-          <span class="icon">🔔</span>
-          <span class="label" data-i18n="btn-sub">Abonnieren</span>
-          <span class="hint" data-i18n="btn-sub-hint">Kanal folgen</span>
-        </button>
-        <button class="action-btn btn-comment" onclick="toggleComment()">
-          <span class="icon">💬</span>
-          <span class="label" data-i18n="btn-comment">Kommentieren</span>
-          <span class="hint" data-i18n="btn-comment-hint">Meinung schreiben</span>
-        </button>
-        <button class="action-btn btn-shop" onclick="doShop()">
-          <span class="icon">🛒</span>
-          <span class="label" data-i18n="btn-shop">Produkt</span>
-          <span class="hint" data-i18n="btn-shop-hint">Shop öffnen</span>
-        </button>
-      </div>
-
-      <div class="comment-panel" id="comment-panel">
-        <textarea class="comment-textarea" id="comment-text"
-          data-placeholder-de="Dein Kommentar..."
-          data-placeholder-en="Your comment..."
-          placeholder="Dein Kommentar..."></textarea>
-        <button class="comment-send" onclick="sendComment()" data-i18n="comment-send">
-          Kommentar auf YouTube öffnen ↗
-        </button>
-      </div>
-
-      <button class="change-video-btn" onclick="goTo('screen-search')">
-        ↩ <span data-i18n="change-video">Anderen Kanal / Video wählen</span>
+  <div class="abody">
+    <div class="atitle" id="t-atitle">Was möchtest du tun?</div>
+    <p class="asub" id="t-asub">Wähle eine Aktion — YouTube öffnet sich automatisch</p>
+    <div class="agrid">
+      <button class="abtn btn-like" id="like-btn" onclick="doLike()">
+        <span class="ic">👍</span><span class="lb" id="t-like">Daumen hoch</span><span class="ht" id="t-like-h">Video liken</span>
+      </button>
+      <button class="abtn btn-sub2" id="sub-btn" onclick="doSub()">
+        <span class="ic">🔔</span><span class="lb" id="t-sub">Abonnieren</span><span class="ht" id="t-sub-h">Kanal folgen</span>
+      </button>
+      <button class="abtn btn-com" onclick="toggleCom()">
+        <span class="ic">💬</span><span class="lb" id="t-com">Kommentieren</span><span class="ht" id="t-com-h">Meinung schreiben</span>
+      </button>
+      <button class="abtn btn-shop" onclick="doShop()">
+        <span class="ic">🛒</span><span class="lb" id="t-shop">Produkt</span><span class="ht" id="t-shop-h">Shop öffnen</span>
       </button>
     </div>
-
-    <div class="ad-banner">📢 <span data-i18n="ad">Werbung</span></div>
+    <div class="cpanel" id="cpanel">
+      <textarea class="ctxt" id="ctxt" placeholder="Dein Kommentar..."></textarea>
+      <button class="csend" onclick="sendCom()" id="t-csend">Kommentar auf YouTube öffnen ↗</button>
+    </div>
+    <button class="chg-btn" onclick="goTo('s-search')" id="t-chg">↩ Anderen Kanal / Video wählen</button>
   </div>
+  <div class="ad">📢 Werbung</div>
+</div>
 
-  <!-- Toast -->
-  <div class="toast" id="toast"></div>
+<div class="toast" id="toast"></div>
 
-  <!-- QR Code Library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="app.js"></script>
+<script>
+const YT_KEY = 'AIzaSyCkbxNViUW1O7fXgk0s3vsXfeLIOTUZ9ik';
+
+const T = {
+  de:{
+    badge:'✨ Kostenlos testen',
+    h1:'Dein Handy als<br><span>YouTube-Fernbedienung</span>',
+    sub:'Like, kommentiere und abonniere direkt vom Sofa — ganz ohne TV-Fernbedienung.',
+    vt:'Einfach verbinden',vs:'QR-Code scannen oder Link öffnen — fertig!',
+    s1:'Kanal suchen',s2:'Video wählen',s3:'Interagieren',
+    st1:'nutzen Handy beim TV schauen',st2:'bis zur ersten Interaktion',st3:'kostenlos & im Browser',
+    cta:'🚀 Jetzt kostenlos starten',ctasub:'Keine App nötig · Kein Account nötig · Sofort loslegen',
+    bc1:'Kanal suchen',bc2:'Videos',bc3:'Interaktion',
+    slabel:'Welchen Kanal schaust du? 📺',shint:'Gib den Kanalnamen ein oder nutze das Mikrofon',
+    hist:'Zuletzt geschaut',pop:'Beliebte Kanäle',
+    atitle:'Was möchtest du tun?',asub:'Wähle eine Aktion — YouTube öffnet sich automatisch',
+    like:'Daumen hoch','like-h':'Video liken',
+    sub:'Abonnieren','sub-h':'Kanal folgen',
+    com:'Kommentieren','com-h':'Meinung schreiben',
+    shop:'Produkt','shop-h':'Shop öffnen',
+    csend:'Kommentar auf YouTube öffnen ↗',
+    chg:'↩ Anderen Kanal / Video wählen',
+    'toast-like':'👍 YouTube öffnet sich — dort auf 👍 tippen!',
+    'toast-sub':'🔔 YouTube öffnet sich — dort auf Abonnieren tippen!',
+    'toast-com-empty':'❗ Bitte erst einen Kommentar schreiben!',
+    'toast-com':'💬 YouTube öffnet sich — dort kommentieren!',
+    'toast-shop':'🛒 Shop öffnet sich...',
+    'toast-mic':'🎤 Sprich jetzt den Kanalnamen...',
+    'toast-mic-ok':'✓ Erkannt: ','toast-mic-err':'❗ Spracheingabe fehlgeschlagen',
+    'toast-mic-no':'❗ Spracheingabe nicht unterstützt',
+    'liked':'✓ Geliked!','subbed':'✓ Abonniert!',loading:'Lädt...',nores:'Kein Kanal gefunden.'
+  },
+  en:{
+    badge:'✨ Try for free',
+    h1:'Your phone as<br><span>YouTube remote control</span>',
+    sub:'Like, comment and subscribe directly from the sofa — no TV remote needed.',
+    vt:'Connect easily',vs:'Scan the QR code or open the link — done!',
+    s1:'Find channel',s2:'Choose video',s3:'Interact',
+    st1:'use phone while watching TV',st2:'to first interaction',st3:'free & in browser',
+    cta:'🚀 Start for free now',ctasub:'No app needed · No account needed · Start instantly',
+    bc1:'Find channel',bc2:'Videos',bc3:'Interact',
+    slabel:'Which channel are you watching? 📺',shint:'Enter the channel name or use the microphone',
+    hist:'Recently watched',pop:'Popular channels',
+    atitle:'What would you like to do?',asub:'Choose an action — YouTube opens automatically',
+    like:'Thumbs up','like-h':'Like the video',
+    sub:'Subscribe','sub-h':'Follow channel',
+    com:'Comment','com-h':'Write your opinion',
+    shop:'Product','shop-h':'Open shop',
+    csend:'Open comment on YouTube ↗',
+    chg:'↩ Choose another channel / video',
+    'toast-like':'👍 YouTube opens — tap 👍 there!',
+    'toast-sub':'🔔 YouTube opens — tap Subscribe there!',
+    'toast-com-empty':'❗ Please write a comment first!',
+    'toast-com':'💬 YouTube opens — comment there!',
+    'toast-shop':'🛒 Shop is opening...',
+    'toast-mic':'🎤 Say the channel name now...',
+    'toast-mic-ok':'✓ Recognized: ','toast-mic-err':'❗ Voice input failed',
+    'toast-mic-no':'❗ Voice input not supported',
+    'liked':'✓ Liked!','subbed':'✓ Subscribed!',loading:'Loading...',nores:'No channel found.'
+  }
+};
+
+const POPULAR = [
+  {name:'MontanaBlack',handle:'@montanablack88',subs:'3,2 Mio',color:'#FF6B00',emoji:'🎮',id:'UCmv8-XJRK_7e_GZ3XsCAcfA'},
+  {name:'MrBeast',handle:'@MrBeast',subs:'340 Mio',color:'#EF4444',emoji:'🔥',id:'UCX6OQ3DkcsbYNE6H8uQQuVA'},
+  {name:'Dner',handle:'@Dner',subs:'1,8 Mio',color:'#8B5CF6',emoji:'😂',id:'UCl9I9FP7C0PAJJNXNDg2RRw'},
+  {name:'Rezo',handle:'@rezo',subs:'2,3 Mio',color:'#06B6D4',emoji:'📢',id:'UCM9KEEuzacwVlkt9JfJad7g'},
+  {name:'Gronkh',handle:'@Gronkh',subs:'1,4 Mio',color:'#22C55E',emoji:'🕹️',id:'UCjNxsHDPAXun0LcKGJKuGgQ'},
+  {name:'PewDiePie',handle:'@PewDiePie',subs:'111 Mio',color:'#EF4444',emoji:'🎯',id:'UC-lHJZR3Gqxm24_Vd_AJ5Yw'},
+];
+
+let lang = navigator.language.startsWith('de') ? 'de' : 'en';
+let curCh = null, curVid = null, liked = false, subbed = false;
+let hist = [], rec = null, sDebounce = null;
+
+function t(k){ return T[lang][k] || T.de[k] || k; }
+
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+let toastT = null;
+function toast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  if(toastT) clearTimeout(toastT);
+  toastT = setTimeout(()=>el.classList.remove('show'), 3200);
+}
+
+function toggleLang(){
+  lang = lang==='de'?'en':'de';
+  document.querySelector('.lang-btn').textContent = '🌐 '+lang.toUpperCase();
+  applyLang();
+}
+
+function applyLang(){
+  const ids = ['badge','h1','sub','vt','vs','s1','s2','s3','st1','st2','st3','cta','ctasub','bc1','bc2','bc3','slabel','shint','hist','pop','atitle','asub','like','like-h','sub','sub-h','com','com-h','shop','shop-h','csend','chg'];
+  ids.forEach(k=>{
+    const el = document.getElementById('t-'+k);
+    if(!el) return;
+    if(k==='h1') el.innerHTML = t(k);
+    else el.textContent = t(k);
+  });
+  document.getElementById('sinput').placeholder = lang==='de'?'z.B. MontanaBlack, MrBeast ...':'e.g. MontanaBlack, MrBeast ...';
+  document.getElementById('ctxt').placeholder = lang==='de'?'Dein Kommentar...':'Your comment...';
+  document.documentElement.lang = lang;
+}
+
+function loadHist(){
+  try{ hist = JSON.parse(localStorage.getItem('vctv_h')||'[]'); }catch(e){ hist=[]; }
+}
+function saveHist(ch){
+  hist = [ch,...hist.filter(h=>h.id!==ch.id)].slice(0,5);
+  try{ localStorage.setItem('vctv_h',JSON.stringify(hist)); }catch(e){}
+  renderHist();
+}
+function renderHist(){
+  const el = document.getElementById('hist-chips');
+  const sec = document.getElementById('hist-sec');
+  if(!hist.length){ sec.style.display='none'; return; }
+  sec.style.display='block';
+  el.innerHTML = hist.map(ch=>`<div class="chip" onclick='selCh(${JSON.stringify(ch)})'>${ch.emoji||'📺'} ${ch.name}</div>`).join('');
+}
+
+function chHTML(ch){
+  const av = ch.thumb
+    ? `<img src="${ch.thumb}" style="width:48px;height:48px;border-radius:50%;object-fit:cover;flex-shrink:0" />`
+    : `<div class="avatar" style="background:${ch.color}">${ch.emoji||'📺'}</div>`;
+  return `<div class="ri" onclick='selCh(${JSON.stringify(ch)})'>${av}<div class="ri-info"><div class="ri-name">${ch.name}</div><div class="ri-sub">${ch.handle}${ch.subs?' · '+ch.subs+' Abo':''}</div></div><span class="ri-arr">›</span></div>`;
+}
+
+function renderPop(){
+  document.getElementById('pop-results').innerHTML = POPULAR.map(ch=>chHTML(ch)).join('');
+}
+
+function onSearch(v){
+  const res = document.getElementById('search-results');
+  const hs = document.getElementById('hist-sec');
+  if(v.length<2){ res.style.display='none'; if(hist.length) hs.style.display='block'; return; }
+  hs.style.display='none'; res.style.display='block';
+  res.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">${t('loading')}</div></div></div>`;
+  clearTimeout(sDebounce);
+  sDebounce = setTimeout(()=>doSearch(v),400);
+}
+
+async function doSearch(q){
+  const res = document.getElementById('search-results');
+  const local = POPULAR.filter(c=>c.name.toLowerCase().includes(q.toLowerCase())||c.handle.toLowerCase().includes(q.toLowerCase()));
+  if(local.length) res.innerHTML = local.map(c=>chHTML(c)).join('');
+  try{
+    const r = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${encodeURIComponent(q)}&maxResults=5&key=${YT_KEY}`);
+    const d = await r.json();
+    if(d.error||!d.items||!d.items.length){ if(!local.length) res.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">${t('nores')}</div></div></div>`; return; }
+    const chs = d.items.map(i=>({name:i.snippet.title,handle:i.snippet.customUrl||'',subs:'',color:'#FF6B00',emoji:'📺',id:i.snippet.channelId||i.id.channelId,thumb:i.snippet.thumbnails?.default?.url||null}));
+    res.innerHTML = chs.map(c=>chHTML(c)).join('');
+  }catch(e){ if(!local.length) res.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">${t('nores')}</div></div></div>`; }
+}
+
+async function selCh(ch){
+  curCh=ch; liked=false; subbed=false;
+  saveHist(ch);
+  document.getElementById('v-topbar').textContent=ch.name;
+  const av=document.getElementById('ch-av');
+  if(ch.thumb){ av.innerHTML=`<img src="${ch.thumb}" />`; av.style.background='none'; }
+  else{ av.textContent=ch.emoji||'📺'; av.style.background=ch.color||'#FF6B00'; }
+  document.getElementById('ch-name').textContent=ch.name;
+  document.getElementById('ch-subs').textContent=(ch.subs?ch.subs+' Abonnenten · ':'')+ch.handle;
+  const sb=document.getElementById('sub-hero'); sb.textContent='Abonnieren'; sb.className='sub-btn';
+  document.getElementById('sinput').value='';
+  document.getElementById('search-results').style.display='none';
+  renderHist(); goTo('s-videos');
+  await loadVids(ch);
+}
+
+async function loadVids(ch){
+  const list=document.getElementById('vlist');
+  list.innerHTML=`<div style="text-align:center;padding:30px;color:var(--text2)">${t('loading')}</div>`;
+  document.getElementById('live-badge').style.display='none';
+  try{
+    const cr=await fetch(`https://www.googleapis.com/youtube/v3/channels?part=contentDetails,statistics&id=${ch.id}&key=${YT_KEY}`);
+    const cd=await cr.json();
+    if(cd.error||!cd.items?.length){ renderDemoVids(ch); return; }
+    const ci=cd.items[0];
+    const pid=ci.contentDetails?.relatedPlaylists?.uploads;
+    const sc=ci.statistics?.subscriberCount;
+    if(sc) document.getElementById('ch-subs').textContent=parseInt(sc).toLocaleString('de-DE')+' Abonnenten';
+    if(!pid){ renderDemoVids(ch); return; }
+    const vr=await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${pid}&maxResults=8&key=${YT_KEY}`);
+    const vd=await vr.json();
+    if(vd.error||!vd.items?.length){ renderDemoVids(ch); return; }
+    const lr=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${ch.id}&eventType=live&type=video&key=${YT_KEY}`);
+    const ld=await lr.json();
+    const isLive=!ld.error&&ld.items?.length>0;
+    document.getElementById('live-badge').style.display=isLive?'inline-flex':'none';
+    let html='';
+    if(isLive&&ld.items[0]){
+      const lv=ld.items[0].snippet; const lid=ld.items[0].id.videoId;
+      html+=`<div class="vcard live" onclick="selVid('${lid}',${JSON.stringify({title:lv.title,ch:ch.name,thumb:lv.thumbnails?.medium?.url,live:true,vid:lid})})"><div class="vthumb">${lv.thumbnails?.medium?.url?`<img src="${lv.thumbnails.medium.url}" />`:'📡'}</div><div class="vinfo"><div class="vtitle">🔴 LIVE — ${lv.title}</div><div class="vmeta">${ch.name} · LIVE</div></div></div>`;
+    }
+    vd.items.forEach(item=>{
+      const s=item.snippet; const vid=s.resourceId?.videoId; if(!vid) return;
+      const ago=timeAgo(new Date(s.publishedAt));
+      const th=s.thumbnails?.medium?.url||s.thumbnails?.default?.url;
+      html+=`<div class="vcard" onclick="selVid('${vid}',${JSON.stringify({title:s.title,ch:ch.name,thumb:th,live:false,vid})})"><div class="vthumb">${th?`<img src="${th}" />`:'▶'}</div><div class="vinfo"><div class="vtitle">${s.title}</div><div class="vmeta">${ch.name} · ${ago}</div></div></div>`;
+    });
+    list.innerHTML=html||`<div style="text-align:center;padding:30px;color:var(--text2)">Keine Videos.</div>`;
+  }catch(e){ renderDemoVids(ch); }
+}
+
+function renderDemoVids(ch){
+  const demos=[
+    {t:`Das neue Video von ${ch.name}! 🔥`,a:lang==='de'?'vor 2 Tagen':'2 days ago',e:'🎬'},
+    {t:'Unglaublich was hier passiert ist... 😱',a:lang==='de'?'vor 5 Tagen':'5 days ago',e:'🎮'},
+    {t:'Q&A mit meiner Community',a:lang==='de'?'vor 1 Woche':'1 week ago',e:'🎤'},
+    {t:'Der beste Stream ever! 💪',a:lang==='de'?'vor 2 Wochen':'2 weeks ago',e:'📡'},
+  ];
+  document.getElementById('vlist').innerHTML=demos.map((v,i)=>`<div class="vcard" onclick="selVid('demo_${i}',${JSON.stringify({title:v.t,ch:ch.name,thumb:null,live:false,vid:'demo_'+i,emoji:v.e})})"><div class="vthumb">${v.e}</div><div class="vinfo"><div class="vtitle">${v.t}</div><div class="vmeta">${ch.name} · ${v.a}</div></div></div>`).join('');
+}
+
+function selVid(vid,v){
+  curVid={...v,vid}; liked=false;
+  const th=document.getElementById('a-thumb');
+  if(v.thumb){ th.innerHTML=`<img src="${v.thumb}" />`; }
+  else{ th.textContent=v.emoji||'▶'; }
+  document.getElementById('a-title').textContent=v.title;
+  document.getElementById('a-ch').textContent=curCh?.name||v.ch||'';
+  const lb=document.getElementById('like-btn'); lb.className='abtn btn-like'; lb.querySelector('.lb').textContent=t('like');
+  const sb=document.getElementById('sub-btn'); sb.className='abtn btn-sub2';
+  document.getElementById('cpanel').classList.remove('open');
+  document.getElementById('ctxt').value='';
+  goTo('s-action');
+}
+
+function doLike(){
+  liked=!liked;
+  const btn=document.getElementById('like-btn');
+  if(liked){ btn.classList.add('on'); btn.querySelector('.lb').textContent=t('liked'); toast(t('toast-like')); const u=curVid?.vid&&!curVid.vid.startsWith('demo_')?`https://www.youtube.com/watch?v=${curVid.vid}`:'https://youtube.com'; setTimeout(()=>window.open(u,'_blank'),1200); }
+  else{ btn.classList.remove('on'); btn.querySelector('.lb').textContent=t('like'); }
+}
+
+function doSub(){
+  subbed=!subbed;
+  const btn=document.getElementById('sub-btn');
+  if(subbed){ btn.classList.add('on'); btn.querySelector('.lb').textContent=t('subbed'); toast(t('toast-sub')); const u=curCh?.id?`https://www.youtube.com/channel/${curCh.id}?sub_confirmation=1`:'https://youtube.com'; setTimeout(()=>window.open(u,'_blank'),1200); }
+  else{ btn.classList.remove('on'); btn.querySelector('.lb').textContent=t('sub'); }
+}
+
+function toggleSub(){
+  subbed=!subbed;
+  const btn=document.getElementById('sub-hero');
+  if(subbed){ btn.textContent=t('subbed'); btn.classList.add('done'); toast(t('toast-sub')); if(curCh?.id) setTimeout(()=>window.open(`https://www.youtube.com/channel/${curCh.id}?sub_confirmation=1`,'_blank'),1200); }
+  else{ btn.textContent='Abonnieren'; btn.classList.remove('done'); }
+}
+
+function toggleCom(){ document.getElementById('cpanel').classList.toggle('open'); }
+
+function sendCom(){
+  const txt=document.getElementById('ctxt').value.trim();
+  if(!txt){ toast(t('toast-com-empty')); return; }
+  toast(t('toast-com'));
+  const u=curVid?.vid&&!curVid.vid.startsWith('demo_')?`https://www.youtube.com/watch?v=${curVid.vid}`:'https://youtube.com';
+  setTimeout(()=>window.open(u,'_blank'),1200);
+}
+
+function doShop(){
+  toast(t('toast-shop'));
+  const u=curCh?.id?`https://www.youtube.com/channel/${curCh.id}/store`:'https://youtube.com';
+  setTimeout(()=>window.open(u,'_blank'),1200);
+}
+
+function startVoice(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){ toast(t('toast-mic-no')); return; }
+  const btn=document.getElementById('mic-btn');
+  if(rec){ rec.stop(); return; }
+  rec=new SR(); rec.lang=lang==='de'?'de-DE':'en-US'; rec.interimResults=false;
+  btn.classList.add('on'); btn.textContent='⏹'; toast(t('toast-mic'));
+  rec.onresult=e=>{ const tr=e.results[0][0].transcript; document.getElementById('sinput').value=tr; onSearch(tr); toast(t('toast-mic-ok')+tr); };
+  rec.onerror=()=>toast(t('toast-mic-err'));
+  rec.onend=()=>{ btn.classList.remove('on'); btn.textContent='🎤'; rec=null; };
+  rec.start();
+}
+
+function timeAgo(d){
+  const s=Math.floor((new Date()-d)/1000);
+  const iv=[{de:'Jahr',en:'year',s:31536000},{de:'Monat',en:'month',s:2592000},{de:'Woche',en:'week',s:604800},{de:'Tag',en:'day',s:86400},{de:'Stunde',en:'hour',s:3600},{de:'Minute',en:'minute',s:60}];
+  for(const i of iv){ const c=Math.floor(s/i.s); if(c>=1) return lang==='de'?`vor ${c} ${i.de}${c>1?'en':''}`:`${c} ${i.en}${c>1?'s':''} ago`; }
+  return lang==='de'?'gerade eben':'just now';
+}
+
+loadHist(); renderPop(); renderHist(); applyLang();
+</script>
 </body>
 </html>
