@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="theme-color" content="#FF6B00"/>
+<meta name="description" content="VoiceComment TV — Dein Handy als YouTube-Fernbedienung. Like, kommentiere und abonniere direkt vom Sofa."/>
+<meta property="og:title" content="VoiceComment TV"/>
+<meta property="og:description" content="Dein Handy als YouTube-Fernbedienung — kostenlos testen!"/>
+<meta property="og:url" content="https://voicecomment-tv.vip"/>
+<title>VoiceComment TV — Dein Handy als YouTube-Fernbedienung</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2004613695225348" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --orange:#FF6B00;
+  --orange-light:#FF8C33;
+  --orange-pale:#FFF3E8;
+  --bg:#FFFFFF;
+  --bg2:#FAFAF8;
+  --bg3:#F5F3F0;
+  --text:#1A1410;
+  --text2:#6B6560;
+  --text3:#A09A94;
+  --border:#E8E3DC;
+  --green:#22C55E;
+  --blue:#3B82F6;
+  --purple:#8B5CF6;
+  --red:#EF4444;
+  --shadow:0 2px 16px rgba(0,0,0,.08);
+  --shadow-lg:0 8px 40px rgba(0,0,0,.12);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:0 24px}
+.nav-inner{max-width:1100px;margin:0 auto;height:64px;display:flex;align-items:center;gap:16px}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-box{width:36px;height:36px;background:var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
+.nav-logo-txt{font-family:'Sora',sans-serif;font-size:17px;font-weight:800;color:var(--orange)}
+.nav-links{display:flex;align-items:center;gap:24px;margin-left:auto}
+.nav-link{text-decoration:none;font-size:14px;font-weight:600;color:var(--text2);transition:color .2s}
+.nav-link:hover{color:var(--orange)}
+.lang-toggle{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;color:var(--text2);font-family:inherit;transition:all .2s}
+.lang-toggle:hover{border-color:var(--orange);color:var(--orange)}
+.nav-cta{background:var(--orange);color:#fff;border:none;border-radius:20px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;transition:all .2s}
+.nav-cta:hover{background:var(--orange-light)}
+
+/* HERO */
+.hero{padding:120px 24px 80px;text-align:center;background:linear-gradient(160deg,#FFF8F2 0%,#fff 50%,#F0F7FF 100%)}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--orange-pale);color:var(--orange);font-size:13px;font-weight:700;padding:8px 18px;border-radius:20px;margin-bottom:24px;text-transform:uppercase;letter-spacing:.5px}
+.hero-title{font-family:'Sora',sans-serif;font-size:clamp(36px,6vw,64px);font-weight:800;line-height:1.1;margin-bottom:20px;max-width:800px;margin-left:auto;margin-right:auto}
+.hero-title span{color:var(--orange)}
+.hero-sub{font-size:clamp(16px,2.5vw,20px);color:var(--text2);max-width:600px;margin:0 auto 40px;line-height:1.7}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
+.btn-primary{background:var(--orange);color:#fff;border:none;border-radius:16px;padding:18px 36px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(255,107,0,.35);transition:all .2s}
+.btn-primary:hover{background:var(--orange-light);transform:translateY(-2px)}
+.btn-secondary{background:#fff;color:var(--text);border:2px solid var(--border);border-radius:16px;padding:18px 36px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:all .2s}
+.btn-secondary:hover{border-color:var(--orange);color:var(--orange)}
+
+/* Hero Visual */
+.hero-visual{max-width:600px;margin:0 auto;background:var(--bg2);border-radius:24px;padding:32px;border:1px solid var(--border);box-shadow:var(--shadow-lg);display:flex;align-items:center;justify-content:center;gap:24px}
+.tv-mock{width:200px;height:130px;background:#1A1410;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
+.tv-mock::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:50px;height:6px;background:#333;border-radius:3px}
+.tv-screen{width:180px;height:110px;background:linear-gradient(135deg,#1e3a5f,#2563eb);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:40px}
+.arrow-visual{font-size:32px;color:var(--orange);animation:bounce-x 1.5s infinite}
+@keyframes bounce-x{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+.phone-mock{width:80px;height:140px;background:#fff;border-radius:18px;border:3px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;box-shadow:var(--shadow-lg);flex-shrink:0}
+.phone-btn{width:54px;height:10px;border-radius:5px}
+.phone-btn.o{background:var(--orange)}
+.phone-btn.b{background:var(--blue)}
+.phone-btn.g{background:var(--green)}
+.phone-btn.p{background:var(--purple)}
+
+/* STATS */
+.stats{padding:60px 24px;background:var(--bg)}
+.stats-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.stat-card{text-align:center;padding:32px 24px;background:var(--bg2);border-radius:20px;border:1px solid var(--border)}
+.stat-num{font-family:'Sora',sans-serif;font-size:42px;font-weight:800;color:var(--orange);display:block;margin-bottom:8px}
+.stat-lbl{font-size:15px;color:var(--text2)}
+
+/* HOW IT WORKS */
+.how{padding:80px 24px;background:var(--bg2)}
+.section-label{text-align:center;font-size:13px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px}
+.section-title{font-family:'Sora',sans-serif;font-size:clamp(28px,4vw,40px);font-weight:800;text-align:center;margin-bottom:12px}
+.section-sub{font-size:16px;color:var(--text2);text-align:center;max-width:560px;margin:0 auto 60px}
+.steps-grid{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.step-card{background:#fff;border-radius:20px;padding:32px 24px;border:1px solid var(--border);box-shadow:var(--shadow);text-align:center}
+.step-num{width:48px;height:48px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:20px;font-weight:800;margin:0 auto 16px}
+.step-icon{font-size:36px;margin-bottom:12px}
+.step-title{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;margin-bottom:8px}
+.step-desc{font-size:14px;color:var(--text2);line-height:1.6}
+
+/* FEATURES */
+.features{padding:80px 24px;background:var(--bg)}
+.features-grid{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.feature-card{background:var(--bg2);border-radius:20px;padding:28px;border:1px solid var(--border);display:flex;gap:18px;align-items:flex-start}
+.feature-icon{font-size:32px;flex-shrink:0}
+.feature-title{font-size:17px;font-weight:700;margin-bottom:6px}
+.feature-desc{font-size:14px;color:var(--text2);line-height:1.6}
+
+/* CREATOR */
+.creator{padding:80px 24px;background:linear-gradient(135deg,#FFF8F2,#FFF0E8)}
+.creator-inner{max-width:800px;margin:0 auto}
+.creator-box{background:#fff;border-radius:24px;padding:48px;border:2px solid var(--orange);box-shadow:var(--shadow-lg);text-align:center}
+.creator-title{font-family:'Sora',sans-serif;font-size:clamp(24px,4vw,36px);font-weight:800;margin-bottom:12px}
+.creator-sub{font-size:16px;color:var(--text2);margin-bottom:32px;line-height:1.7}
+.creator-perks{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:36px}
+.perk{background:var(--orange-pale);color:var(--orange);border-radius:12px;padding:10px 18px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+.creator-form{display:flex;flex-direction:column;gap:12px;max-width:400px;margin:0 auto}
+.creator-input{padding:14px 18px;border:2px solid var(--border);border-radius:12px;font-size:15px;font-family:inherit;background:var(--bg2);color:var(--text);outline:none;transition:border-color .2s}
+.creator-input:focus{border-color:var(--orange);background:#fff}
+.creator-submit{background:var(--orange);color:#fff;border:none;border-radius:12px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+.creator-submit:hover{background:var(--orange-light)}
+.creator-note{font-size:12px;color:var(--text3);margin-top:8px}
+.success-msg{display:none;background:#F0FFF8;border:2px solid var(--green);border-radius:12px;padding:16px;color:#006633;font-weight:600;font-size:15px}
+.success-msg.show{display:block}
+
+/* PRICING */
+.pricing{padding:80px 24px;background:var(--bg2)}
+.pricing-grid{max-width:700px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.price-card{background:#fff;border-radius:20px;padding:32px;border:2px solid var(--border);text-align:center}
+.price-card.featured{border-color:var(--orange);box-shadow:0 8px 40px rgba(255,107,0,.15)}
+.price-badge{background:var(--orange);color:#fff;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;display:inline-block;margin-bottom:16px}
+.price-name{font-family:'Sora',sans-serif;font-size:20px;font-weight:800;margin-bottom:8px}
+.price-amount{font-family:'Sora',sans-serif;font-size:40px;font-weight:800;color:var(--orange);margin-bottom:4px}
+.price-period{font-size:14px;color:var(--text3);margin-bottom:24px}
+.price-features{list-style:none;text-align:left;margin-bottom:28px}
+.price-features li{font-size:14px;padding:6px 0;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
+.price-features li:last-child{border:none}
+.price-btn{width:100%;background:var(--orange);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;display:block;transition:all .2s}
+.price-btn:hover{background:var(--orange-light)}
+.price-btn.outline{background:#fff;color:var(--orange);border:2px solid var(--orange)}
+.price-btn.outline:hover{background:var(--orange-pale)}
+
+/* FAQ */
+.faq{padding:80px 24px;background:var(--bg)}
+.faq-inner{max-width:700px;margin:0 auto}
+.faq-item{border:1px solid var(--border);border-radius:16px;margin-bottom:12px;overflow:hidden}
+.faq-q{padding:20px 24px;font-weight:700;font-size:16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:#fff;transition:background .2s}
+.faq-q:hover{background:var(--bg2)}
+.faq-q .arrow{font-size:20px;transition:transform .3s;color:var(--text3)}
+.faq-q.open .arrow{transform:rotate(180deg)}
+.faq-a{padding:0 24px;max-height:0;overflow:hidden;transition:all .3s;font-size:15px;color:var(--text2);line-height:1.7;background:var(--bg2)}
+.faq-a.open{padding:16px 24px 20px;max-height:200px}
+
+/* CTA BOTTOM */
+.cta-bottom{padding:80px 24px;background:linear-gradient(135deg,var(--orange),var(--orange-light));text-align:center}
+.cta-bottom h2{font-family:'Sora',sans-serif;font-size:clamp(28px,4vw,42px);font-weight:800;color:#fff;margin-bottom:12px}
+.cta-bottom p{font-size:17px;color:rgba(255,255,255,.85);margin-bottom:36px}
+.btn-white{background:#fff;color:var(--orange);border:none;border-radius:16px;padding:18px 36px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.15);transition:all .2s}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.2)}
+
+/* FOOTER */
+footer{padding:40px 24px;background:var(--text);color:rgba(255,255,255,.6);text-align:center}
+.footer-logo{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;color:#fff;margin-bottom:12px}
+.footer-links{display:flex;gap:24px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.footer-link{color:rgba(255,255,255,.6);text-decoration:none;font-size:14px;transition:color .2s}
+.footer-link:hover{color:#fff}
+.footer-copy{font-size:13px}
+
+/* AD BANNER */
+.ad-bar{background:var(--bg3);border-top:1px solid var(--border);padding:10px;text-align:center;font-size:11px;color:var(--text3)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .stats-inner{grid-template-columns:1fr}
+  .steps-grid{grid-template-columns:1fr}
+  .features-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .hero-visual{flex-direction:column;gap:16px}
+  .nav-links .nav-link{display:none}
+  .creator-perks{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-box">▶</div>
+      <span class="nav-logo-txt">VoiceComment TV</span>
+    </a>
+    <div class="nav-links">
+      <a href="#how" class="nav-link" data-de="So funktioniert's" data-en="How it works">So funktioniert's</a>
+      <a href="#creator" class="nav-link" data-de="Für Creator" data-en="For Creators">Für Creator</a>
+      <a href="#pricing" class="nav-link" data-de="Preise" data-en="Pricing">Preise</a>
+      <a href="#faq" class="nav-link" data-de="FAQ" data-en="FAQ">FAQ</a>
+      <button class="lang-toggle" onclick="toggleLang()">🌐 EN</button>
+      <a href="https://vctv.vercel.app" class="nav-cta" target="_blank" data-de="🚀 App starten" data-en="🚀 Start App">🚀 App starten</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge" data-de="✨ Kostenlos testen" data-en="✨ Try for free">✨ Kostenlos testen</div>
+  <h1 class="hero-title" data-de="Dein Handy als<br><span>YouTube-Fernbedienung</span>" data-en="Your phone as<br><span>YouTube remote control</span>">Dein Handy als<br><span>YouTube-Fernbedienung</span></h1>
+  <p class="hero-sub" data-de="Like, kommentiere und abonniere direkt vom Sofa — das Video läuft klein auf deinem Handy. Keine App nötig, einfach Browser öffnen." data-en="Like, comment and subscribe directly from the sofa — the video plays small on your phone. No app needed, just open your browser.">Like, kommentiere und abonniere direkt vom Sofa — das Video läuft klein auf deinem Handy. Keine App nötig, einfach Browser öffnen.</p>
+  <div class="hero-btns">
+    <a href="https://vctv.vercel.app" class="btn-primary" target="_blank" data-de="🚀 Jetzt kostenlos starten" data-en="🚀 Start for free now">🚀 Jetzt kostenlos starten</a>
+    <a href="#how" class="btn-secondary" data-de="Wie funktioniert's?" data-en="How does it work?">Wie funktioniert's?</a>
+  </div>
+  <div class="hero-visual">
+    <div class="tv-mock"><div class="tv-screen">▶</div></div>
+    <div class="arrow-visual">→</div>
+    <div class="phone-mock">
+      <div class="phone-btn o"></div>
+      <div class="phone-btn b"></div>
+      <div class="phone-btn g"></div>
+      <div class="phone-btn p"></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="stats-inner">
+    <div class="stat-card">
+      <span class="stat-num">80%</span>
+      <span class="stat-lbl" data-de="der TV-Zuschauer nutzen gleichzeitig ihr Handy" data-en="of TV viewers use their phone at the same time">der TV-Zuschauer nutzen gleichzeitig ihr Handy</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num">3 sek</span>
+      <span class="stat-lbl" data-de="bis zur ersten Interaktion" data-en="to your first interaction">bis zur ersten Interaktion</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-num">100%</span>
+      <span class="stat-lbl" data-de="im Browser — keine App nötig" data-en="in the browser — no app needed">im Browser — keine App nötig</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-label" data-de="So einfach geht's" data-en="This simple">So einfach geht's</div>
+  <h2 class="section-title" data-de="In 3 Schritten zur Fernbedienung" data-en="3 steps to your remote control">In 3 Schritten zur Fernbedienung</h2>
+  <p class="section-sub" data-de="Kein kompliziertes Einrichten. Kein gleiches WLAN. Einfach öffnen und loslegen." data-en="No complicated setup. No same WiFi needed. Just open and go.">Kein kompliziertes Einrichten. Kein gleiches WLAN. Einfach öffnen und loslegen.</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-icon">📱</div>
+      <div class="step-title" data-de="Link öffnen" data-en="Open the link">Link öffnen</div>
+      <p class="step-desc" data-de="Öffne vctv.vercel.app auf deinem Handy — oder scanne den QR-Code im Video." data-en="Open vctv.vercel.app on your phone — or scan the QR code in the video.">Öffne vctv.vercel.app auf deinem Handy — oder scanne den QR-Code im Video.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-icon">🔍</div>
+      <div class="step-title" data-de="Kanal suchen" data-en="Find the channel">Kanal suchen</div>
+      <p class="step-desc" data-de="Gib den Kanalnamen ein oder sprich ihn einfach ins Mikrofon. Das Video läuft mini auf deinem Handy." data-en="Enter the channel name or simply speak it into the microphone. The video plays mini on your phone.">Gib den Kanalnamen ein oder sprich ihn einfach ins Mikrofon. Das Video läuft mini auf deinem Handy.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-icon">🎯</div>
+      <div class="step-title" data-de="Direkt interagieren" data-en="Interact directly">Direkt interagieren</div>
+      <p class="step-desc" data-de="Like, kommentiere, abonniere — alles mit einem Tap. Kein Weiterleiten, kein Suchen." data-en="Like, comment, subscribe — everything with one tap. No redirecting, no searching.">Like, kommentiere, abonniere — alles mit einem Tap. Kein Weiterleiten, kein Suchen.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="section-label" data-de="Features" data-en="Features">Features</div>
+  <h2 class="section-title" data-de="Alles was du brauchst" data-en="Everything you need">Alles was du brauchst</h2>
+  <p class="section-sub" data-de="Einfach aber mächtig — genau das Richtige für entspanntes TV-Schauen." data-en="Simple but powerful — just right for relaxed TV watching.">Einfach aber mächtig — genau das Richtige für entspanntes TV-Schauen.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">👍</div>
+      <div><div class="feature-title" data-de="Direkt liken" data-en="Like directly">Direkt liken</div><p class="feature-desc" data-de="Like Videos direkt über dein Google Konto — kein Öffnen von YouTube nötig." data-en="Like videos directly via your Google account — no need to open YouTube.">Like Videos direkt über dein Google Konto — kein Öffnen von YouTube nötig.</p></div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔔</div>
+      <div><div class="feature-title" data-de="Abonnieren mit einem Tap" data-en="Subscribe with one tap">Abonnieren mit einem Tap</div><p class="feature-desc" data-de="Kanäle direkt abonnieren ohne lästiges Tippen auf der TV-Fernbedienung." data-en="Subscribe to channels directly without annoying typing on the TV remote.">Kanäle direkt abonnieren ohne lästiges Tippen auf der TV-Fernbedienung.</p></div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎙️</div>
+      <div><div class="feature-title" data-de="Sprachkommentar" data-en="Voice comment">Sprachkommentar</div><p class="feature-desc" data-de="Spreche deinen Kommentar — er wird automatisch in Text umgewandelt und gesendet." data-en="Speak your comment — it's automatically converted to text and sent.">Spreche deinen Kommentar — er wird automatisch in Text umgewandelt und gesendet.</p></div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📺</div>
+      <div><div class="feature-title" data-de="Mini Video-Player" data-en="Mini video player">Mini Video-Player</div><p class="feature-desc" data-de="Das Video läuft klein auf deinem Handy — du siehst immer was du bewertest." data-en="The video plays small on your phone — you always see what you're rating.">Das Video läuft klein auf deinem Handy — du siehst immer was du bewertest.</p></div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🛒</div>
+      <div><div class="feature-title" data-de="Affiliate Links" data-en="Affiliate links">Affiliate Links</div><p class="feature-desc" data-de="Direkt zu Produkten des Creators — Affiliate Links einfach erreichbar." data-en="Directly to the creator's products — affiliate links easily accessible.">Direkt zu Produkten des Creators — Affiliate Links einfach erreichbar.</p></div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌍</div>
+      <div><div class="feature-title" data-de="Deutsch & Englisch" data-en="German & English">Deutsch & Englisch</div><p class="feature-desc" data-de="Die App ist auf Deutsch und Englisch verfügbar — weitere Sprachen folgen." data-en="The app is available in German and English — more languages coming soon.">Die App ist auf Deutsch und Englisch verfügbar — weitere Sprachen folgen.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CREATOR -->
+<section class="creator" id="creator">
+  <div class="creator-inner">
+    <div class="creator-box">
+      <div class="section-label" style="margin-bottom:12px" data-de="Für YouTube Creator" data-en="For YouTube Creators">Für YouTube Creator</div>
+      <h2 class="creator-title" data-de="Mehr Interaktion für deinen Kanal" data-en="More interaction for your channel">Mehr Interaktion für deinen Kanal</h2>
+      <p class="creator-sub" data-de="Deine Zuschauer können direkt vom Sofa aus liken, kommentieren und deine Affiliate Links nutzen — ohne kompliziertes Einrichten." data-en="Your viewers can like, comment and use your affiliate links directly from the sofa — without complicated setup.">Deine Zuschauer können direkt vom Sofa aus liken, kommentieren und deine Affiliate Links nutzen — ohne kompliziertes Einrichten.</p>
+      <div class="creator-perks">
+        <div class="perk">✅ <span data-de="Mehr Kommentare" data-en="More comments">Mehr Kommentare</span></div>
+        <div class="perk">✅ <span data-de="Mehr Likes" data-en="More likes">Mehr Likes</span></div>
+        <div class="perk">✅ <span data-de="Mehr Abos" data-en="More subscriptions">Mehr Abos</span></div>
+        <div class="perk">✅ <span data-de="Affiliate Links direkt erreichbar" data-en="Affiliate links directly accessible">Affiliate Links direkt erreichbar</span></div>
+      </div>
+      <div class="creator-form" id="creator-form">
+        <input class="creator-input" type="text" id="c-name" data-placeholder-de="Dein Name" data-placeholder-en="Your name" placeholder="Dein Name"/>
+        <input class="creator-input" type="text" id="c-channel" data-placeholder-de="Dein YouTube Kanal (@handle)" data-placeholder-en="Your YouTube channel (@handle)" placeholder="Dein YouTube Kanal (@handle)"/>
+        <input class="creator-input" type="email" id="c-email" data-placeholder-de="Deine E-Mail" data-placeholder-en="Your email" placeholder="Deine E-Mail"/>
+        <button class="creator-submit" onclick="submitCreator()" data-de="Jetzt als Creator anmelden →" data-en="Register as creator now →">Jetzt als Creator anmelden →</button>
+        <p class="creator-note" data-de="Wir melden uns innerhalb von 24 Stunden bei dir." data-en="We'll get back to you within 24 hours.">Wir melden uns innerhalb von 24 Stunden bei dir.</p>
+      </div>
+      <div class="success-msg" id="success-msg" data-de="✅ Danke! Wir melden uns bald bei dir." data-en="✅ Thanks! We'll be in touch soon.">✅ Danke! Wir melden uns bald bei dir.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-label" data-de="Preise" data-en="Pricing">Preise</div>
+  <h2 class="section-title" data-de="Einfach & transparent" data-en="Simple & transparent">Einfach & transparent</h2>
+  <p class="section-sub" data-de="Starte kostenlos — upgrade wenn du mehr willst." data-en="Start for free — upgrade when you want more.">Starte kostenlos — upgrade wenn du mehr willst.</p>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-name" data-de="Kostenlos" data-en="Free">Kostenlos</div>
+      <div class="price-amount">0€</div>
+      <div class="price-period" data-de="für immer kostenlos" data-en="forever free">für immer kostenlos</div>
+      <ul class="price-features">
+        <li>✅ <span data-de="Liken & Abonnieren" data-en="Like & Subscribe">Liken & Abonnieren</span></li>
+        <li>✅ <span data-de="Textkommentare" data-en="Text comments">Textkommentare</span></li>
+        <li>✅ <span data-de="Kanal-Suche" data-en="Channel search">Kanal-Suche</span></li>
+        <li>✅ <span data-de="Mini Video-Player" data-en="Mini video player">Mini Video-Player</span></li>
+        <li>📢 <span data-de="Mit Werbung" data-en="With ads">Mit Werbung</span></li>
+      </ul>
+      <a href="https://vctv.vercel.app" class="price-btn outline" target="_blank" data-de="Kostenlos starten" data-en="Start for free">Kostenlos starten</a>
+    </div>
+    <div class="price-card featured">
+      <div class="price-badge" data-de="Bald verfügbar" data-en="Coming soon">Bald verfügbar</div>
+      <div class="price-name">Premium</div>
+      <div class="price-amount">1,99€</div>
+      <div class="price-period" data-de="pro Monat" data-en="per month">pro Monat</div>
+      <ul class="price-features">
+        <li>✅ <span data-de="Alles aus Kostenlos" data-en="Everything in Free">Alles aus Kostenlos</span></li>
+        <li>✅ <span data-de="Sprachkommentare" data-en="Voice comments">Sprachkommentare</span></li>
+        <li>✅ <span data-de="Keine Werbung" data-en="No ads">Keine Werbung</span></li>
+        <li>✅ <span data-de="Unbegrenzter Kanalverlauf" data-en="Unlimited channel history">Unbegrenzter Kanalverlauf</span></li>
+        <li>✅ <span data-de="Priority Support" data-en="Priority support">Priority Support</span></li>
+      </ul>
+      <a href="#" class="price-btn" data-de="Bald verfügbar" data-en="Coming soon">Bald verfügbar</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="section-label" data-de="Häufige Fragen" data-en="FAQ">Häufige Fragen</div>
+  <h2 class="section-title" data-de="Alles was du wissen willst" data-en="Everything you want to know">Alles was du wissen willst</h2>
+  <div class="faq-inner" style="margin-top:40px">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span data-de="Brauche ich eine App?" data-en="Do I need an app?">Brauche ich eine App?</span>
+        <span class="arrow">↓</span>
+      </div>
+      <div class="faq-a" data-de="Nein! VoiceComment TV läuft komplett im Browser deines Handys. Kein Download, keine Installation." data-en="No! VoiceComment TV runs completely in your phone's browser. No download, no installation.">Nein! VoiceComment TV läuft komplett im Browser deines Handys. Kein Download, keine Installation.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span data-de="Brauche ich ein Google Konto?" data-en="Do I need a Google account?">Brauche ich ein Google Konto?</span>
+        <span class="arrow">↓</span>
+      </div>
+      <div class="faq-a" data-de="Ja, für Likes, Kommentare und Abos brauchst du ein Google/YouTube Konto. Die Anmeldung dauert nur Sekunden." data-en="Yes, for likes, comments and subscriptions you need a Google/YouTube account. Signing in only takes seconds.">Ja, für Likes, Kommentare und Abos brauchst du ein Google/YouTube Konto. Die Anmeldung dauert nur Sekunden.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span data-de="Muss TV und Handy im gleichen WLAN sein?" data-en="Do TV and phone need to be on the same WiFi?">Muss TV und Handy im gleichen WLAN sein?</span>
+        <span class="arrow">↓</span>
+      </div>
+      <div class="faq-a" data-de="Nein! Das ist einer der größten Vorteile gegenüber YouTubes eigener Lösung. Du kannst auch mobiles Internet nutzen." data-en="No! That's one of the biggest advantages over YouTube's own solution. You can also use mobile internet.">Nein! Das ist einer der größten Vorteile gegenüber YouTubes eigener Lösung. Du kannst auch mobiles Internet nutzen.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span data-de="Kostet das wirklich nichts?" data-en="Is it really free?">Kostet das wirklich nichts?</span>
+        <span class="arrow">↓</span>
+      </div>
+      <div class="faq-a" data-de="Die Basisversion ist komplett kostenlos und wird durch Werbung finanziert. Eine Premium-Version ohne Werbung kommt bald für 1,99€/Monat." data-en="The basic version is completely free and financed by ads. A premium version without ads is coming soon for €1.99/month.">Die Basisversion ist komplett kostenlos und wird durch Werbung finanziert. Eine Premium-Version ohne Werbung kommt bald für 1,99€/Monat.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BOTTOM -->
+<section class="cta-bottom">
+  <h2 data-de="Bereit loszulegen?" data-en="Ready to start?">Bereit loszulegen?</h2>
+  <p data-de="Kostenlos starten — in 3 Sekunden zur ersten Interaktion." data-en="Start for free — first interaction in 3 seconds.">Kostenlos starten — in 3 Sekunden zur ersten Interaktion.</p>
+  <a href="https://vctv.vercel.app" class="btn-white" target="_blank" data-de="🚀 App jetzt starten" data-en="🚀 Start the app now">🚀 App jetzt starten</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">VoiceComment TV</div>
+  <div class="footer-links">
+    <a href="mailto:support@voicecomment-tv.vip" class="footer-link">support@voicecomment-tv.vip</a>
+    <a href="#" class="footer-link" data-de="Datenschutz" data-en="Privacy">Datenschutz</a>
+    <a href="#" class="footer-link" data-de="Impressum" data-en="Imprint">Impressum</a>
+    <a href="#" class="footer-link">@VoiceCommentTV</a>
+  </div>
+  <div class="footer-copy">© 2026 VoiceComment TV · voicecomment-tv.vip</div>
+</footer>
+
+<div class="ad-bar">📢 Werbung · Google AdSense</div>
+
+<script>
+let lang='de';
+
+function toggleLang(){
+  lang=lang==='de'?'en':'de';
+  document.querySelector('.lang-toggle').textContent=lang==='de'?'🌐 EN':'🌐 DE';
+  applyLang();
+}
+
+function applyLang(){
+  document.querySelectorAll('[data-'+lang+']').forEach(el=>{
+    const val=el.getAttribute('data-'+lang);
+    if(el.tagName==='INPUT'||el.tagName==='TEXTAREA') el.placeholder=val;
+    else el.innerHTML=val;
+  });
+  document.querySelectorAll('[data-placeholder-'+lang+']').forEach(el=>{
+    el.placeholder=el.getAttribute('data-placeholder-'+lang);
+  });
+  document.documentElement.lang=lang;
+}
+
+function toggleFaq(el){
+  const a=el.nextElementSibling;
+  el.classList.toggle('open');
+  a.classList.toggle('open');
+}
+
+function submitCreator(){
+  const name=document.getElementById('c-name').value.trim();
+  const channel=document.getElementById('c-channel').value.trim();
+  const email=document.getElementById('c-email').value.trim();
+  if(!name||!channel||!email){
+    alert(lang==='de'?'Bitte alle Felder ausfüllen!':'Please fill in all fields!');
+    return;
+  }
+  document.getElementById('creator-form').style.display='none';
+  const msg=document.getElementById('success-msg');
+  msg.classList.add('show');
+  msg.textContent=lang==='de'?'✅ Danke '+name+'! Wir melden uns bald bei dir.':'✅ Thanks '+name+'! We\'ll be in touch soon.';
+}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+  });
+});
+</script>
+</body>
+</html>
