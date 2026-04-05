@@ -374,10 +374,19 @@ let activeReaction=null;
 
 // LOGIN
 function doLogin(){
+  // Prüfe ob Google Script geladen ist
+  if(typeof google === 'undefined' || !google.accounts){
+    // Fallback: Direkt zu Google OAuth
+    const scope=encodeURIComponent('https://www.googleapis.com/auth/youtube.force-ssl profile email');
+    const redirect=encodeURIComponent(window.location.href);
+    const url=`https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent('https://vctv.vercel.app')}&response_type=token&scope=${scope}&prompt=select_account`;
+    window.location.href=url;
+    return;
+  }
   const c=google.accounts.oauth2.initTokenClient({
     client_id:CLIENT_ID,
     scope:'https://www.googleapis.com/auth/youtube.force-ssl profile email',
-    prompt:'',
+    prompt:'select_account',
     callback:async r=>{
       if(!r.access_token)return;
       token=r.access_token;
@@ -391,11 +400,30 @@ function doLogin(){
         toast('👋 Hallo '+(d.given_name||d.name)+'!');
         goTo('s-search');
         setInterval(()=>{ if(window._googleClient) window._googleClient.requestAccessToken({prompt:''}); },45*60*1000);
-      }catch(e){toast('❗ Login fehlgeschlagen');}
+      }catch(e){toast('❗ Login fehlgeschlagen — bitte nochmal versuchen');}
     }
   });
   window._googleClient=c;
-  c.requestAccessToken();
+  try{ c.requestAccessToken(); }catch(e){ toast('❗ Bitte nochmal tippen'); }
+}
+
+// Token aus URL holen (nach OAuth Redirect)
+function checkTokenFromUrl(){
+  const hash=window.location.hash;
+  if(!hash)return;
+  const params=new URLSearchParams(hash.substring(1));
+  const t=params.get('access_token');
+  if(!t)return;
+  token=t;
+  window.history.replaceState(null,'',window.location.pathname);
+  fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+token}})
+    .then(r=>r.json()).then(d=>{
+      document.getElementById('user-av').src=d.picture;
+      document.getElementById('user-nm').textContent=d.given_name||d.name;
+      try{localStorage.setItem('vctv_u',JSON.stringify({p:d.picture,n:d.given_name||d.name}));}catch(e){}
+      toast('👋 Hallo '+(d.given_name||d.name)+'!');
+      goTo('s-search');
+    }).catch(e=>toast('❗ Login fehlgeschlagen'));
 }
 
 function checkUser(){
@@ -747,7 +775,7 @@ function timeAgo(d){
   return 'gerade eben';
 }
 
-loadHist();loadSaved();renderPop();renderHist();checkUser();
+loadHist();loadSaved();renderPop();renderHist();checkUser();checkTokenFromUrl();
 </script>
 </body>
 </html>
