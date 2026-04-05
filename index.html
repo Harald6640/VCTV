@@ -509,7 +509,7 @@ async function sendCom(){
   const txt=document.getElementById('com-txt').value.trim();
   if(!txt){toast('❗ Kommentar schreiben!');return;}
   try{
-    await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:txt}}}})});
+    await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:txt+" \n#VoiceCommentTV"}}}})});
     toast('💬 Kommentar gesendet!');
     document.getElementById('com-txt').value='';
     document.getElementById('com-panel').classList.remove('open');
@@ -537,7 +537,7 @@ async function sendVoice(){
   if(!txt){toast('❗ Kein Text aufgenommen');return;}
   if(txt.length>500)txt=txt.substring(0,500);
   try{
-    await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:txt}}}})});
+    await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:txt+" \n#VoiceCommentTV"}}}})});
     toast('🎙️ Sprachkommentar gesendet!');
     document.getElementById('vtxt').textContent='';
     document.getElementById('vsend').classList.remove('show');
