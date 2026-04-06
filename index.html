@@ -3,182 +3,289 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-<meta name="theme-color" content="#FF6B00"/>
+<meta name="theme-color" content="#1B2B5E"/>
 <title>VoiceComment TV</title>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2004613695225348" crossorigin="anonymous"></script>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&family=Sora:wght@800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --orange:#FF6B00;--bg:#fff;--bg2:#FAFAFA;--bg3:#F5F3F0;
-  --border:#E8E3DC;--text:#1A1410;--text2:#6B6560;--text3:#A09A94;
-  --green:#22C55E;--blue:#3B82F6;--purple:#8B5CF6;--red:#EF4444;
+  --navy:#1B2B5E;
+  --navy-light:#253570;
+  --coral:#FF5533;
+  --coral-bg:#FFF2EF;
+  --teal:#0D9E8A;
+  --teal-bg:#E8FAF7;
+  --amber:#F5A623;
+  --amber-bg:#FEF7E8;
+  --blue:#2563EB;
+  --blue-bg:#EEF4FF;
+  --purple:#7C3AED;
+  --purple-bg:#F3EFFE;
+  --green:#16A34A;
+  --red:#DC2626;
+  --bg:#F6F5F1;
+  --bg2:#FFFFFF;
+  --bg3:#F0EFE9;
+  --border:#E4E0D8;
+  --text:#1B2B5E;
+  --text2:#5B6585;
+  --text3:#9BA6C0;
+  --shadow-sm:0 1px 8px rgba(27,43,94,.06);
+  --shadow:0 3px 18px rgba(27,43,94,.09);
+  --shadow-lg:0 8px 36px rgba(27,43,94,.13);
 }
 html,body{height:100%;overflow:hidden}
 body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);max-width:430px;margin:0 auto;display:flex;flex-direction:column}
 .screen{display:none;height:100vh;flex-direction:column;overflow:hidden}
 .screen.active{display:flex}
 
-#s-login{background:linear-gradient(160deg,#FFF8F2,#fff);justify-content:center;align-items:center;padding:40px 28px;text-align:center}
-.login-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:32px}
-.login-logo-box{width:44px;height:44px;background:var(--orange);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px}
-.login-logo-txt{font-family:'Sora',sans-serif;font-size:20px;font-weight:800;color:var(--orange)}
-.login-title{font-family:'Sora',sans-serif;font-size:28px;font-weight:800;line-height:1.2;margin-bottom:12px}
-.login-title span{color:var(--orange)}
-.login-sub{font-size:15px;color:var(--text2);line-height:1.6;margin-bottom:40px}
-.google-btn{width:100%;background:#fff;color:var(--text);border:2px solid var(--border);border-radius:16px;padding:17px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,.08);transition:all .2s}
-.google-btn:active{transform:scale(.97)}
+/* ===== LOGIN ===== */
+#s-login{
+  background:linear-gradient(150deg,#E8EBF8 0%,#F6F5F1 40%,#FBF0ED 100%);
+  justify-content:center;align-items:center;padding:48px 32px 36px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.l-blob1{position:absolute;top:-120px;right:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(255,85,51,.13) 0%,transparent 65%);pointer-events:none}
+.l-blob2{position:absolute;bottom:-80px;left:-60px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.10) 0%,transparent 65%);pointer-events:none}
+
+.login-chip{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--bg2);border-radius:40px;padding:6px 16px 6px 7px;
+  box-shadow:var(--shadow);margin-bottom:32px;
+}
+.login-chip-icon{width:30px;height:30px;background:var(--coral);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
+.login-chip-txt{font-size:13px;font-weight:700;color:var(--navy);letter-spacing:.3px}
+
+.login-title{font-family:'Fraunces',serif;font-size:34px;font-weight:900;line-height:1.12;color:var(--navy);margin-bottom:14px}
+.login-title em{color:var(--coral);font-style:normal}
+.login-sub{font-size:15px;color:var(--text2);line-height:1.65;margin-bottom:44px;max-width:300px;margin-left:auto;margin-right:auto}
+
+.google-btn{
+  width:100%;background:var(--bg2);color:var(--text);
+  border:1.5px solid var(--border);border-radius:14px;padding:16px 20px;
+  font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  box-shadow:var(--shadow);transition:all .2s;margin-bottom:16px;
+}
+.google-btn:active{transform:scale(.97);box-shadow:var(--shadow-sm)}
+
 .login-note{font-size:12px;color:var(--text3);line-height:1.6;margin-bottom:20px}
-.login-footer{font-size:11px;color:var(--text3);margin-top:12px}
-.login-footer a{color:var(--orange);text-decoration:none}
+.login-links{font-size:11px;color:var(--text3)}
+.login-links a{color:var(--coral);text-decoration:none;font-weight:600}
+.login-links a:hover{text-decoration:underline}
 
-.topbar{padding:12px 18px;display:flex;align-items:center;gap:10px;background:#fff;border-bottom:1px solid var(--border);flex-shrink:0}
-.back{width:34px;height:34px;border-radius:50%;background:var(--bg3);border:none;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center}
-.tlogo{font-family:'Sora',sans-serif;font-size:15px;font-weight:800;color:var(--orange);flex:1}
-.user-chip{display:flex;align-items:center;gap:8px;background:var(--bg3);border-radius:20px;padding:5px 12px 5px 5px;cursor:pointer}
-.user-chip img{width:28px;height:28px;border-radius:50%}
-.user-chip span{font-size:13px;font-weight:600}
+/* ===== TOPBAR ===== */
+.topbar{
+  padding:13px 18px;display:flex;align-items:center;gap:10px;
+  background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.tlogo-wrap{display:flex;align-items:center;gap:8px;flex:1}
+.tlogo-icon{width:30px;height:30px;background:var(--coral);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;flex-shrink:0}
+.tlogo{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--navy)}
+.tlogo span{color:var(--coral)}
 
+.user-chip{display:flex;align-items:center;gap:8px;background:var(--bg3);border-radius:24px;padding:4px 12px 4px 4px;cursor:pointer}
+.user-chip img{width:26px;height:26px;border-radius:50%;object-fit:cover}
+.user-chip span{font-size:12px;font-weight:600;color:var(--text)}
+
+/* ===== SEARCH ===== */
 #s-search{background:var(--bg)}
-.sbody{flex:1;overflow-y:auto;padding:20px}
-.slabel{font-family:'Sora',sans-serif;font-size:20px;font-weight:800;margin-bottom:5px}
-.shint{font-size:14px;color:var(--text2);margin-bottom:16px}
-.input-wrap{position:relative;margin-bottom:12px}
-.sinput{width:100%;padding:15px 54px 15px 16px;border:2px solid var(--border);border-radius:14px;font-size:16px;font-family:inherit;background:var(--bg2);color:var(--text);outline:none;transition:border-color .2s}
-.sinput:focus{border-color:var(--orange);background:#fff}
-.mic-s{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:var(--orange);border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.sbody{flex:1;overflow-y:auto;padding:20px 18px}
+.slabel{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.shint{font-size:13px;color:var(--text2);margin-bottom:18px}
+
+.search-tabs{display:flex;gap:6px;margin-bottom:18px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.search-tabs::-webkit-scrollbar{display:none}
+.stab{flex-shrink:0;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;background:var(--bg2);color:var(--text2);border:1.5px solid var(--border);border-radius:24px;font-family:inherit;transition:all .2s;white-space:nowrap}
+.stab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+.input-wrap{position:relative;margin-bottom:14px}
+.sinput{width:100%;padding:14px 52px 14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:inherit;background:var(--bg2);color:var(--text);outline:none;transition:all .2s;box-shadow:var(--shadow-sm)}
+.sinput:focus{border-color:var(--coral);box-shadow:0 0 0 3px rgba(255,85,51,.1)}
+.mic-s{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:10px;background:var(--navy);border:none;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;color:#fff;transition:all .2s}
 .mic-s.on{background:var(--red);animation:pulse 1s infinite}
-.rbox{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+
+.rbox{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow-sm)}
 .ri{display:flex;align-items:center;gap:12px;padding:13px 15px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .15s}
 .ri:last-child{border-bottom:none}
-.ri:active{background:var(--bg2)}
-.ri-av{width:46px;height:46px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;overflow:hidden}
+.ri:active{background:var(--bg3)}
+.ri-av{width:44px;height:44px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;overflow:hidden}
 .ri-av img{width:100%;height:100%;object-fit:cover}
 .ri-info{flex:1;min-width:0}
-.ri-name{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ri-name{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text)}
 .ri-sub{font-size:12px;color:var(--text2);margin-top:2px}
-.ri-arr{color:var(--text3);font-size:18px}
-.sec-lbl{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.chip{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer;color:var(--text)}
-.chip:active{border-color:var(--orange)}
-.search-tabs{display:flex;gap:0;margin-bottom:16px;border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.stab{flex:1;padding:10px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;background:var(--bg2);color:var(--text2);border:none;font-family:inherit;transition:all .2s}
-.stab.active{background:var(--orange);color:#fff}
-.saved-empty{text-align:center;padding:30px;color:var(--text3);font-size:14px}
+.ri-arr{color:var(--text3);font-size:16px;font-weight:300}
 
-#s-remote{background:var(--bg2)}
-.r-topbar{padding:10px 16px;display:flex;align-items:center;gap:10px;background:#fff;border-bottom:1px solid var(--border);flex-shrink:0}
-.r-back{width:32px;height:32px;border-radius:50%;background:var(--bg3);border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
-.r-logo{font-family:'Sora',sans-serif;font-size:14px;font-weight:800;color:var(--orange);flex:1}
-.save-btn{background:none;border:1.5px solid var(--border);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;color:var(--text2);font-family:inherit;transition:all .2s}
-.save-btn.saved{border-color:var(--orange);color:var(--orange)}
-.mini-bar{background:#1A1410;padding:8px 12px;display:flex;align-items:center;gap:10px;flex-shrink:0}
-.mini-frame{width:80px;height:45px;border-radius:8px;overflow:hidden;flex-shrink:0;background:#000;position:relative}
+.sec-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.chip{background:var(--bg2);border:1.5px solid var(--border);border-radius:20px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer;color:var(--text);transition:all .2s}
+.chip:active{border-color:var(--coral);background:var(--coral-bg)}
+.saved-empty{text-align:center;padding:32px;color:var(--text3);font-size:14px}
+
+/* ===== REMOTE ===== */
+#s-remote{background:var(--bg)}
+.r-topbar{
+  padding:10px 16px;display:flex;align-items:center;gap:10px;
+  background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.r-back{width:34px;height:34px;border-radius:10px;background:var(--bg3);border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--text)}
+.r-logo{font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:var(--navy);flex:1}
+.r-logo span{color:var(--coral)}
+.save-btn{background:var(--bg3);border:1.5px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text2);font-family:inherit;transition:all .2s}
+.save-btn.saved{background:var(--coral-bg);border-color:var(--coral);color:var(--coral)}
+
+.mini-bar{background:var(--navy);padding:10px 14px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.mini-frame{width:82px;height:46px;border-radius:10px;overflow:hidden;flex-shrink:0;background:#000;position:relative;box-shadow:0 2px 12px rgba(0,0,0,.4)}
 .mini-frame iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;pointer-events:none}
 .mini-info{flex:1;min-width:0}
-.mini-title{font-size:12px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mini-ch{font-size:11px;color:#999;margin-top:2px}
-.mute-btn{background:rgba(255,255,255,.1);border:none;border-radius:8px;padding:5px 9px;font-size:16px;cursor:pointer;flex-shrink:0}
-.last-action-bar{background:#FFF3E8;border-bottom:1px solid #FFD4B0;padding:8px 16px;display:none;align-items:center;gap:8px;flex-shrink:0}
+.mini-title{font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.mini-ch{font-size:11px;color:rgba(255,255,255,.55)}
+.mute-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 10px;font-size:15px;cursor:pointer;flex-shrink:0;transition:all .2s}
+.mute-btn:active{background:rgba(255,255,255,.2)}
+
+.last-action-bar{background:var(--coral-bg);border-bottom:1px solid rgba(255,85,51,.15);padding:8px 16px;display:none;align-items:center;gap:8px;flex-shrink:0}
 .last-action-bar.show{display:flex}
-.last-action-txt{font-size:12px;font-weight:600;color:var(--orange);flex:1}
-.rbody{flex:1;overflow-y:auto;padding:14px}
-.r-head{text-align:center;margin-bottom:14px}
-.r-head h2{font-family:'Sora',sans-serif;font-size:17px;font-weight:800;margin-bottom:3px}
+.last-action-txt{font-size:12px;font-weight:600;color:var(--coral);flex:1}
+.last-action-lbl{font-size:11px;color:var(--text3)}
+
+.rbody{flex:1;overflow-y:auto;padding:16px}
+.r-head{margin-bottom:16px;text-align:center}
+.r-head h2{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:3px}
 .r-head p{font-size:12px;color:var(--text2)}
-.reaction-row{display:flex;gap:8px;margin-bottom:12px;justify-content:center}
-.react-btn{flex:1;background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:12px 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:inherit;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-.react-btn:active{transform:scale(.92)}
-.react-btn .e{font-size:24px;line-height:1}
-.react-btn .l{font-size:10px;font-weight:700;color:var(--text2)}
-.react-btn.on{border-color:var(--orange);background:#FFF3E8}
-.react-btn.on .l{color:var(--orange)}
+
+/* Reactions */
+.reaction-row{display:flex;gap:8px;margin-bottom:14px}
+.react-btn{
+  flex:1;background:var(--bg2);border:1.5px solid var(--border);border-radius:14px;
+  padding:11px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;
+  font-family:inherit;transition:all .2s;box-shadow:var(--shadow-sm);
+}
+.react-btn:active{transform:scale(.93)}
+.react-btn .e{font-size:22px;line-height:1}
+.react-btn .l{font-size:10px;font-weight:600;color:var(--text2)}
+.react-btn.on{border-color:var(--coral);background:var(--coral-bg)}
+.react-btn.on .l{color:var(--coral)}
+
+/* Action grid */
 .big-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-.big-btn{border:2px solid;border-radius:18px;padding:20px 12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:7px;font-family:inherit;transition:all .2s;width:100%}
-.big-btn:active{transform:scale(.94)}
-.big-btn .ic{font-size:34px;line-height:1}
-.big-btn .lb{font-size:14px;font-weight:700}
+.big-btn{
+  border:1.5px solid;border-radius:16px;padding:18px 10px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:6px;font-family:inherit;
+  transition:all .2s;width:100%;box-shadow:var(--shadow-sm);
+}
+.big-btn:active{transform:scale(.95)}
+.big-btn .ic{font-size:30px;line-height:1}
+.big-btn .lb{font-size:13px;font-weight:700}
 .big-btn .ht{font-size:10px;color:var(--text3)}
-.btn-like{background:#FFF0EE;border-color:#FFD4CC}.btn-like .lb{color:#CC2200}
-.btn-like.on{background:var(--red);border-color:var(--red)}.btn-like.on .lb{color:#fff}
-.btn-sub{background:#EEF4FF;border-color:#CCE0FF}.btn-sub .lb{color:#1A56CC}
-.btn-sub.on{background:var(--green);border-color:var(--green)}.btn-sub.on .lb{color:#fff}
-.btn-com{background:#F5F0FF;border-color:#E0D0FF}.btn-com .lb{color:#6B22CC}
-.btn-aff{background:#FFF8EE;border-color:#FFE4B0}.btn-aff .lb{color:#CC7700}
-.voice-full{width:100%;background:#F0FFF8;border:2px solid #B0FFDD;border-radius:18px;padding:16px 18px;display:flex;align-items:center;gap:12px;font-family:inherit;cursor:pointer;margin-bottom:10px;transition:all .15s}
-.voice-full:active{transform:scale(.97)}
+.btn-like{background:#FFF3F2;border-color:#FFCDC8}.btn-like .lb{color:#C0240A}
+.btn-like.on{background:#DC2626;border-color:#DC2626}.btn-like.on .lb,.btn-like.on .ht{color:#fff}
+.btn-sub{background:var(--teal-bg);border-color:#A0DED4}.btn-sub .lb{color:#0A7A66}
+.btn-sub.on{background:var(--teal);border-color:var(--teal)}.btn-sub.on .lb,.btn-sub.on .ht{color:#fff}
+.btn-com{background:var(--purple-bg);border-color:#C4B0F5}.btn-com .lb{color:#5B21B6}
+.btn-aff{background:var(--amber-bg);border-color:#F5D58A}.btn-aff .lb{color:#9A6A00}
+
+.voice-full{
+  width:100%;background:linear-gradient(135deg,#E8FAF7,#F0FDF4);
+  border:1.5px solid #A0DED4;border-radius:16px;padding:16px 18px;
+  display:flex;align-items:center;gap:14px;font-family:inherit;cursor:pointer;
+  margin-bottom:10px;transition:all .2s;box-shadow:var(--shadow-sm);
+}
+.voice-full:active{transform:scale(.98)}
 .voice-full .ic{font-size:28px;flex-shrink:0}
-.voice-full .lb{font-size:14px;font-weight:700;color:#006633;display:block;text-align:left}
-.voice-full .ht{font-size:11px;color:var(--text3);display:block;text-align:left}
-.panel{background:#fff;border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:10px;display:none;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.voice-full-info .lb{font-size:14px;font-weight:700;color:#0A7A66;display:block;margin-bottom:2px}
+.voice-full-info .ht{font-size:11px;color:var(--text3)}
+
+.panel{background:var(--bg2);border:1.5px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px;display:none;box-shadow:var(--shadow-sm)}
 .panel.open{display:block}
-.ctxt{width:100%;border:1.5px solid var(--border);border-radius:12px;padding:12px;font-size:15px;font-family:inherit;resize:none;height:90px;outline:none;color:var(--text);background:var(--bg2);margin-bottom:10px}
+.ctxt{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px;font-size:15px;font-family:inherit;resize:none;height:90px;outline:none;color:var(--text);background:var(--bg);margin-bottom:10px;transition:border-color .2s}
 .ctxt:focus{border-color:var(--purple)}
-.csend{width:100%;background:var(--purple);color:#fff;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer}
-.voice-panel{background:#fff;border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:10px;display:none;text-align:center}
+.csend{width:100%;background:var(--purple);color:#fff;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .2s}
+.csend:active{opacity:.85}
+
+.voice-panel{background:var(--bg2);border:1.5px solid var(--border);border-radius:14px;padding:18px;margin-bottom:10px;display:none;text-align:center;box-shadow:var(--shadow-sm)}
 .voice-panel.open{display:block}
-.vrec-btn{width:72px;height:72px;border-radius:50%;background:#FFF0EE;border:2px solid #FFD4CC;cursor:pointer;font-size:32px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center}
+.vrec-btn{width:68px;height:68px;border-radius:50%;background:#FFF3F2;border:2px solid #FFCDC8;cursor:pointer;font-size:28px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .vrec-btn.on{background:var(--red);border-color:var(--red);animation:pulse-r 1s infinite}
 .vtimer{font-size:13px;color:var(--text2);margin-bottom:6px}
-.vtxt{font-size:14px;color:var(--text);min-height:40px;line-height:1.6;margin-bottom:12px}
-.vsend{background:var(--green);color:#fff;border:none;border-radius:12px;padding:12px 24px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;display:none}
+.vtxt{font-size:14px;color:var(--text);min-height:36px;line-height:1.6;margin-bottom:12px}
+.vsend{background:var(--teal);color:#fff;border:none;border-radius:10px;padding:11px 24px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;display:none}
 .vsend.show{display:inline-block}
-.chg-btn{width:100%;background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:13px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;color:var(--text2);margin-bottom:10px}
-.chg-btn:active{border-color:var(--orange)}
 
+.chg-btn{width:100%;background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:12px;font-size:13px;font-weight:600;font-family:inherit;cursor:pointer;color:var(--text2);margin-bottom:10px;transition:all .2s}
+.chg-btn:active{border-color:var(--navy)}
+
+/* ===== QR SCREEN ===== */
 #s-qr{background:var(--bg)}
-.qr-body{flex:1;overflow-y:auto;padding:24px 20px;text-align:center}
-.qr-title{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;margin-bottom:8px}
+.qr-body{flex:1;overflow-y:auto;padding:28px 20px;text-align:center}
+.qr-title{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:8px}
 .qr-sub{font-size:14px;color:var(--text2);margin-bottom:28px;line-height:1.6}
-.qr-input{width:100%;padding:14px 16px;border:2px solid var(--border);border-radius:14px;font-size:16px;font-family:inherit;background:var(--bg2);color:var(--text);outline:none;margin-bottom:10px;transition:border-color .2s}
-.qr-input:focus{border-color:var(--orange)}
-.qr-gen-btn{width:100%;background:var(--orange);color:#fff;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;margin-bottom:24px}
+.qr-input{width:100%;padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:inherit;background:var(--bg2);color:var(--text);outline:none;margin-bottom:10px;transition:all .2s;box-shadow:var(--shadow-sm)}
+.qr-input:focus{border-color:var(--coral)}
+.qr-gen-btn{width:100%;background:var(--navy);color:#fff;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;margin-bottom:24px;transition:opacity .2s}
+.qr-gen-btn:active{opacity:.85}
 .qr-result{display:none}
 .qr-result.show{display:block}
-.qr-box{width:200px;height:200px;margin:0 auto 16px;background:#fff;border-radius:16px;padding:12px;border:2px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,.1)}
-.qr-box canvas,.qr-box img{width:176px!important;height:176px!important}
-.qr-channel-name{font-family:'Sora',sans-serif;font-size:18px;font-weight:800;margin-bottom:6px}
+.qr-box{width:190px;height:190px;margin:0 auto 16px;background:var(--bg2);border-radius:16px;padding:12px;border:1.5px solid var(--border);box-shadow:var(--shadow-md)}
+.qr-box canvas,.qr-box img{width:166px!important;height:166px!important}
+.qr-channel-name{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--navy);margin-bottom:5px}
 .qr-channel-url{font-size:13px;color:var(--text2);margin-bottom:20px}
-.qr-download-btn{background:var(--green);color:#fff;border:none;border-radius:14px;padding:14px 32px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer}
-.qr-hint{font-size:12px;color:var(--text3);line-height:1.6;margin-top:12px}
+.qr-download-btn{background:var(--teal);color:#fff;border:none;border-radius:12px;padding:13px 28px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+.qr-hint{font-size:12px;color:var(--text3);line-height:1.6;margin-top:14px}
 
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:#1A1410;color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:500;opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:999;max-width:88vw;text-align:center;pointer-events:none}
+/* ===== TOAST ===== */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:12px 22px;border-radius:12px;font-size:13px;font-weight:600;opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);z-index:999;max-width:88vw;text-align:center;pointer-events:none;box-shadow:var(--shadow-lg)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.ad{background:var(--bg3);border-top:1px solid var(--border);padding:6px;text-align:center;font-size:11px;color:var(--text3);flex-shrink:0}
-.footer-links{background:var(--bg3);border-top:1px solid var(--border);padding:5px;text-align:center;font-size:10px;flex-shrink:0}
-.footer-links a{color:var(--text3);text-decoration:none;margin:0 6px}
 
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)}50%{box-shadow:0 0 0 10px rgba(239,68,68,0)}}
-@keyframes pulse-r{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.5)}50%{box-shadow:0 0 0 16px rgba(239,68,68,0)}}
+/* ===== FOOTER ===== */
+.ad{background:var(--bg2);border-top:1px solid var(--border);padding:7px;text-align:center;font-size:10px;color:var(--text3);flex-shrink:0;letter-spacing:.3px}
+.footer-links{background:var(--bg2);border-top:1px solid var(--border);padding:5px;text-align:center;font-size:10px;flex-shrink:0}
+.footer-links a{color:var(--text3);text-decoration:none;margin:0 8px;font-weight:500}
+.footer-links a:hover{color:var(--coral)}
+
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.4)}50%{box-shadow:0 0 0 8px rgba(220,38,38,0)}}
+@keyframes pulse-r{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.5)}50%{box-shadow:0 0 0 14px rgba(220,38,38,0)}}
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
 <div class="screen active" id="s-login">
-  <div class="login-logo">
-    <div class="login-logo-box">▶</div>
-    <span class="login-logo-txt">VoiceComment TV</span>
+  <div style="position:absolute;top:-120px;right:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(255,85,51,.13) 0%,transparent 65%);pointer-events:none"></div>
+  <div style="position:absolute;bottom:-80px;left:-60px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.10) 0%,transparent 65%);pointer-events:none"></div>
+
+  <div class="login-chip">
+    <div style="width:30px;height:30px;background:var(--coral);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px">▶</div>
+    <span style="font-size:12px;font-weight:700;color:var(--navy);letter-spacing:.3px">VoiceComment TV</span>
   </div>
-  <h1 class="login-title">Dein Handy als<br><span>YouTube-Fernbedienung</span></h1>
-  <p class="login-sub">Like, kommentiere und abonniere direkt vom Sofa — das Video läuft klein auf deinem Handy.</p>
+
+  <h1 style="font-family:'Fraunces',serif;font-size:33px;font-weight:900;line-height:1.12;color:var(--navy);margin-bottom:14px">
+    Dein Handy als<br><span style="color:var(--coral)">YouTube-Fernbedienung</span>
+  </h1>
+  <p style="font-size:15px;color:var(--text2);line-height:1.65;margin-bottom:44px;max-width:300px">
+    Like, kommentiere und abonniere direkt vom Sofa — das Video läuft klein auf deinem Handy.
+  </p>
+
   <button class="google-btn" onclick="doLogin()">
-    <svg width="22" height="22" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
     Mit Google anmelden
   </button>
-  <p class="login-note">Einmal einloggen — danach direkt loslegen.</p>
-  <div class="login-footer">
-    <a href="/datenschutz.html" target="_blank">Datenschutzerklärung</a> ·
-    <a href="/datenschutz.html" target="_blank">Nutzungsbedingungen</a>
+  <p style="font-size:12px;color:var(--text3);margin-bottom:16px">Einmal einloggen — danach direkt loslegen.</p>
+  <div style="font-size:11px;color:var(--text3)">
+    <a href="/datenschutz.html" target="_blank" style="color:var(--coral);text-decoration:none;font-weight:600">Datenschutzerklärung</a>
+    &nbsp;·&nbsp;
+    <a href="/datenschutz.html" target="_blank" style="color:var(--coral);text-decoration:none;font-weight:600">Nutzungsbedingungen</a>
   </div>
 </div>
 
 <!-- SUCHE -->
 <div class="screen" id="s-search">
   <div class="topbar">
-    <span class="tlogo">VoiceComment TV</span>
+    <div class="tlogo-wrap">
+      <div style="width:30px;height:30px;background:var(--coral);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;flex-shrink:0">▶</div>
+      <span style="font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--navy)">Voice<span style="color:var(--coral)">Comment</span> TV</span>
+    </div>
     <div class="user-chip" id="user-chip">
       <img id="user-av" src="" alt=""/>
       <span id="user-nm"></span>
@@ -187,15 +294,17 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
   <div class="sbody">
     <div class="slabel">Was schaust du? 📺</div>
     <p class="shint">Kanal suchen oder aus Verlauf wählen</p>
+
     <div class="search-tabs">
-      <button class="stab active" onclick="switchTab('search')">🔍 Suchen</button>
-      <button class="stab" onclick="switchTab('saved')">🔖 Gespeichert</button>
-      <button class="stab" onclick="switchTab('trending')">🔥 Trending</button>
+      <button class="stab active" onclick="switchTab('search',this)">🔍 Suchen</button>
+      <button class="stab" onclick="switchTab('saved',this)">🔖 Gespeichert</button>
+      <button class="stab" onclick="switchTab('trending',this)">🔥 Trending</button>
       <button class="stab" onclick="goTo('s-qr')">📲 QR-Code</button>
     </div>
+
     <div id="tab-search">
       <div class="input-wrap">
-        <input class="sinput" id="sinput" type="text" placeholder="z.B. MontanaBlack, MrBeast ..." oninput="onSearch(this.value)" autocomplete="off"/>
+        <input class="sinput" id="sinput" type="text" placeholder="z.B. MontanaBlack, MrBeast …" oninput="onSearch(this.value)" autocomplete="off"/>
         <button class="mic-s" id="mic-s" onclick="voiceSearch()">🎤</button>
       </div>
       <div id="search-res" class="rbox" style="display:none"></div>
@@ -206,10 +315,12 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
       <div class="sec-lbl">Beliebte Kanäle</div>
       <div class="rbox" id="pop-list"></div>
     </div>
+
     <div id="tab-saved" style="display:none">
       <div class="sec-lbl">Gespeicherte Videos</div>
       <div id="saved-list"></div>
     </div>
+
     <div id="tab-trending" style="display:none">
       <div class="sec-lbl">🔥 Trending auf YouTube</div>
       <div id="trending-list" class="rbox"></div>
@@ -226,13 +337,15 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 <div class="screen" id="s-remote">
   <div class="r-topbar">
     <button class="r-back" onclick="goTo('s-search')">←</button>
-    <span class="r-logo">VoiceComment TV</span>
+    <span style="font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:var(--navy);flex:1">Voice<span style="color:var(--coral)">Comment</span> TV</span>
     <button class="save-btn" id="save-vid-btn" onclick="toggleSaveVideo()">🔖 Speichern</button>
   </div>
+
   <div class="last-action-bar" id="last-action-bar">
     <span class="last-action-txt" id="last-action-txt"></span>
-    <span style="font-size:11px;color:var(--text3)">Letzte Aktion</span>
+    <span class="last-action-lbl">Letzte Aktion</span>
   </div>
+
   <div class="mini-bar">
     <div class="mini-frame"><iframe id="yt-frame" src="" allowfullscreen allow="autoplay;encrypted-media"></iframe></div>
     <div class="mini-info">
@@ -241,17 +354,20 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
     </div>
     <button class="mute-btn" id="mute-btn" onclick="toggleMute()">🔇</button>
   </div>
+
   <div class="rbody">
     <div class="r-head">
       <h2>Was möchtest du tun?</h2>
       <p>Direkte Aktionen — kein Extra-Öffnen nötig</p>
     </div>
+
     <div class="reaction-row">
       <button class="react-btn" id="r-heart" onclick="doReaction('❤️','Herz')"><span class="e">❤️</span><span class="l">Liebe es</span></button>
       <button class="react-btn" id="r-laugh" onclick="doReaction('😂','Lachen')"><span class="e">😂</span><span class="l">Lustig</span></button>
       <button class="react-btn" id="r-wow" onclick="doReaction('😮','Wow')"><span class="e">😮</span><span class="l">Wow</span></button>
       <button class="react-btn" id="r-fire" onclick="doReaction('🔥','Feuer')"><span class="e">🔥</span><span class="l">Feuer</span></button>
     </div>
+
     <div class="big-grid">
       <button class="big-btn btn-like" id="like-btn" onclick="doLike()">
         <span class="ic">👍</span><span class="lb" id="like-lb">Liken</span><span class="ht">Video liken</span>
@@ -266,20 +382,27 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
         <span class="ic">🛒</span><span class="lb">Affiliate</span><span class="ht">Shop öffnen</span>
       </button>
     </div>
+
     <button class="voice-full" onclick="toggleVoice()">
       <span class="ic">🎙️</span>
-      <div><span class="lb">Sprachkommentar</span><span class="ht">Sprechen statt tippen — max. 60 Sek.</span></div>
+      <div class="voice-full-info">
+        <span class="lb">Sprachkommentar</span>
+        <span class="ht">Sprechen statt tippen — max. 60 Sek.</span>
+      </div>
     </button>
+
     <div class="panel" id="com-panel">
-      <textarea class="ctxt" id="com-txt" placeholder="Dein Kommentar..." maxlength="500"></textarea>
+      <textarea class="ctxt" id="com-txt" placeholder="Dein Kommentar…" maxlength="500"></textarea>
       <button class="csend" onclick="sendCom()">💬 Kommentar senden</button>
     </div>
+
     <div class="voice-panel" id="voice-panel">
       <button class="vrec-btn" id="vrec-btn" onclick="toggleRec()">🎙️</button>
       <div class="vtimer" id="vtimer">Auf den Button tippen und sprechen</div>
       <div class="vtxt" id="vtxt"></div>
       <button class="vsend" id="vsend" onclick="sendVoice()">🎙️ Kommentar senden</button>
     </div>
+
     <button class="chg-btn" onclick="goTo('s-search')">↩ Anderen Kanal / Video wählen</button>
   </div>
   <div class="ad">📢 Werbung</div>
@@ -288,14 +411,14 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 <!-- QR -->
 <div class="screen" id="s-qr">
   <div class="topbar">
-    <button class="back" onclick="goTo('s-search')">←</button>
-    <span class="tlogo">Creator QR-Code</span>
+    <button class="r-back" onclick="goTo('s-search')">←</button>
+    <span style="font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--navy)">Creator QR-Code</span>
   </div>
   <div class="qr-body">
     <div class="qr-title">📲 Dein Creator QR-Code</div>
-    <p class="qr-sub">Erstelle deinen persönlichen QR-Code für deine Videos!</p>
+    <p class="qr-sub">Erstelle deinen QR-Code und zeige ihn in deinen Videos — Zuschauer landen direkt bei dir!</p>
     <input class="qr-input" id="qr-channel-input" type="text" placeholder="YouTube Kanal-Handle (z.B. @MontanaBlack)"/>
-    <input class="qr-input" id="qr-name-input" type="text" placeholder="Kanalname (z.B. MontanaBlack)"/>
+    <input class="qr-input" id="qr-name-input" type="text" placeholder="Dein Kanalname (z.B. MontanaBlack)"/>
     <button class="qr-gen-btn" onclick="generateQR()">🎯 QR-Code erstellen</button>
     <div class="qr-result" id="qr-result">
       <div class="qr-box" id="qr-box"></div>
@@ -315,12 +438,12 @@ const CLIENT_ID='473201980231-jenevvonj0atmobmv9pd24oor4nhsl90.apps.googleuserco
 const REDIRECT_URI='https://vctv.vercel.app';
 
 const POPULAR=[
-  {name:'MontanaBlack',handle:'@montanablack88',subs:'3,2 Mio',color:'#FF6B00',emoji:'🎮',id:'UCmv8-XJRK_7e_GZ3XsCAcfA'},
-  {name:'MrBeast',handle:'@MrBeast',subs:'340 Mio',color:'#EF4444',emoji:'🔥',id:'UCX6OQ3DkcsbYNE6H8uQQuVA'},
-  {name:'Dner',handle:'@Dner',subs:'1,8 Mio',color:'#8B5CF6',emoji:'😂',id:'UCl9I9FP7C0PAJJNXNDg2RRw'},
-  {name:'Rezo',handle:'@rezo',subs:'2,3 Mio',color:'#06B6D4',emoji:'📢',id:'UCM9KEEuzacwVlkt9JfJad7g'},
-  {name:'Gronkh',handle:'@Gronkh',subs:'1,4 Mio',color:'#22C55E',emoji:'🕹️',id:'UCjNxsHDPAXun0LcKGJKuGgQ'},
-  {name:'PewDiePie',handle:'@PewDiePie',subs:'111 Mio',color:'#EF4444',emoji:'🎯',id:'UC-lHJZR3Gqxm24_Vd_AJ5Yw'},
+  {name:'MontanaBlack',handle:'@montanablack88',subs:'3,2 Mio',color:'#FF5533',emoji:'🎮',id:'UCmv8-XJRK_7e_GZ3XsCAcfA'},
+  {name:'MrBeast',handle:'@MrBeast',subs:'340 Mio',color:'#1B2B5E',emoji:'🔥',id:'UCX6OQ3DkcsbYNE6H8uQQuVA'},
+  {name:'Dner',handle:'@Dner',subs:'1,8 Mio',color:'#7C3AED',emoji:'😂',id:'UCl9I9FP7C0PAJJNXNDg2RRw'},
+  {name:'Rezo',handle:'@rezo',subs:'2,3 Mio',color:'#0D9E8A',emoji:'📢',id:'UCM9KEEuzacwVlkt9JfJad7g'},
+  {name:'Gronkh',handle:'@Gronkh',subs:'1,4 Mio',color:'#16A34A',emoji:'🕹️',id:'UCjNxsHDPAXun0LcKGJKuGgQ'},
+  {name:'PewDiePie',handle:'@PewDiePie',subs:'111 Mio',color:'#2563EB',emoji:'🎯',id:'UC-lHJZR3Gqxm24_Vd_AJ5Yw'},
 ];
 
 let token=null,curCh=null,curVid=null,liked=false,subbed=false,muted=true,videoSaved=false;
@@ -362,9 +485,9 @@ function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.re
 let tT=null;
 function toast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('show');if(tT)clearTimeout(tT);tT=setTimeout(()=>el.classList.remove('show'),3000);}
 
-function switchTab(tab){
+function switchTab(tab,btn){
   document.querySelectorAll('.stab').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
+  if(btn)btn.classList.add('active');
   document.getElementById('tab-search').style.display=tab==='search'?'block':'none';
   document.getElementById('tab-saved').style.display=tab==='saved'?'block':'none';
   document.getElementById('tab-trending').style.display=tab==='trending'?'block':'none';
@@ -399,25 +522,25 @@ function toggleSaveVideo(){
 function renderSaved(){
   const el=document.getElementById('saved-list');
   if(!savedVids.length){el.innerHTML=`<div class="saved-empty">📭 Noch keine Videos gespeichert.</div>`;return;}
-  el.innerHTML=`<div class="rbox">`+savedVids.map(v=>`<div class="ri" onclick='startRemote(${JSON.stringify(v)})'><div class="ri-av" style="background:#F5F3F0;border-radius:8px;width:72px;height:40px;font-size:18px">${v.chEmoji||'▶'}</div><div class="ri-info"><div class="ri-name" style="font-size:13px">${v.title}</div><div class="ri-sub">${v.chName||''}</div></div><span class="ri-arr">›</span></div>`).join('')+`</div>`;
+  el.innerHTML=`<div class="rbox">`+savedVids.map(v=>`<div class="ri" onclick='startRemote(${JSON.stringify(v)})'><div class="ri-av" style="background:var(--bg3);border-radius:10px;width:72px;height:40px;font-size:18px">${v.chEmoji||'▶'}</div><div class="ri-info"><div class="ri-name" style="font-size:13px">${v.title}</div><div class="ri-sub">${v.chName||''}</div></div><span class="ri-arr">›</span></div>`).join('')+`</div>`;
 }
 
 async function loadTrending(){
   const el=document.getElementById('trending-list');
-  el.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Lädt...</div></div></div>`;
+  el.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Lädt…</div></div></div>`;
   try{
     const r=await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=DE&maxResults=8&key=${YT_KEY}`);
     const d=await r.json();
     if(d.error||!d.items?.length){el.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Trending nicht verfügbar</div></div></div>`;return;}
     el.innerHTML=d.items.map(i=>{
       const v={title:i.snippet.title,vid:i.id,thumb:i.snippet.thumbnails?.medium?.url,chName:i.snippet.channelTitle,live:false};
-      return `<div class="ri" onclick='startRemote(${JSON.stringify(v)})'><div class="ri-av" style="width:72px;height:40px;border-radius:8px;background:#F5F3F0">${v.thumb?`<img src="${v.thumb}" style="width:100%;height:100%;object-fit:cover;border-radius:8px"/>`:'🔥'}</div><div class="ri-info"><div class="ri-name" style="font-size:13px">${i.snippet.title}</div><div class="ri-sub">${i.snippet.channelTitle}</div></div><span class="ri-arr">›</span></div>`;
+      return `<div class="ri" onclick='startRemote(${JSON.stringify(v)})'><div class="ri-av" style="width:72px;height:40px;border-radius:10px;background:var(--bg3)">${v.thumb?`<img src="${v.thumb}" style="width:100%;height:100%;object-fit:cover;border-radius:10px"/>`:'🔥'}</div><div class="ri-info"><div class="ri-name" style="font-size:13px">${i.snippet.title}</div><div class="ri-sub">${i.snippet.channelTitle}</div></div><span class="ri-arr">›</span></div>`;
     }).join('');
-  }catch(e){el.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Fehler</div></div></div>`;}
+  }catch(e){el.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Fehler beim Laden</div></div></div>`;}
 }
 
 function chRow(ch){
-  const av=ch.thumb?`<div class="ri-av"><img src="${ch.thumb}"/></div>`:`<div class="ri-av" style="background:${ch.color}">${ch.emoji}</div>`;
+  const av=ch.thumb?`<div class="ri-av" style="border-radius:10px"><img src="${ch.thumb}"/></div>`:`<div class="ri-av" style="background:${ch.color};border-radius:10px">${ch.emoji}</div>`;
   return `<div class="ri" onclick='pickCh(${JSON.stringify(ch)})'>${av}<div class="ri-info"><div class="ri-name">${ch.name}</div><div class="ri-sub">${ch.handle}${ch.subs?' · '+ch.subs:''}</div></div><span class="ri-arr">›</span></div>`;
 }
 function renderPop(){document.getElementById('pop-list').innerHTML=POPULAR.map(c=>chRow(c)).join('');}
@@ -426,7 +549,7 @@ function onSearch(v){
   const r=document.getElementById('search-res'),h=document.getElementById('hist-sec');
   if(v.length<2){r.style.display='none';if(hist.length)h.style.display='block';return;}
   h.style.display='none';r.style.display='block';
-  r.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Suche...</div></div></div>`;
+  r.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Suche…</div></div></div>`;
   clearTimeout(sDebounce);sDebounce=setTimeout(()=>doSearch(v),400);
 }
 
@@ -437,7 +560,7 @@ async function doSearch(q){
   try{
     const res=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${encodeURIComponent(q)}&maxResults=5&key=${YT_KEY}`);
     const d=await res.json();
-    if(d.items?.length){r.innerHTML=d.items.map(i=>chRow({name:i.snippet.title,handle:i.snippet.customUrl||'',subs:'',color:'#FF6B00',emoji:'📺',id:i.snippet.channelId||i.id.channelId,thumb:i.snippet.thumbnails?.default?.url})).join('');}
+    if(d.items?.length){r.innerHTML=d.items.map(i=>chRow({name:i.snippet.title,handle:i.snippet.customUrl||'',subs:'',color:'#FF5533',emoji:'📺',id:i.snippet.channelId||i.id.channelId,thumb:i.snippet.thumbnails?.default?.url})).join('');}
     else if(!local.length)r.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Nichts gefunden</div></div></div>`;
   }catch(e){}
 }
@@ -448,7 +571,7 @@ function voiceSearch(){
   const btn=document.getElementById('mic-s');
   if(sRec){sRec.stop();return;}
   sRec=new SR();sRec.lang='de-DE';sRec.interimResults=false;
-  btn.classList.add('on');btn.textContent='⏹';toast('🎤 Kanal sprechen...');
+  btn.classList.add('on');btn.textContent='⏹';toast('🎤 Kanal sprechen…');
   sRec.onresult=e=>{const t=e.results[0][0].transcript;document.getElementById('sinput').value=t;onSearch(t);};
   sRec.onerror=()=>toast('❗ Fehler');
   sRec.onend=()=>{btn.classList.remove('on');btn.textContent='🎤';sRec=null;};
@@ -463,7 +586,7 @@ async function pickCh(ch){
 
 async function loadVideos(ch){
   const r=document.getElementById('search-res');
-  r.style.display='block';r.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Videos laden...</div></div></div>`;
+  r.style.display='block';r.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Videos laden…</div></div></div>`;
   try{
     const cr=await fetch(`https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${ch.id}&key=${YT_KEY}`);
     const cd=await cr.json();
@@ -482,8 +605,8 @@ async function loadVideos(ch){
 function showVidList(ch,videos){
   const r=document.getElementById('search-res');
   r.style.display='block';
-  r.innerHTML=`<div style="padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg2)"><div style="font-size:11px;color:var(--text2)">Kanal: <strong style="color:var(--orange)">${ch.name}</strong></div></div>`+
-  videos.map(v=>`<div class="ri" onclick='startRemote(${JSON.stringify({...v,chEmoji:ch.emoji})})'><div class="ri-av" style="width:72px;height:40px;border-radius:8px;background:var(--bg3)">${v.thumb?`<img src="${v.thumb}" style="width:100%;height:100%;object-fit:cover;border-radius:8px"/>`:'▶'}</div><div class="ri-info"><div class="ri-name" style="font-size:13px">${v.title}</div><div class="ri-sub">${ch.name}</div></div><span class="ri-arr">›</span></div>`).join('');
+  r.innerHTML=`<div style="padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg3)"><div style="font-size:11px;color:var(--text2)">Kanal: <strong style="color:var(--coral)">${ch.name}</strong></div></div>`+
+  videos.map(v=>`<div class="ri" onclick='startRemote(${JSON.stringify({...v,chEmoji:ch.emoji})})'><div class="ri-av" style="width:72px;height:40px;border-radius:10px;background:var(--bg3)">${v.thumb?`<img src="${v.thumb}" style="width:100%;height:100%;object-fit:cover;border-radius:10px"/>`:'▶'}</div><div class="ri-info"><div class="ri-name" style="font-size:13px">${v.title}</div><div class="ri-sub">${ch.name}</div></div><span class="ri-arr">›</span></div>`).join('');
 }
 
 function startRemote(v){
@@ -602,12 +725,11 @@ function generateQR(){
   const cleanHandle=handle.startsWith('@')?handle:'@'+handle;
   const url=`https://voicecomment-tv.vip?channel=${encodeURIComponent(cleanHandle)}&name=${encodeURIComponent(name)}`;
   const box=document.getElementById('qr-box');box.innerHTML='';
-  try{new QRCode(box,{text:url,width:176,height:176,colorDark:'#FF6B00',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
-  catch(e){box.innerHTML=`<div style="padding:16px;font-size:12px;color:#FF6B00">${url}</div>`;}
+  try{new QRCode(box,{text:url,width:166,height:166,colorDark:'#1B2B5E',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});}
+  catch(e){box.innerHTML=`<div style="padding:16px;font-size:12px;color:var(--navy)">${url}</div>`;}
   document.getElementById('qr-ch-name').textContent=name;
   document.getElementById('qr-ch-url').textContent='voicecomment-tv.vip → '+cleanHandle;
-  document.getElementById('qr-result').classList.add('show');
-  toast('✅ QR-Code erstellt!');
+  document.getElementById('qr-result').classList.add('show');toast('✅ QR-Code erstellt!');
 }
 
 function downloadQR(){
