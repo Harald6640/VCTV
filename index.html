@@ -1016,9 +1016,11 @@ async function loadComments(){
     return;
   }
 
-  feed.innerHTML=`<div class="cf-loading">${lang==='de'?'Kommentare laden…':'Loading comments…'}</div>`;
+  // Nur "laden" anzeigen wenn noch nichts drin steht
+  if(!feed.querySelector('.cf-item')){
+    feed.innerHTML=`<div class="cf-loading">${lang==='de'?'Kommentare laden…':'Loading comments…'}</div>`;
+  }
 
-  // Bei Livestreams: Live-Chat Label
   if(curVid.live){
     label.textContent='🔴 Live-Chat';
   }else{
@@ -1026,8 +1028,23 @@ async function loadComments(){
   }
 
   try{
-    const url=`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${curVid.vid}&maxResults=10&order=relevance&textFormat=plainText&key=${YT_KEY}`;
-    const res=await fetch(url);
+    // Versuch 1: Mit OAuth-Token (neueste zuerst, bessere Ergebnisse)
+    // Versuch 2: Fallback auf API-Key
+    const headers={};
+    let url;
+    if(token){
+      url=`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${curVid.vid}&maxResults=15&order=time&textFormat=plainText`;
+      headers['Authorization']='Bearer '+token;
+    }else{
+      url=`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${curVid.vid}&maxResults=15&order=time&textFormat=plainText&key=${YT_KEY}`;
+    }
+
+    // Timeout nach 8 Sekunden
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(),8000);
+
+    const res=await fetch(url,{headers,signal:controller.signal});
+    clearTimeout(timeout);
     const data=await res.json();
 
     if(data.error){
@@ -1035,10 +1052,18 @@ async function loadComments(){
       if(reason==='commentsDisabled'){
         feed.innerHTML=`<div class="cf-empty">${lang==='de'?'💬 Kommentare sind deaktiviert':'💬 Comments are disabled'}</div>`;
       }else if(reason==='quotaExceeded'){
-        feed.innerHTML=`<div class="cf-empty">${lang==='de'?'⚠️ API-Limit erreicht — später erneut versuchen':'⚠️ API limit reached — try again later'}</div>`;
+        feed.innerHTML=`<div class="cf-empty">${lang==='de'?'⚠️ API-Limit erreicht':'⚠️ API limit reached'}</div>`;
         stopCommentRefresh();
-      }else{
+      }else if(reason==='forbidden'||res.status===403){
+        // Token ungültig — Fallback auf API-Key
+        if(token){
+          const res2=await fetch(`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${curVid.vid}&maxResults=15&order=time&textFormat=plainText&key=${YT_KEY}`);
+          const data2=await res2.json();
+          if(data2.items?.length){renderComments(feed,data2.items);return;}
+        }
         feed.innerHTML=`<div class="cf-empty">${lang==='de'?'Kommentare nicht verfügbar':'Comments unavailable'}</div>`;
+      }else{
+        feed.innerHTML=`<div class="cf-empty">${lang==='de'?'Kommentare nicht verfügbar':'Comments unavailable'} (${reason})</div>`;
       }
       return;
     }
@@ -1047,27 +1072,34 @@ async function loadComments(){
       return;
     }
 
-    feed.innerHTML=data.items.map(item=>{
-      const c=item.snippet.topLevelComment.snippet;
-      const ago=timeAgoShort(new Date(c.publishedAt));
-      const avatar=c.authorProfileImageUrl||'';
-      const likes=c.likeCount>0?` · 👍 ${c.likeCount}`:'';
-      return `<div class="cf-item">
-        ${avatar?`<img class="cf-av" src="${escHtml(avatar)}" alt=""/>`:`<div class="cf-av" style="background:var(--navy);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">👤</div>`}
-        <div class="cf-body">
-          <div class="cf-name">${escHtml(c.authorDisplayName)}${likes}</div>
-          <div class="cf-text">${escHtml(c.textDisplay)}</div>
-          <div class="cf-time">${ago}</div>
-        </div>
-      </div>`;
-    }).join('');
-
-    // Auto-scroll nach unten bei neuen Kommentaren
-    feed.scrollTop=0;
+    renderComments(feed,data.items);
 
   }catch(e){
-    feed.innerHTML=`<div class="cf-empty">${lang==='de'?'Kommentare konnten nicht geladen werden':'Could not load comments'}</div>`;
+    if(e.name==='AbortError'){
+      feed.innerHTML=`<div class="cf-empty">${lang==='de'?'⏱️ Zeitüberschreitung — tippe 🔄':'⏱️ Timeout — tap 🔄'}</div>`;
+    }else{
+      feed.innerHTML=`<div class="cf-empty">${lang==='de'?'Kommentare konnten nicht geladen werden':'Could not load comments'}</div>`;
+    }
   }
+}
+
+function renderComments(feed,items){
+  feed.innerHTML=items.map(item=>{
+    const c=item.snippet?.topLevelComment?.snippet;
+    if(!c)return '';
+    const ago=timeAgoShort(new Date(c.publishedAt));
+    const avatar=c.authorProfileImageUrl||'';
+    const likes=c.likeCount>0?` · 👍 ${c.likeCount}`:'';
+    return `<div class="cf-item">
+      ${avatar?`<img class="cf-av" src="${escHtml(avatar)}" alt=""/>`:`<div class="cf-av" style="background:var(--navy);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">👤</div>`}
+      <div class="cf-body">
+        <div class="cf-name">${escHtml(c.authorDisplayName||'')}${likes}</div>
+        <div class="cf-text">${escHtml(c.textDisplay||c.textOriginal||'')}</div>
+        <div class="cf-time">${ago}</div>
+      </div>
+    </div>`;
+  }).filter(Boolean).join('');
+  feed.scrollTop=0;
 }
 
 function timeAgoShort(date){
