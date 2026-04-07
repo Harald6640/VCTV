@@ -260,6 +260,30 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.4)}50%{box-shadow:0 0 0 8px rgba(220,38,38,0)}}
 @keyframes pulse-r{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.5)}50%{box-shadow:0 0 0 14px rgba(220,38,38,0)}}
+
+/* ===== FLOATING REACTIONS ===== */
+.float-container{position:fixed;bottom:0;left:0;right:0;pointer-events:none;z-index:150;max-width:430px;margin:0 auto;height:100vh;overflow:hidden}
+.float-emoji{position:absolute;bottom:-50px;font-size:36px;animation:floatUp 2.2s ease-out forwards;filter:drop-shadow(0 2px 6px rgba(0,0,0,.2))}
+@keyframes floatUp{
+  0%{transform:translateY(0) scale(.5) rotate(0deg);opacity:0}
+  10%{transform:translateY(-40px) scale(1.2) rotate(-5deg);opacity:1}
+  30%{transform:translateY(-120px) scale(1) rotate(5deg);opacity:1}
+  70%{transform:translateY(-350px) scale(.9) rotate(-3deg);opacity:.7}
+  100%{transform:translateY(-550px) scale(.6) rotate(8deg);opacity:0}
+}
+
+/* ===== QUICK COMMENTS ===== */
+.quick-comments{display:flex;gap:6px;overflow-x:auto;padding:0 0 8px;margin-bottom:10px;scrollbar-width:none}
+.quick-comments::-webkit-scrollbar{display:none}
+.qc-chip{flex-shrink:0;background:var(--bg2);border:1.5px solid var(--border);border-radius:20px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;color:var(--text);font-family:inherit;transition:all .2s;white-space:nowrap}
+.qc-chip:active{transform:scale(.94);border-color:var(--coral);background:var(--coral-bg);color:var(--coral)}
+.qc-chip.sent{border-color:var(--teal);background:var(--teal-bg);color:var(--teal);pointer-events:none}
+
+/* ===== VIDEO STATS ===== */
+.vid-stats{display:flex;gap:8px;margin-bottom:12px}
+.vs-card{flex:1;background:var(--bg2);border:1.5px solid var(--border);border-radius:12px;padding:10px 8px;text-align:center}
+.vs-num{font-family:'Fraunces',serif;font-size:16px;font-weight:900;color:var(--navy);line-height:1.2}
+.vs-label{font-size:9px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
 </style>
 </head>
 <body>
@@ -371,10 +395,16 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
       <button onclick="doLogin()">Neu einloggen</button>
     </div>
 
-    <div class="r-head">
-      <h2 data-t="remoteTitle">Was möchtest du tun?</h2>
-      <p data-t="remoteSub">Direkte Aktionen — kein Extra-Öffnen nötig</p>
+    <!-- Video Stats -->
+    <div class="vid-stats" id="vid-stats" style="display:none">
+      <div class="vs-card"><div class="vs-num" id="vs-views">—</div><div class="vs-label">Aufrufe</div></div>
+      <div class="vs-card"><div class="vs-num" id="vs-likes">—</div><div class="vs-label">Likes</div></div>
+      <div class="vs-card"><div class="vs-num" id="vs-comments">—</div><div class="vs-label">Kommentare</div></div>
     </div>
+
+    <!-- Quick Comments -->
+    <div class="quick-comments" id="quick-comments"></div>
+
     <div class="reaction-row">
       <button class="react-btn" id="r-heart" onclick="doReaction('❤️','Herz')" aria-label="Herz-Reaktion"><span class="e">❤️</span><span class="l" data-t-react="heart">Liebe es</span></button>
       <button class="react-btn" id="r-laugh" onclick="doReaction('😂','Lachen')" aria-label="Lach-Reaktion"><span class="e">😂</span><span class="l" data-t-react="laugh">Lustig</span></button>
@@ -458,6 +488,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
   </div>
 </div>
 
+<div class="float-container" id="float-container"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -860,6 +891,8 @@ function startRemote(v){
   document.getElementById('yt-frame').src=`https://www.youtube.com/embed/${v.vid}?autoplay=1&mute=1&rel=0&modestbranding=1&enablejsapi=1`;
   goTo('s-remote');
   startCommentRefresh();
+  loadVideoStats();
+  renderQuickComments();
 }
 
 function showLastAction(msg){document.getElementById('last-action-txt').textContent=msg;document.getElementById('last-action-bar').classList.add('show');}
@@ -901,6 +934,7 @@ async function doReaction(emoji,label){
       }
     }
     toast(emoji+t('toastReactionSent'));showLastAction(emoji+' '+label);
+    spawnFloat(emoji);
     setTimeout(()=>loadComments(),2000);
   }catch(e){toast(t('toastReactionFail'));}
 }
@@ -913,7 +947,7 @@ async function doLike(){
     btn.classList.add('on');document.getElementById('like-lb').textContent=t('liked');
     try{
       const res=await fetch(`https://www.googleapis.com/youtube/v3/videos/rate?id=${curVid.vid}&rating=like`,{method:'POST',headers:{Authorization:'Bearer '+token}});
-      if(res.ok){toast(t('toastLiked'));showLastAction(t('toastLiked'));}
+      if(res.ok){toast(t('toastLiked'));showLastAction(t('toastLiked'));spawnFloat('👍');setTimeout(()=>loadVideoStats(),1500);}
       else{toast(t('toastLikeFail'));liked=false;btn.classList.remove('on');document.getElementById('like-lb').textContent=t('likeLabel');}
     }catch(e){toast(t('toastLikeNet'));liked=false;btn.classList.remove('on');document.getElementById('like-lb').textContent=t('likeLabel');}
   }else{
@@ -930,7 +964,7 @@ async function doSub(){
     btn.classList.add('on');document.getElementById('sub-lb').textContent=t('subbed');
     try{
       const res=await fetch('https://www.googleapis.com/youtube/v3/subscriptions?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{resourceId:{kind:'youtube#channel',channelId:curCh?.id}}})});
-      if(res.ok){toast(t('toastSubbed'));showLastAction('🔔 '+curCh?.name);}
+      if(res.ok){toast(t('toastSubbed'));showLastAction('🔔 '+curCh?.name);spawnFloat('🔔');}
       else{toast(t('toastSubFail'));subbed=false;btn.classList.remove('on');document.getElementById('sub-lb').textContent=t('subLabel');}
     }catch(e){toast(t('toastSubNet'));subbed=false;btn.classList.remove('on');document.getElementById('sub-lb').textContent=t('subLabel');}
   }else{btn.classList.remove('on');document.getElementById('sub-lb').textContent=t('subLabel');}
@@ -946,7 +980,7 @@ async function sendCom(){
   try{
     const res=await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:txt+'\n#VoiceCommentTV'}}}})});
     if(res.ok){
-      toast(t('toastComSent'));showLastAction(t('toastComSent'));
+      toast(t('toastComSent'));showLastAction(t('toastComSent'));spawnFloat('💬');
       document.getElementById('com-txt').value='';closeModal('com-modal');
       setTimeout(()=>loadComments(),2000);
     }else{
@@ -990,7 +1024,7 @@ async function sendVoice(){
   try{
     const res=await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:txt+'\n#VoiceCommentTV'}}}})});
     if(res.ok){
-      toast(t('toastVoiceSent'));showLastAction(t('toastVoiceSent'));
+      toast(t('toastVoiceSent'));showLastAction(t('toastVoiceSent'));spawnFloat('🎙️');
       setTimeout(()=>loadComments(),2000);
       document.getElementById('vtxt').textContent='';document.getElementById('vtxt').style.display='none';
       document.getElementById('vsend').classList.remove('show');
@@ -1003,6 +1037,122 @@ async function sendVoice(){
 function doAffiliate(){
   const url=curCh?.id?`https://www.youtube.com/channel/${curCh.id}/store`:'https://youtube.com';
   window.open(url,'_blank');toast(t('toastShop'));showLastAction(t('toastShop'));
+}
+
+// ===== FLOATING REACTIONS =====
+function spawnFloat(emoji){
+  const container=document.getElementById('float-container');
+  const count=3+Math.floor(Math.random()*4); // 3-6 Emojis
+  for(let i=0;i<count;i++){
+    setTimeout(()=>{
+      const el=document.createElement('div');
+      el.className='float-emoji';
+      el.textContent=emoji;
+      el.style.left=(10+Math.random()*70)+'%';
+      el.style.fontSize=(28+Math.random()*20)+'px';
+      el.style.animationDuration=(1.8+Math.random()*0.8)+'s';
+      container.appendChild(el);
+      el.addEventListener('animationend',()=>el.remove());
+    },i*120);
+  }
+}
+
+// ===== QUICK COMMENTS =====
+const QUICK_COMMENTS={
+  de:[
+    {text:'Mega Video! 🔥',emoji:'🔥'},
+    {text:'Erster! 🏆',emoji:'🏆'},
+    {text:'Mehr davon bitte! 🙏',emoji:'🙏'},
+    {text:'Haha, zu gut 😂',emoji:'😂'},
+    {text:'Krass! 😮',emoji:'😮'},
+    {text:'Bester Kanal! ❤️',emoji:'❤️'},
+    {text:'Richtig stark 💪',emoji:'💪'},
+    {text:'Geiler Content 👑',emoji:'👑'},
+  ],
+  en:[
+    {text:'Amazing video! 🔥',emoji:'🔥'},
+    {text:'First! 🏆',emoji:'🏆'},
+    {text:'More of this please! 🙏',emoji:'🙏'},
+    {text:'LOL so good 😂',emoji:'😂'},
+    {text:'Insane! 😮',emoji:'😮'},
+    {text:'Best channel! ❤️',emoji:'❤️'},
+    {text:'So good 💪',emoji:'💪'},
+    {text:'Top content 👑',emoji:'👑'},
+  ]
+};
+
+function renderQuickComments(){
+  const el=document.getElementById('quick-comments');
+  const comments=QUICK_COMMENTS[lang]||QUICK_COMMENTS.de;
+  el.innerHTML=comments.map((c,i)=>`<button class="qc-chip" id="qc-${i}" onclick="sendQuickComment(${i})">${c.emoji} ${c.text}</button>`).join('');
+}
+
+async function sendQuickComment(idx){
+  if(!await ensureToken())return;
+  if(!curVid?.vid||curVid.vid.startsWith('demo_')){toast(lang==='de'?'❗ Nicht bei Demo-Videos möglich':'❗ Not available for demo videos');return;}
+  const comments=QUICK_COMMENTS[lang]||QUICK_COMMENTS.de;
+  const c=comments[idx];
+  const chip=document.getElementById('qc-'+idx);
+  chip.classList.add('sent');chip.textContent='⏳';
+  try{
+    const res=await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:c.text+'\n#VoiceCommentTV'}}}})});
+    if(res.ok){
+      chip.textContent='✓ '+c.emoji;
+      toast(lang==='de'?'💬 Kommentar gesendet!':'💬 Comment sent!');
+      showLastAction('💬 '+c.text);
+      spawnFloat(c.emoji);
+      setTimeout(()=>loadComments(),2000);
+    }else{
+      chip.classList.remove('sent');chip.textContent=c.emoji+' '+c.text;
+      const err=await res.json().catch(()=>({}));
+      if(err?.error?.errors?.[0]?.reason==='commentsDisabled'){
+        toast(lang==='de'?'❗ Kommentare deaktiviert':'❗ Comments disabled');
+      }else{
+        toast(lang==='de'?'❗ Fehler beim Senden':'❗ Error sending');
+      }
+    }
+  }catch(e){
+    chip.classList.remove('sent');chip.textContent=c.emoji+' '+c.text;
+    toast(t('toastNetErr'));
+  }
+}
+
+// ===== VIDEO STATS =====
+async function loadVideoStats(){
+  const statsEl=document.getElementById('vid-stats');
+  if(!curVid?.vid||curVid.vid.startsWith('demo_')){statsEl.style.display='none';return;}
+
+  try{
+    const headers={};
+    let url=`https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${curVid.vid}`;
+    if(token){
+      headers['Authorization']='Bearer '+token;
+    }else{
+      url+='&key='+YT_KEY;
+    }
+    const res=await fetch(url,{headers});
+    const data=await res.json();
+    if(!data.items?.length){statsEl.style.display='none';return;}
+
+    const s=data.items[0].statistics;
+    document.getElementById('vs-views').textContent=formatNum(parseInt(s.viewCount||0));
+    document.getElementById('vs-likes').textContent=formatNum(parseInt(s.likeCount||0));
+    document.getElementById('vs-comments').textContent=formatNum(parseInt(s.commentCount||0));
+
+    // Labels übersetzen
+    const labels=statsEl.querySelectorAll('.vs-label');
+    labels[0].textContent=lang==='de'?'Aufrufe':'Views';
+    labels[1].textContent='Likes';
+    labels[2].textContent=lang==='de'?'Kommentare':'Comments';
+
+    statsEl.style.display='flex';
+  }catch(e){statsEl.style.display='none';}
+}
+
+function formatNum(n){
+  if(n>=1000000)return (n/1000000).toFixed(1).replace('.0','')+'M';
+  if(n>=1000)return (n/1000).toFixed(1).replace('.0','')+'K';
+  return n.toString();
 }
 
 // ===== KOMMENTAR-FEED =====
