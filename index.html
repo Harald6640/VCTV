@@ -79,6 +79,11 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 .user-chip img{width:26px;height:26px;border-radius:50%;object-fit:cover}
 .user-chip span{font-size:12px;font-weight:600;color:#fff}
 .lang-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;color:#fff;font-family:inherit}
+.relogin-bar{display:none;align-items:center;gap:8px;padding:10px 16px;background:#FFF8E6;border-bottom:2px solid #F0CE60;flex-shrink:0}
+.relogin-bar.show{display:flex}
+.relogin-txt{flex:1;font-size:12px;font-weight:600;color:#7A5500}
+.relogin-btn{background:#E8A800;color:#fff;border:none;border-radius:10px;padding:8px 18px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;flex-shrink:0;transition:opacity .2s}
+.relogin-btn:active{opacity:.8}
 
 /* ===== SEARCH ===== */
 #s-search{background:var(--bg)}
@@ -264,10 +269,15 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
   <div class="topbar">
     <span class="tlogo">Voice<em>Comment</em> TV</span>
     <button class="lang-btn" id="lang-btn" onclick="toggleLang()" aria-label="Sprache wechseln">🌐 DE</button>
-    <div class="user-chip" id="user-chip">
+    <div class="user-chip" id="user-chip" onclick="doLogin()" style="cursor:pointer" aria-label="Neu einloggen">
       <img id="user-av" src="" alt="Profilbild"/>
       <span id="user-nm"></span>
     </div>
+  </div>
+  <!-- Login-Banner wenn Token fehlt -->
+  <div class="relogin-bar" id="relogin-bar">
+    <span class="relogin-txt" id="relogin-txt" data-t="reloginBar">⚠️ Session abgelaufen — Likes & Kommentare nicht möglich</span>
+    <button class="relogin-btn" onclick="doLogin()" data-t="reloginBtn">Einloggen</button>
   </div>
   <div class="sbody">
     <div class="slabel" data-t="searchLabel">Was schaust du? 📺</div>
@@ -467,6 +477,7 @@ const i18n={
     toastHello:'👋 Hallo ',toastLoginFail:'❗ Login fehlgeschlagen',toastRelogin:'⚠️ Bitte neu einloggen',
     toastExpiring:'⚠️ Bitte bald neu einloggen!',toastExpired:'⏱️ Session abgelaufen — bitte neu einloggen',
     toastReloginForActions:'⚠️ Bitte erneut einloggen für Likes & Kommentare',
+    reloginBar:'⚠️ Session abgelaufen — Likes & Kommentare nicht möglich',reloginBtn:'Einloggen',
     toastLiked:'👍 Video geliked!',toastLikeFail:'❗ Like fehlgeschlagen — bitte erneut einloggen',
     toastLikeNet:'❗ Netzwerkfehler beim Liken',
     toastSubbed:'🔔 Kanal abonniert!',toastSubFail:'❗ Abo fehlgeschlagen — bitte erneut einloggen',
@@ -506,6 +517,7 @@ const i18n={
     toastHello:'👋 Hello ',toastLoginFail:'❗ Login failed',toastRelogin:'⚠️ Please log in again',
     toastExpiring:'⚠️ Please re-login soon!',toastExpired:'⏱️ Session expired — please log in again',
     toastReloginForActions:'⚠️ Please log in again for likes & comments',
+    reloginBar:'⚠️ Session expired — likes & comments not available',reloginBtn:'Log in',
     toastLiked:'👍 Video liked!',toastLikeFail:'❗ Like failed — please log in again',
     toastLikeNet:'❗ Network error while liking',
     toastSubbed:'🔔 Channel subscribed!',toastSubFail:'❗ Subscribe failed — please log in again',
@@ -599,6 +611,7 @@ function checkTokenFromUrl(){
       document.getElementById('user-nm').textContent=d.given_name||d.name||'Nutzer';
       try{localStorage.setItem('vctv_u',JSON.stringify({p:d.picture,n:d.given_name||d.name}));}catch(e){}
       toast(t('toastHello')+(d.given_name||d.name)+'!');
+      document.getElementById('relogin-bar').classList.remove('show');
       goTo('s-search');
     }).catch(()=>toast(t('toastLoginFail')));
   return true;
@@ -640,11 +653,11 @@ function checkUser(){
     if(u&&u.p&&u.n){
       document.getElementById('user-av').src=u.p;
       document.getElementById('user-nm').textContent=u.n;
-      // Token aus localStorage wiederherstellen
       const hasToken=restoreToken();
       goTo('s-search');
       if(!hasToken){
-        setTimeout(()=>toast(t('toastReloginForActions')),1000);
+        // Sichtbaren Banner anzeigen mit Einloggen-Button
+        document.getElementById('relogin-bar').classList.add('show');
       }
     }
   }catch(e){}
