@@ -128,13 +128,32 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 .save-btn.saved{background:var(--coral);border-color:var(--coral)}
 
 /* ===== MINI VIDEO ===== */
-.mini-bar{background:#111827;padding:10px 14px;display:flex;align-items:center;gap:12px;flex-shrink:0}
-.mini-frame{width:82px;height:46px;border-radius:10px;overflow:hidden;flex-shrink:0;background:#000;position:relative;box-shadow:0 2px 12px rgba(0,0,0,.5)}
+.mini-bar{background:#111827;padding:12px 14px;flex-shrink:0}
+.mini-top{display:flex;align-items:center;gap:12px}
+.mini-frame{width:140px;height:79px;border-radius:10px;overflow:hidden;flex-shrink:0;background:#000;position:relative;box-shadow:0 2px 12px rgba(0,0,0,.5)}
 .mini-frame iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;pointer-events:none}
 .mini-info{flex:1;min-width:0}
-.mini-title{font-size:12px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.mini-title{font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
 .mini-ch{font-size:11px;color:rgba(255,255,255,.5)}
 .mute-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:6px 10px;font-size:15px;cursor:pointer;flex-shrink:0}
+
+/* ===== KOMMENTAR-FEED ===== */
+.comment-feed{margin-top:10px;max-height:140px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.2) transparent}
+.comment-feed::-webkit-scrollbar{width:3px}
+.comment-feed::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:3px}
+.cf-item{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.cf-item:last-child{border-bottom:none}
+.cf-av{width:24px;height:24px;border-radius:50%;flex-shrink:0;object-fit:cover}
+.cf-body{flex:1;min-width:0}
+.cf-name{font-size:10px;font-weight:700;color:rgba(255,255,255,.6);margin-bottom:2px}
+.cf-text{font-size:12px;color:rgba(255,255,255,.85);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cf-time{font-size:9px;color:rgba(255,255,255,.3);margin-top:2px}
+.cf-empty{font-size:11px;color:rgba(255,255,255,.3);text-align:center;padding:10px 0}
+.cf-loading{font-size:11px;color:rgba(255,255,255,.4);text-align:center;padding:8px 0}
+.cf-header{display:flex;align-items:center;justify-content:space-between;margin-top:10px;margin-bottom:4px}
+.cf-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.5px}
+.cf-refresh{background:none;border:none;color:rgba(255,255,255,.4);font-size:14px;cursor:pointer;padding:2px 6px;border-radius:6px}
+.cf-refresh:active{color:#fff;background:rgba(255,255,255,.1)}
 
 /* ===== LAST ACTION ===== */
 .last-action-bar{background:var(--coral-bg);border-bottom:2px solid rgba(255,68,34,.2);padding:9px 16px;display:none;align-items:center;gap:8px;flex-shrink:0}
@@ -329,12 +348,21 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
     <span class="last-action-lbl">Letzte Aktion</span>
   </div>
   <div class="mini-bar">
-    <div class="mini-frame"><iframe id="yt-frame" src="" allowfullscreen allow="autoplay;encrypted-media"></iframe></div>
-    <div class="mini-info">
-      <div class="mini-title" id="r-title">Video</div>
-      <div class="mini-ch" id="r-ch">Kanal</div>
+    <div class="mini-top">
+      <div class="mini-frame"><iframe id="yt-frame" src="" allowfullscreen allow="autoplay;encrypted-media"></iframe></div>
+      <div class="mini-info">
+        <div class="mini-title" id="r-title">Video</div>
+        <div class="mini-ch" id="r-ch">Kanal</div>
+      </div>
+      <button class="mute-btn" id="mute-btn" onclick="toggleMute()" aria-label="Ton ein/aus">🔇</button>
     </div>
-    <button class="mute-btn" id="mute-btn" onclick="toggleMute()" aria-label="Ton ein/aus">🔇</button>
+    <div class="cf-header">
+      <span class="cf-label" id="cf-label">💬 Kommentare</span>
+      <button class="cf-refresh" onclick="loadComments()" aria-label="Kommentare aktualisieren">🔄</button>
+    </div>
+    <div class="comment-feed" id="comment-feed">
+      <div class="cf-loading">Kommentare laden…</div>
+    </div>
   </div>
   <div class="rbody">
     <!-- Token warning -->
@@ -664,7 +692,11 @@ function checkUser(){
 }
 
 // ===== NAVIGATION =====
-function goTo(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id!=='s-remote')stopCommentRefresh();
+}
 
 let tT=null;
 function toast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('show');if(tT)clearTimeout(tT);tT=setTimeout(()=>el.classList.remove('show'),3000);}
@@ -827,6 +859,7 @@ function startRemote(v){
   sb.className='save-btn'+(videoSaved?' saved':'');
   document.getElementById('yt-frame').src=`https://www.youtube.com/embed/${v.vid}?autoplay=1&mute=1&rel=0&modestbranding=1&enablejsapi=1`;
   goTo('s-remote');
+  startCommentRefresh();
 }
 
 function showLastAction(msg){document.getElementById('last-action-txt').textContent=msg;document.getElementById('last-action-bar').classList.add('show');}
@@ -856,6 +889,7 @@ async function doReaction(emoji,label){
       if(!res.ok)throw new Error('API error '+res.status);
     }
     toast(emoji+t('toastReactionSent'));showLastAction(emoji+' '+label);
+    setTimeout(()=>loadComments(),2000);
   }catch(e){toast(t('toastReactionFail'));}
 }
 
@@ -899,6 +933,7 @@ async function sendCom(){
     if(res.ok){
       toast(t('toastComSent'));showLastAction(t('toastComSent'));
       document.getElementById('com-txt').value='';closeModal('com-modal');
+      setTimeout(()=>loadComments(),2000);
     }else{
       const err=await res.json();
       toast(t('toastComFail')+(err?.error?.message||''));
@@ -929,6 +964,7 @@ async function sendVoice(){
     const res=await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:txt+'\n#VoiceCommentTV'}}}})});
     if(res.ok){
       toast(t('toastVoiceSent'));showLastAction(t('toastVoiceSent'));
+      setTimeout(()=>loadComments(),2000);
       document.getElementById('vtxt').textContent='';document.getElementById('vtxt').style.display='none';
       document.getElementById('vsend').classList.remove('show');
       document.getElementById('vtimer').textContent=t('voiceTimerDefault');
@@ -940,6 +976,80 @@ async function sendVoice(){
 function doAffiliate(){
   const url=curCh?.id?`https://www.youtube.com/channel/${curCh.id}/store`:'https://youtube.com';
   window.open(url,'_blank');toast(t('toastShop'));showLastAction(t('toastShop'));
+}
+
+// ===== KOMMENTAR-FEED =====
+let commentTimer=null;
+
+async function loadComments(){
+  const feed=document.getElementById('comment-feed');
+  const label=document.getElementById('cf-label');
+  if(!curVid?.vid||curVid.vid.startsWith('demo_')){
+    feed.innerHTML=`<div class="cf-empty">${lang==='de'?'Keine Kommentare für Demo-Videos':'No comments for demo videos'}</div>`;
+    return;
+  }
+
+  feed.innerHTML=`<div class="cf-loading">${lang==='de'?'Kommentare laden…':'Loading comments…'}</div>`;
+
+  // Bei Livestreams: Live-Chat Label
+  if(curVid.live){
+    label.textContent='🔴 Live-Chat';
+  }else{
+    label.textContent='💬 '+(lang==='de'?'Kommentare':'Comments');
+  }
+
+  try{
+    const url=`https://www.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${curVid.vid}&maxResults=10&order=relevance&textFormat=plainText&key=${YT_KEY}`;
+    const res=await fetch(url);
+    const data=await res.json();
+
+    if(data.error||!data.items?.length){
+      feed.innerHTML=`<div class="cf-empty">${lang==='de'?'Noch keine Kommentare':'No comments yet'}</div>`;
+      return;
+    }
+
+    feed.innerHTML=data.items.map(item=>{
+      const c=item.snippet.topLevelComment.snippet;
+      const ago=timeAgoShort(new Date(c.publishedAt));
+      const avatar=c.authorProfileImageUrl||'';
+      const likes=c.likeCount>0?` · 👍 ${c.likeCount}`:'';
+      return `<div class="cf-item">
+        ${avatar?`<img class="cf-av" src="${escHtml(avatar)}" alt=""/>`:`<div class="cf-av" style="background:var(--navy);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px">👤</div>`}
+        <div class="cf-body">
+          <div class="cf-name">${escHtml(c.authorDisplayName)}${likes}</div>
+          <div class="cf-text">${escHtml(c.textDisplay)}</div>
+          <div class="cf-time">${ago}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    // Auto-scroll nach unten bei neuen Kommentaren
+    feed.scrollTop=0;
+
+  }catch(e){
+    feed.innerHTML=`<div class="cf-empty">${lang==='de'?'Kommentare konnten nicht geladen werden':'Could not load comments'}</div>`;
+  }
+}
+
+function timeAgoShort(date){
+  const s=Math.floor((Date.now()-date)/1000);
+  if(s<60)return lang==='de'?'gerade eben':'just now';
+  if(s<3600)return Math.floor(s/60)+(lang==='de'?' Min.':'m');
+  if(s<86400)return Math.floor(s/3600)+(lang==='de'?' Std.':'h');
+  if(s<2592000)return Math.floor(s/86400)+(lang==='de'?' T.':'d');
+  if(s<31536000)return Math.floor(s/2592000)+(lang==='de'?' Mon.':'mo');
+  return Math.floor(s/31536000)+(lang==='de'?' J.':'y');
+}
+
+function startCommentRefresh(){
+  stopCommentRefresh();
+  loadComments();
+  // Alle 30 Sekunden aktualisieren (besonders für Livestreams)
+  commentTimer=setInterval(()=>loadComments(),30000);
+}
+
+function stopCommentRefresh(){
+  if(commentTimer){clearInterval(commentTimer);commentTimer=null;}
 }
 
 // ===== QR =====
