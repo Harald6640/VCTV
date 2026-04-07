@@ -1,3 +1,7 @@
+// ⚠️ ACHTUNG: Diese Datei wird NICHT von index.html eingebunden!
+// Die aktive App-Logik befindet sich inline in index.html <script>.
+// Diese Datei ist eine ältere/alternative Version und wird nicht geladen.
+//
 // ===== CONFIG =====
 // DEIN YouTube API Key — hier eintragen:
 const YT_API_KEY = 'AIzaSyCkbxNViUW1O7fXgk0s3vsXfeLIOTUZ9ik';
@@ -615,18 +619,18 @@ function startVoice() {
 function timeAgo(date, language) {
   const seconds = Math.floor((new Date() - date) / 1000);
   const intervals = [
-    { de: 'Jahr', en: 'year', s: 31536000 },
-    { de: 'Monat', en: 'month', s: 2592000 },
-    { de: 'Woche', en: 'week', s: 604800 },
-    { de: 'Tag', en: 'day', s: 86400 },
-    { de: 'Stunde', en: 'hour', s: 3600 },
-    { de: 'Minute', en: 'minute', s: 60 },
+    { de: 'Jahr', dePlural: 'Jahren', en: 'year', s: 31536000 },
+    { de: 'Monat', dePlural: 'Monaten', en: 'month', s: 2592000 },
+    { de: 'Woche', dePlural: 'Wochen', en: 'week', s: 604800 },
+    { de: 'Tag', dePlural: 'Tagen', en: 'day', s: 86400 },
+    { de: 'Stunde', dePlural: 'Stunden', en: 'hour', s: 3600 },
+    { de: 'Minute', dePlural: 'Minuten', en: 'minute', s: 60 },
   ];
   for (const i of intervals) {
     const count = Math.floor(seconds / i.s);
     if (count >= 1) {
       if (language === 'de') {
-        return `vor ${count} ${i.de}${count > 1 ? 'en' : ''}`;
+        return `vor ${count} ${count > 1 ? i.dePlural : i.de}`;
       } else {
         return `${count} ${i.en}${count > 1 ? 's' : ''} ago`;
       }

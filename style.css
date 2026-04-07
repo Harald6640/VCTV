@@ -1,3 +1,7 @@
+/* ⚠️ ACHTUNG: Diese Datei wird NICHT von index.html eingebunden!
+   Die aktiven Styles befinden sich inline in index.html <style>.
+   Diese Datei ist eine ältere/alternative Version und wird nicht geladen. */
+
 /* ===== RESET & VARIABLES ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 

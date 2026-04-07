@@ -428,6 +428,10 @@ const POPULAR=[
 let token=null,tokenExpiry=null,curCh=null,curVid=null,liked=false,subbed=false,muted=true,videoSaved=false;
 let hist=[],savedVids=[],sRec=null,vRec=null,vRecOn=false,vTimer=null,vSecs=0,sDebounce=null,activeReaction=null;
 
+// HTML-Escape für sichere onclick-Attribute
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/'/g,'&#39;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function safeOnclick(obj){return escHtml(JSON.stringify(obj));}
+
 // ===== LOGIN & TOKEN =====
 function doLogin(){
   const scope=encodeURIComponent('https://www.googleapis.com/auth/youtube.force-ssl profile email');
@@ -491,7 +495,16 @@ async function ensureToken(){
 function checkUser(){
   try{
     const u=JSON.parse(localStorage.getItem('vctv_u')||'null');
-    if(u&&u.p&&u.n){document.getElementById('user-av').src=u.p;document.getElementById('user-nm').textContent=u.n;goTo('s-search');}
+    if(u&&u.p&&u.n){
+      document.getElementById('user-av').src=u.p;
+      document.getElementById('user-nm').textContent=u.n;
+      // Nur zur Suche navigieren, aber User warnen dass Token fehlt
+      goTo('s-search');
+      // Token aus vorheriger Session ist nicht mehr gültig - Info anzeigen
+      if(!token){
+        setTimeout(()=>toast('⚠️ Bitte erneut einloggen für Likes & Kommentare'),1000);
+      }
+    }
   }catch(e){}
 }
 
@@ -527,7 +540,7 @@ function renderHist(){
   const el=document.getElementById('hist-chips'),sec=document.getElementById('hist-sec');
   if(!hist.length){sec.style.display='none';return;}
   sec.style.display='block';
-  el.innerHTML=hist.map(ch=>`<div class="chip" onclick='pickCh(${JSON.stringify(ch)})'>${ch.emoji} ${ch.name}</div>`).join('');
+  el.innerHTML=hist.map(ch=>`<div class="chip" onclick='pickCh(${safeOnclick(ch)})'>${escHtml(ch.emoji+' '+ch.name)}</div>`).join('');
 }
 
 // ===== SAVED =====
@@ -548,7 +561,7 @@ function toggleSaveVideo(){
 function renderSaved(){
   const el=document.getElementById('saved-list');
   if(!savedVids.length){el.innerHTML=`<div class="saved-empty">📭 Noch keine Videos gespeichert.</div>`;return;}
-  el.innerHTML=`<div class="rbox">`+savedVids.map(v=>`<div class="ri" onclick='startRemote(${JSON.stringify(v)})'><div class="ri-av" style="background:var(--bg3);border-radius:10px;width:72px;height:40px;font-size:18px">${v.chEmoji||'▶'}</div><div class="ri-info"><div class="ri-name" style="font-size:13px">${v.title}</div><div class="ri-sub">${v.chName||''}</div></div><span class="ri-arr">›</span></div>`).join('')+`</div>`;
+  el.innerHTML=`<div class="rbox">`+savedVids.map(v=>`<div class="ri" onclick='startRemote(${safeOnclick(v)})'><div class="ri-av" style="background:var(--bg3);border-radius:10px;width:72px;height:40px;font-size:18px">${escHtml(v.chEmoji||'▶')}</div><div class="ri-info"><div class="ri-name" style="font-size:13px">${escHtml(v.title)}</div><div class="ri-sub">${escHtml(v.chName||'')}</div></div><span class="ri-arr">›</span></div>`).join('')+`</div>`;
 }
 
 // ===== TRENDING =====
@@ -561,7 +574,7 @@ async function loadTrending(){
     if(d.error||!d.items?.length){el.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Trending nicht verfügbar</div></div></div>`;return;}
     el.innerHTML=d.items.map(i=>{
       const v={title:i.snippet.title,vid:i.id,thumb:i.snippet.thumbnails?.medium?.url,chName:i.snippet.channelTitle,live:false};
-      return `<div class="ri" onclick='startRemote(${JSON.stringify(v)})'><div class="ri-av" style="width:72px;height:40px;border-radius:10px;background:var(--bg3)">${v.thumb?`<img src="${v.thumb}" style="width:100%;height:100%;object-fit:cover;border-radius:10px"/>`:'🔥'}</div><div class="ri-info"><div class="ri-name" style="font-size:13px">${i.snippet.title}</div><div class="ri-sub">${i.snippet.channelTitle}</div></div><span class="ri-arr">›</span></div>`;
+      return `<div class="ri" onclick='startRemote(${safeOnclick(v)})'><div class="ri-av" style="width:72px;height:40px;border-radius:10px;background:var(--bg3)">${v.thumb?`<img src="${escHtml(v.thumb)}" style="width:100%;height:100%;object-fit:cover;border-radius:10px"/>`:'🔥'}</div><div class="ri-info"><div class="ri-name" style="font-size:13px">${escHtml(i.snippet.title)}</div><div class="ri-sub">${escHtml(i.snippet.channelTitle)}</div></div><span class="ri-arr">›</span></div>`;
     }).join('');
   }catch(e){el.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Fehler</div></div></div>`;}
 }
@@ -569,7 +582,7 @@ async function loadTrending(){
 // ===== SEARCH =====
 function chRow(ch){
   const av=ch.thumb?`<div class="ri-av" style="border-radius:10px"><img src="${ch.thumb}"/></div>`:`<div class="ri-av" style="background:${ch.color};border-radius:10px">${ch.emoji}</div>`;
-  return `<div class="ri" onclick='pickCh(${JSON.stringify(ch)})'>${av}<div class="ri-info"><div class="ri-name">${ch.name}</div><div class="ri-sub">${ch.handle}${ch.subs?' · '+ch.subs:''}</div></div><span class="ri-arr">›</span></div>`;
+  return `<div class="ri" onclick='pickCh(${safeOnclick(ch)})'>${av}<div class="ri-info"><div class="ri-name">${escHtml(ch.name)}</div><div class="ri-sub">${escHtml(ch.handle+(ch.subs?' · '+ch.subs:''))}</div></div><span class="ri-arr">›</span></div>`;
 }
 function renderPop(){document.getElementById('pop-list').innerHTML=POPULAR.map(c=>chRow(c)).join('');}
 
@@ -634,7 +647,7 @@ function showVidList(ch,videos){
   const r=document.getElementById('search-res');
   r.style.display='block';
   r.innerHTML=`<div style="padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg3)"><div style="font-size:11px;color:var(--text2)">Kanal: <strong style="color:var(--coral)">${ch.name}</strong></div></div>`+
-  videos.map(v=>`<div class="ri" onclick='startRemote(${JSON.stringify({...v,chEmoji:ch.emoji})})'><div class="ri-av" style="width:72px;height:40px;border-radius:10px;background:var(--bg3)">${v.thumb?`<img src="${v.thumb}" style="width:100%;height:100%;object-fit:cover;border-radius:10px"/>`:'▶'}</div><div class="ri-info"><div class="ri-name" style="font-size:13px">${v.title}</div><div class="ri-sub">${ch.name}</div></div><span class="ri-arr">›</span></div>`).join('');
+  videos.map(v=>`<div class="ri" onclick='startRemote(${safeOnclick({...v,chEmoji:ch.emoji})})'><div class="ri-av" style="width:72px;height:40px;border-radius:10px;background:var(--bg3)">${v.thumb?`<img src="${escHtml(v.thumb)}" style="width:100%;height:100%;object-fit:cover;border-radius:10px"/>`:'▶'}</div><div class="ri-info"><div class="ri-name" style="font-size:13px">${escHtml(v.title)}</div><div class="ri-sub">${escHtml(ch.name)}</div></div><span class="ri-arr">›</span></div>`).join('');
 }
 
 // ===== REMOTE =====
@@ -657,12 +670,22 @@ function startRemote(v){
   const sb=document.getElementById('save-vid-btn');
   sb.textContent=videoSaved?'✅ Gespeichert':'🔖 Speichern';
   sb.className='save-btn'+(videoSaved?' saved':'');
-  document.getElementById('yt-frame').src=`https://www.youtube.com/embed/${v.vid}?autoplay=1&mute=1&rel=0&modestbranding=1`;
+  document.getElementById('yt-frame').src=`https://www.youtube.com/embed/${v.vid}?autoplay=1&mute=1&rel=0&modestbranding=1&enablejsapi=1`;
   goTo('s-remote');
 }
 
 function showLastAction(msg){document.getElementById('last-action-txt').textContent=msg;document.getElementById('last-action-bar').classList.add('show');}
-function toggleMute(){muted=!muted;document.getElementById('mute-btn').textContent=muted?'🔇':'🔊';if(curVid?.vid)document.getElementById('yt-frame').src=`https://www.youtube.com/embed/${curVid.vid}?autoplay=1&mute=${muted?1:0}&rel=0&modestbranding=1`;}
+function toggleMute(){
+  muted=!muted;
+  document.getElementById('mute-btn').textContent=muted?'🔇':'🔊';
+  const frame=document.getElementById('yt-frame');
+  try{
+    frame.contentWindow.postMessage(JSON.stringify({event:'command',func:muted?'mute':'unMute'}),'*');
+  }catch(e){
+    // Fallback: iframe neu laden wenn postMessage nicht klappt
+    if(curVid?.vid)frame.src=`https://www.youtube.com/embed/${curVid.vid}?autoplay=1&mute=${muted?1:0}&rel=0&modestbranding=1&enablejsapi=1`;
+  }
+}
 
 // ===== ACTIONS =====
 async function doReaction(emoji,label){
@@ -678,7 +701,7 @@ async function doReaction(emoji,label){
       if(!res.ok)throw new Error('API error '+res.status);
     }
     toast(emoji+' Reaktion gesendet!');showLastAction(emoji+' '+label+' kommentiert');
-  }catch(e){toast(emoji+' Reaktion!');}
+  }catch(e){toast('❗ Reaktion konnte nicht gesendet werden');}
 }
 
 async function doLike(){
@@ -690,8 +713,8 @@ async function doLike(){
     try{
       const res=await fetch(`https://www.googleapis.com/youtube/v3/videos/rate?id=${curVid.vid}&rating=like`,{method:'POST',headers:{Authorization:'Bearer '+token}});
       if(res.ok){toast('👍 Video geliked!');showLastAction('👍 Video geliked');}
-      else{toast('👍 Geliked! (wird gespeichert)');}
-    }catch(e){toast('👍 Geliked!');}
+      else{toast('❗ Like fehlgeschlagen — bitte erneut einloggen');liked=false;btn.classList.remove('on');document.getElementById('like-lb').textContent='Liken';}
+    }catch(e){toast('❗ Netzwerkfehler beim Liken');liked=false;btn.classList.remove('on');document.getElementById('like-lb').textContent='Liken';}
   }else{
     btn.classList.remove('on');document.getElementById('like-lb').textContent='Liken';
     try{await fetch(`https://www.googleapis.com/youtube/v3/videos/rate?id=${curVid.vid}&rating=none`,{method:'POST',headers:{Authorization:'Bearer '+token}});}catch(e){}
@@ -707,8 +730,8 @@ async function doSub(){
     try{
       const res=await fetch('https://www.googleapis.com/youtube/v3/subscriptions?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{resourceId:{kind:'youtube#channel',channelId:curCh?.id}}})});
       if(res.ok){toast('🔔 Kanal abonniert!');showLastAction('🔔 '+curCh?.name+' abonniert');}
-      else toast('🔔 Abonniert!');
-    }catch(e){toast('🔔 Abonniert!');}
+      else{toast('❗ Abo fehlgeschlagen — bitte erneut einloggen');subbed=false;btn.classList.remove('on');document.getElementById('sub-lb').textContent='Abonnieren';}
+    }catch(e){toast('❗ Netzwerkfehler beim Abonnieren');subbed=false;btn.classList.remove('on');document.getElementById('sub-lb').textContent='Abonnieren';}
   }else{btn.classList.remove('on');document.getElementById('sub-lb').textContent='Abonnieren';}
 }
 
