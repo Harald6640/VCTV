@@ -886,7 +886,19 @@ async function doReaction(emoji,label){
   try{
     if(curVid?.vid){
       const res=await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:emoji+' '+label+'! #VoiceCommentTV'}}}})});
-      if(!res.ok)throw new Error('API error '+res.status);
+      if(!res.ok){
+        const err=await res.json().catch(()=>({}));
+        const reason=err?.error?.errors?.[0]?.reason||'';
+        if(reason==='commentsDisabled'){
+          toast(lang==='de'?'❗ Kommentare bei diesem Video deaktiviert':'❗ Comments disabled on this video');
+        }else if(res.status===403){
+          toast(lang==='de'?'❗ Keine Berechtigung — bitte neu einloggen':'❗ No permission — please log in again');
+          clearToken();document.getElementById('relogin-bar').classList.add('show');
+        }else{
+          toast(t('toastReactionFail'));
+        }
+        return;
+      }
     }
     toast(emoji+t('toastReactionSent'));showLastAction(emoji+' '+label);
     setTimeout(()=>loadComments(),2000);
@@ -928,6 +940,9 @@ async function sendCom(){
   if(!await ensureToken())return;
   const txt=document.getElementById('com-txt').value.trim();
   if(!txt){toast(t('toastComWrite'));return;}
+  const btn=document.querySelector('.csend');
+  const origTxt=btn.textContent;
+  btn.textContent=lang==='de'?'⏳ Sende…':'⏳ Sending…';btn.disabled=true;
   try{
     const res=await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:txt+'\n#VoiceCommentTV'}}}})});
     if(res.ok){
@@ -936,9 +951,21 @@ async function sendCom(){
       setTimeout(()=>loadComments(),2000);
     }else{
       const err=await res.json();
-      toast(t('toastComFail')+(err?.error?.message||''));
+      const msg=err?.error?.message||'';
+      // Häufige Fehler übersetzen
+      if(msg.includes('commentsDisabled')){
+        toast(lang==='de'?'❗ Kommentare sind bei diesem Video deaktiviert':'❗ Comments are disabled on this video');
+      }else if(msg.includes('forbidden')||res.status===403){
+        toast(lang==='de'?'❗ Keine Berechtigung — bitte neu einloggen':'❗ No permission — please log in again');
+        clearToken();document.getElementById('relogin-bar').classList.add('show');
+      }else if(res.status===400){
+        toast(lang==='de'?'❗ Kommentar konnte nicht gesendet werden':'❗ Could not send comment');
+      }else{
+        toast(t('toastComFail')+msg);
+      }
     }
   }catch(e){toast(t('toastNetErr'));}
+  btn.textContent=origTxt;btn.disabled=false;
 }
 
 function toggleRec(){
@@ -1003,8 +1030,20 @@ async function loadComments(){
     const res=await fetch(url);
     const data=await res.json();
 
-    if(data.error||!data.items?.length){
-      feed.innerHTML=`<div class="cf-empty">${lang==='de'?'Noch keine Kommentare':'No comments yet'}</div>`;
+    if(data.error){
+      const reason=data.error.errors?.[0]?.reason||'';
+      if(reason==='commentsDisabled'){
+        feed.innerHTML=`<div class="cf-empty">${lang==='de'?'💬 Kommentare sind deaktiviert':'💬 Comments are disabled'}</div>`;
+      }else if(reason==='quotaExceeded'){
+        feed.innerHTML=`<div class="cf-empty">${lang==='de'?'⚠️ API-Limit erreicht — später erneut versuchen':'⚠️ API limit reached — try again later'}</div>`;
+        stopCommentRefresh();
+      }else{
+        feed.innerHTML=`<div class="cf-empty">${lang==='de'?'Kommentare nicht verfügbar':'Comments unavailable'}</div>`;
+      }
+      return;
+    }
+    if(!data.items?.length){
+      feed.innerHTML=`<div class="cf-empty">${lang==='de'?'Noch keine Kommentare — schreib den ersten! ✍️':'No comments yet — write the first one! ✍️'}</div>`;
       return;
     }
 
