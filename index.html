@@ -4,6 +4,15 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 <meta name="theme-color" content="#1B2B5E"/>
+<meta name="description" content="VoiceComment TV — Dein Handy als YouTube-Fernbedienung. Liken, kommentieren und abonnieren direkt vom Sofa."/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="VCTV"/>
+<meta property="og:title" content="VoiceComment TV — YouTube-Fernbedienung"/>
+<meta property="og:description" content="Like, kommentiere und abonniere direkt vom Sofa — ganz ohne TV-Fernbedienung."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://vctv.vercel.app"/>
+<link rel="manifest" href="/manifest.json"/>
 <title>VoiceComment TV</title>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2004613695225348" crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet"/>
@@ -69,6 +78,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 .user-chip{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border-radius:24px;padding:4px 12px 4px 4px;cursor:pointer}
 .user-chip img{width:26px;height:26px;border-radius:50%;object-fit:cover}
 .user-chip span{font-size:12px;font-weight:600;color:#fff}
+.lang-btn{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;color:#fff;font-family:inherit}
 
 /* ===== SEARCH ===== */
 #s-search{background:var(--bg)}
@@ -236,13 +246,13 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
     <div class="login-chip-icon">▶</div>
     <span class="login-chip-txt">VoiceComment TV</span>
   </div>
-  <h1 class="login-h1">Dein Handy als<br><em>YouTube-Fernbedienung</em></h1>
-  <p class="login-sub">Like, kommentiere und abonniere direkt vom Sofa — das Video läuft klein auf deinem Handy.</p>
-  <button class="google-btn" onclick="doLogin()">
+  <h1 class="login-h1" id="login-h1">Dein Handy als<br><em>YouTube-Fernbedienung</em></h1>
+  <p class="login-sub" data-t="loginSub">Like, kommentiere und abonniere direkt vom Sofa — das Video läuft klein auf deinem Handy.</p>
+  <button class="google-btn" onclick="doLogin()" aria-label="Mit Google anmelden">
     <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-    Mit Google anmelden
+    <span data-t="loginBtn">Mit Google anmelden</span>
   </button>
-  <p class="login-note">Einmal einloggen — danach direkt loslegen.</p>
+  <p class="login-note" data-t="loginNote">Einmal einloggen — danach direkt loslegen.</p>
   <div class="login-links">
     <a href="/datenschutz.html" target="_blank">Datenschutzerklärung</a>
     <a href="/datenschutz.html" target="_blank">Nutzungsbedingungen</a>
@@ -253,24 +263,25 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 <div class="screen" id="s-search">
   <div class="topbar">
     <span class="tlogo">Voice<em>Comment</em> TV</span>
+    <button class="lang-btn" id="lang-btn" onclick="toggleLang()" aria-label="Sprache wechseln">🌐 DE</button>
     <div class="user-chip" id="user-chip">
-      <img id="user-av" src="" alt=""/>
+      <img id="user-av" src="" alt="Profilbild"/>
       <span id="user-nm"></span>
     </div>
   </div>
   <div class="sbody">
-    <div class="slabel">Was schaust du? 📺</div>
-    <p class="shint">Kanal suchen oder aus Verlauf wählen</p>
+    <div class="slabel" data-t="searchLabel">Was schaust du? 📺</div>
+    <p class="shint" data-t="searchHint">Kanal suchen oder aus Verlauf wählen</p>
     <div class="search-tabs">
-      <button class="stab active" onclick="switchTab('search',this)">🔍 Suchen</button>
-      <button class="stab" onclick="switchTab('saved',this)">🔖 Gespeichert</button>
-      <button class="stab" onclick="switchTab('trending',this)">🔥 Trending</button>
-      <button class="stab" onclick="goTo('s-qr')">📲 QR-Code</button>
+      <button class="stab active" onclick="switchTab('search',this)" data-t="tabSearch">🔍 Suchen</button>
+      <button class="stab" onclick="switchTab('saved',this)" data-t="tabSaved">🔖 Gespeichert</button>
+      <button class="stab" onclick="switchTab('trending',this)" data-t="tabTrending">🔥 Trending</button>
+      <button class="stab" onclick="goTo('s-qr')" data-t="tabQr">📲 QR-Code</button>
     </div>
     <div id="tab-search">
       <div class="input-wrap">
-        <input class="sinput" id="sinput" type="text" placeholder="z.B. MontanaBlack, MrBeast …" oninput="onSearch(this.value)" autocomplete="off"/>
-        <button class="mic-s" id="mic-s" onclick="voiceSearch()">🎤</button>
+        <input class="sinput" id="sinput" type="text" placeholder="z.B. MontanaBlack, MrBeast …" oninput="onSearch(this.value)" autocomplete="off" aria-label="Kanal suchen"/>
+        <button class="mic-s" id="mic-s" onclick="voiceSearch()" aria-label="Spracheingabe">🎤</button>
       </div>
       <div id="search-res" class="rbox" style="display:none"></div>
       <div id="hist-sec" style="display:none">
@@ -299,9 +310,9 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
 <!-- FERNBEDIENUNG -->
 <div class="screen" id="s-remote">
   <div class="r-topbar">
-    <button class="r-back" onclick="goTo('s-search')">←</button>
+    <button class="r-back" onclick="goTo('s-search')" aria-label="Zurück zur Suche">←</button>
     <span class="r-logo">Voice<em>Comment</em> TV</span>
-    <button class="save-btn" id="save-vid-btn" onclick="toggleSaveVideo()">🔖 Speichern</button>
+    <button class="save-btn" id="save-vid-btn" onclick="toggleSaveVideo()" aria-label="Video speichern">🔖 Speichern</button>
   </div>
   <div class="last-action-bar" id="last-action-bar">
     <span class="last-action-txt" id="last-action-txt"></span>
@@ -313,7 +324,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
       <div class="mini-title" id="r-title">Video</div>
       <div class="mini-ch" id="r-ch">Kanal</div>
     </div>
-    <button class="mute-btn" id="mute-btn" onclick="toggleMute()">🔇</button>
+    <button class="mute-btn" id="mute-btn" onclick="toggleMute()" aria-label="Ton ein/aus">🔇</button>
   </div>
   <div class="rbody">
     <!-- Token warning -->
@@ -323,34 +334,34 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
     </div>
 
     <div class="r-head">
-      <h2>Was möchtest du tun?</h2>
-      <p>Direkte Aktionen — kein Extra-Öffnen nötig</p>
+      <h2 data-t="remoteTitle">Was möchtest du tun?</h2>
+      <p data-t="remoteSub">Direkte Aktionen — kein Extra-Öffnen nötig</p>
     </div>
     <div class="reaction-row">
-      <button class="react-btn" id="r-heart" onclick="doReaction('❤️','Herz')"><span class="e">❤️</span><span class="l">Liebe es</span></button>
-      <button class="react-btn" id="r-laugh" onclick="doReaction('😂','Lachen')"><span class="e">😂</span><span class="l">Lustig</span></button>
-      <button class="react-btn" id="r-wow" onclick="doReaction('😮','Wow')"><span class="e">😮</span><span class="l">Wow</span></button>
-      <button class="react-btn" id="r-fire" onclick="doReaction('🔥','Feuer')"><span class="e">🔥</span><span class="l">Feuer</span></button>
+      <button class="react-btn" id="r-heart" onclick="doReaction('❤️','Herz')" aria-label="Herz-Reaktion"><span class="e">❤️</span><span class="l" data-t-react="heart">Liebe es</span></button>
+      <button class="react-btn" id="r-laugh" onclick="doReaction('😂','Lachen')" aria-label="Lach-Reaktion"><span class="e">😂</span><span class="l" data-t-react="laugh">Lustig</span></button>
+      <button class="react-btn" id="r-wow" onclick="doReaction('😮','Wow')" aria-label="Wow-Reaktion"><span class="e">😮</span><span class="l" data-t-react="wow">Wow</span></button>
+      <button class="react-btn" id="r-fire" onclick="doReaction('🔥','Feuer')" aria-label="Feuer-Reaktion"><span class="e">🔥</span><span class="l" data-t-react="fire">Feuer</span></button>
     </div>
     <div class="big-grid">
-      <button class="big-btn btn-like" id="like-btn" onclick="doLike()">
-        <span class="ic">👍</span><span class="lb" id="like-lb">Liken</span><span class="ht">Video liken</span>
+      <button class="big-btn btn-like" id="like-btn" onclick="doLike()" aria-label="Video liken">
+        <span class="ic">👍</span><span class="lb" id="like-lb" data-t="likeLabel">Liken</span><span class="ht" data-t="likeHint">Video liken</span>
       </button>
-      <button class="big-btn btn-sub" id="sub-btn" onclick="doSub()">
-        <span class="ic">🔔</span><span class="lb" id="sub-lb">Abonnieren</span><span class="ht">Kanal folgen</span>
+      <button class="big-btn btn-sub" id="sub-btn" onclick="doSub()" aria-label="Kanal abonnieren">
+        <span class="ic">🔔</span><span class="lb" id="sub-lb" data-t="subLabel">Abonnieren</span><span class="ht" data-t="subHint">Kanal folgen</span>
       </button>
       <button class="big-btn btn-com" onclick="openModal('com-modal')">
-        <span class="ic">💬</span><span class="lb">Kommentar</span><span class="ht">Text schreiben</span>
+        <span class="ic">💬</span><span class="lb" data-t="comLabel">Kommentar</span><span class="ht" data-t="comHint">Text schreiben</span>
       </button>
       <button class="big-btn btn-aff" onclick="doAffiliate()">
-        <span class="ic">🛒</span><span class="lb">Affiliate</span><span class="ht">Shop öffnen</span>
+        <span class="ic">🛒</span><span class="lb" data-t="affLabel">Affiliate</span><span class="ht" data-t="affHint">Shop öffnen</span>
       </button>
     </div>
     <button class="voice-full" onclick="openModal('voice-modal')">
       <span class="ic">🎙️</span>
-      <div><span class="lb">Sprachkommentar</span><span class="ht">Sprechen statt tippen — max. 60 Sek.</span></div>
+      <div><span class="lb" data-t="voiceLabel">Sprachkommentar</span><span class="ht" data-t="voiceHint">Sprechen statt tippen — max. 60 Sek.</span></div>
     </button>
-    <button class="chg-btn" onclick="goTo('s-search')">↩ Anderen Kanal / Video wählen</button>
+    <button class="chg-btn" onclick="goTo('s-search')" data-t="changeCh">↩ Anderen Kanal / Video wählen</button>
   </div>
   <div class="ad">📢 Werbung</div>
 </div>
@@ -385,7 +396,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
       <button class="modal-close" onclick="closeModal('com-modal')">×</button>
     </div>
     <div class="modal-body">
-      <textarea class="ctxt" id="com-txt" placeholder="Dein Kommentar…" maxlength="500"></textarea>
+      <textarea class="ctxt" id="com-txt" placeholder="Dein Kommentar…" maxlength="500" aria-label="Kommentar schreiben"></textarea>
       <button class="csend" onclick="sendCom()">💬 Kommentar senden</button>
     </div>
   </div>
@@ -401,7 +412,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
     </div>
     <div class="modal-body">
       <p class="vrec-hint">Tippe auf den Button und sprich deinen Kommentar</p>
-      <button class="vrec-btn" id="vrec-btn" onclick="toggleRec()">🎙️</button>
+      <button class="vrec-btn" id="vrec-btn" onclick="toggleRec()" aria-label="Sprachaufnahme starten">🎙️</button>
       <div class="vtimer" id="vtimer">Auf den Button tippen und sprechen</div>
       <div class="vtxt" id="vtxt" style="display:none"></div>
       <button class="vsend" id="vsend" onclick="sendVoice()">🎙️ Kommentar senden</button>
@@ -409,7 +420,7 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(-
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 const YT_KEY='AIzaSyCkbxNViUW1O7fXgk0s3vsXfeLIOTUZ9ik';
@@ -427,10 +438,142 @@ const POPULAR=[
 
 let token=null,tokenExpiry=null,curCh=null,curVid=null,liked=false,subbed=false,muted=true,videoSaved=false;
 let hist=[],savedVids=[],sRec=null,vRec=null,vRecOn=false,vTimer=null,vSecs=0,sDebounce=null,activeReaction=null;
+let lang=navigator.language.startsWith('de')?'de':'en';
+
+// ===== i18n =====
+const i18n={
+  de:{
+    searchLabel:'Was schaust du? 📺',searchHint:'Kanal suchen oder aus Verlauf wählen',
+    tabSearch:'🔍 Suchen',tabSaved:'🔖 Gespeichert',tabTrending:'🔥 Trending',tabQr:'📲 QR-Code',
+    inputPlaceholder:'z.B. MontanaBlack, MrBeast …',histLabel:'Zuletzt geschaut',popLabel:'Beliebte Kanäle',
+    savedLabel:'Gespeicherte Videos',savedEmpty:'📭 Noch keine Videos gespeichert.',trendLabel:'🔥 Trending auf YouTube',
+    remoteTitle:'Was möchtest du tun?',remoteSub:'Direkte Aktionen — kein Extra-Öffnen nötig',
+    likeLabel:'Liken',subLabel:'Abonnieren',comLabel:'Kommentar',affLabel:'Affiliate',
+    likeHint:'Video liken',subHint:'Kanal folgen',comHint:'Text schreiben',affHint:'Shop öffnen',
+    voiceLabel:'Sprachkommentar',voiceHint:'Sprechen statt tippen — max. 60 Sek.',
+    changeCh:'↩ Anderen Kanal / Video wählen',save:'🔖 Speichern',saved:'✅ Gespeichert',
+    liked:'✓ Geliked!',subbed:'✓ Abonniert!',
+    comModalTitle:'💬 Kommentar schreiben',comPlaceholder:'Dein Kommentar…',comSend:'💬 Kommentar senden',
+    voiceModalTitle:'🎙️ Sprachkommentar',voiceRecHint:'Tippe auf den Button und sprich deinen Kommentar',
+    voiceTimerDefault:'Auf den Button tippen und sprechen',voiceTimerDone:'Aufnahme beendet',voiceSend:'🎙️ Kommentar senden',
+    loginTitle:'Dein Handy als',loginTitleEm:'YouTube-Fernbedienung',
+    loginSub:'Like, kommentiere und abonniere direkt vom Sofa — das Video läuft klein auf deinem Handy.',
+    loginBtn:'Mit Google anmelden',loginNote:'Einmal einloggen — danach direkt loslegen.',
+    privacyLink:'Datenschutzerklärung',termsLink:'Nutzungsbedingungen',
+    tokenWarn:'⚠️ Session läuft bald ab!',tokenBtn:'Neu einloggen',
+    qrTitle:'📲 Dein Creator QR-Code',qrSub:'Erstelle deinen QR-Code und zeige ihn in deinen Videos!',
+    qrHandlePlaceholder:'YouTube Kanal-Handle (z.B. @MontanaBlack)',qrNamePlaceholder:'Dein Kanalname',
+    qrGenBtn:'🎯 QR-Code erstellen',qrDownload:'⬇️ QR-Code herunterladen',
+    toastHello:'👋 Hallo ',toastLoginFail:'❗ Login fehlgeschlagen',toastRelogin:'⚠️ Bitte neu einloggen',
+    toastExpiring:'⚠️ Bitte bald neu einloggen!',toastExpired:'⏱️ Session abgelaufen — bitte neu einloggen',
+    toastReloginForActions:'⚠️ Bitte erneut einloggen für Likes & Kommentare',
+    toastLiked:'👍 Video geliked!',toastLikeFail:'❗ Like fehlgeschlagen — bitte erneut einloggen',
+    toastLikeNet:'❗ Netzwerkfehler beim Liken',
+    toastSubbed:'🔔 Kanal abonniert!',toastSubFail:'❗ Abo fehlgeschlagen — bitte erneut einloggen',
+    toastSubNet:'❗ Netzwerkfehler beim Abonnieren',
+    toastReactionSent:' Reaktion gesendet!',toastReactionFail:'❗ Reaktion konnte nicht gesendet werden',
+    toastComSent:'💬 Kommentar gesendet!',toastComWrite:'❗ Kommentar schreiben!',toastComFail:'❗ Fehler: ',toastNetErr:'❗ Netzwerkfehler',
+    toastVoiceSent:'🎙️ Sprachkommentar gesendet!',toastVoiceFail:'❗ Fehler beim Senden',toastNoText:'❗ Kein Text',
+    toastVoiceNo:'❗ Spracheingabe nicht unterstützt',toastVoiceErr:'❗ Fehler',
+    toastSaved:'🔖 Video gespeichert!',toastUnsaved:'Gespeichert entfernt',
+    toastShop:'🛒 Shop geöffnet!',toastQrDone:'✅ QR-Code erstellt!',toastQrFields:'❗ Bitte beide Felder ausfüllen!',toastQrFirst:'❗ QR-Code zuerst erstellen',
+    loadingVids:'Videos laden…',searching:'Suche…',loading:'Lädt…',noResult:'Nichts gefunden',trendUnavail:'Trending nicht verfügbar',error:'Fehler',
+    reactions:{heart:'Liebe es',laugh:'Lustig',wow:'Wow',fire:'Feuer'},
+    ad:'📢 Werbung',
+  },
+  en:{
+    searchLabel:'What are you watching? 📺',searchHint:'Search for a channel or pick from history',
+    tabSearch:'🔍 Search',tabSaved:'🔖 Saved',tabTrending:'🔥 Trending',tabQr:'📲 QR Code',
+    inputPlaceholder:'e.g. MontanaBlack, MrBeast …',histLabel:'Recently watched',popLabel:'Popular channels',
+    savedLabel:'Saved videos',savedEmpty:'📭 No saved videos yet.',trendLabel:'🔥 Trending on YouTube',
+    remoteTitle:'What would you like to do?',remoteSub:'Direct actions — no extra steps needed',
+    likeLabel:'Like',subLabel:'Subscribe',comLabel:'Comment',affLabel:'Affiliate',
+    likeHint:'Like the video',subHint:'Follow channel',comHint:'Write text',affHint:'Open shop',
+    voiceLabel:'Voice comment',voiceHint:'Speak instead of type — max. 60 sec.',
+    changeCh:'↩ Choose another channel / video',save:'🔖 Save',saved:'✅ Saved',
+    liked:'✓ Liked!',subbed:'✓ Subscribed!',
+    comModalTitle:'💬 Write a comment',comPlaceholder:'Your comment…',comSend:'💬 Send comment',
+    voiceModalTitle:'🎙️ Voice comment',voiceRecHint:'Tap the button and speak your comment',
+    voiceTimerDefault:'Tap the button and speak',voiceTimerDone:'Recording done',voiceSend:'🎙️ Send comment',
+    loginTitle:'Your phone as',loginTitleEm:'YouTube remote control',
+    loginSub:'Like, comment and subscribe from the sofa — the video plays on your phone.',
+    loginBtn:'Sign in with Google',loginNote:'Sign in once — then start right away.',
+    privacyLink:'Privacy Policy',termsLink:'Terms of Service',
+    tokenWarn:'⚠️ Session expiring soon!',tokenBtn:'Re-login',
+    qrTitle:'📲 Your Creator QR Code',qrSub:'Create your QR code and show it in your videos!',
+    qrHandlePlaceholder:'YouTube channel handle (e.g. @MontanaBlack)',qrNamePlaceholder:'Your channel name',
+    qrGenBtn:'🎯 Create QR code',qrDownload:'⬇️ Download QR code',
+    toastHello:'👋 Hello ',toastLoginFail:'❗ Login failed',toastRelogin:'⚠️ Please log in again',
+    toastExpiring:'⚠️ Please re-login soon!',toastExpired:'⏱️ Session expired — please log in again',
+    toastReloginForActions:'⚠️ Please log in again for likes & comments',
+    toastLiked:'👍 Video liked!',toastLikeFail:'❗ Like failed — please log in again',
+    toastLikeNet:'❗ Network error while liking',
+    toastSubbed:'🔔 Channel subscribed!',toastSubFail:'❗ Subscribe failed — please log in again',
+    toastSubNet:'❗ Network error while subscribing',
+    toastReactionSent:' Reaction sent!',toastReactionFail:'❗ Could not send reaction',
+    toastComSent:'💬 Comment sent!',toastComWrite:'❗ Please write a comment!',toastComFail:'❗ Error: ',toastNetErr:'❗ Network error',
+    toastVoiceSent:'🎙️ Voice comment sent!',toastVoiceFail:'❗ Error sending',toastNoText:'❗ No text',
+    toastVoiceNo:'❗ Voice input not supported',toastVoiceErr:'❗ Error',
+    toastSaved:'🔖 Video saved!',toastUnsaved:'Removed from saved',
+    toastShop:'🛒 Shop opened!',toastQrDone:'✅ QR code created!',toastQrFields:'❗ Please fill in both fields!',toastQrFirst:'❗ Create QR code first',
+    loadingVids:'Loading videos…',searching:'Searching…',loading:'Loading…',noResult:'Nothing found',trendUnavail:'Trending unavailable',error:'Error',
+    reactions:{heart:'Love it',laugh:'Funny',wow:'Wow',fire:'Fire'},
+    ad:'📢 Advertisement',
+  }
+};
+function t(key){return i18n[lang][key]||i18n['de'][key]||key;}
 
 // HTML-Escape für sichere onclick-Attribute
 function escHtml(s){return s.replace(/&/g,'&amp;').replace(/'/g,'&#39;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function safeOnclick(obj){return escHtml(JSON.stringify(obj));}
+
+// ===== SPRACHE =====
+function toggleLang(){
+  lang=lang==='de'?'en':'de';
+  document.getElementById('lang-btn').textContent='🌐 '+lang.toUpperCase();
+  document.documentElement.lang=lang;
+  applyLang();
+  try{localStorage.setItem('vctv_lang',lang);}catch(e){}
+}
+function applyLang(){
+  document.querySelectorAll('[data-t]').forEach(el=>{
+    const key=el.getAttribute('data-t');
+    const attr=el.getAttribute('data-t-attr');
+    if(attr)el.setAttribute(attr,t(key));
+    else el.textContent=t(key);
+  });
+  document.querySelectorAll('[data-t-react]').forEach(el=>{
+    const key=el.getAttribute('data-t-react');
+    const reactions=i18n[lang].reactions;
+    if(reactions[key])el.textContent=reactions[key];
+  });
+  // Login-Titel (enthält HTML)
+  const lh=document.getElementById('login-h1');
+  if(lh)lh.innerHTML=t('loginTitle')+'<br><em>'+t('loginTitleEm')+'</em>';
+}
+
+// ===== TOKEN PERSISTENZ =====
+function saveToken(){
+  if(!token||!tokenExpiry)return;
+  try{localStorage.setItem('vctv_token',JSON.stringify({t:token,e:tokenExpiry}));}catch(e){}
+}
+function restoreToken(){
+  try{
+    const d=JSON.parse(localStorage.getItem('vctv_token')||'null');
+    if(d&&d.t&&d.e&&Date.now()<d.e-60000){
+      token=d.t;tokenExpiry=d.e;
+      const remainingSecs=Math.floor((d.e-Date.now())/1000);
+      scheduleTokenWarning(remainingSecs);
+      return true;
+    }
+    localStorage.removeItem('vctv_token');
+  }catch(e){}
+  return false;
+}
+function clearToken(){
+  token=null;tokenExpiry=null;
+  try{localStorage.removeItem('vctv_token');}catch(e){}
+}
 
 // ===== LOGIN & TOKEN =====
 function doLogin(){
@@ -442,11 +585,12 @@ function checkTokenFromUrl(){
   const hash=window.location.hash;
   if(!hash||hash.length<2)return false;
   const params=new URLSearchParams(hash.substring(1));
-  const t=params.get('access_token');
+  const tk=params.get('access_token');
   const expiresIn=parseInt(params.get('expires_in')||'3600');
-  if(!t)return false;
-  token=t;
+  if(!tk)return false;
+  token=tk;
   tokenExpiry=Date.now()+(expiresIn*1000);
+  saveToken();
   try{window.history.replaceState(null,'',window.location.pathname);}catch(e){}
   scheduleTokenWarning(expiresIn);
   fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+token}})
@@ -454,38 +598,36 @@ function checkTokenFromUrl(){
       document.getElementById('user-av').src=d.picture||'';
       document.getElementById('user-nm').textContent=d.given_name||d.name||'Nutzer';
       try{localStorage.setItem('vctv_u',JSON.stringify({p:d.picture,n:d.given_name||d.name}));}catch(e){}
-      toast('👋 Hallo '+(d.given_name||d.name)+'!');
+      toast(t('toastHello')+(d.given_name||d.name)+'!');
       goTo('s-search');
-    }).catch(()=>toast('❗ Login fehlgeschlagen'));
+    }).catch(()=>toast(t('toastLoginFail')));
   return true;
 }
 
 function scheduleTokenWarning(expiresIn){
-  // Warnung 5 Minuten vor Ablauf
   const warnIn=(expiresIn-300)*1000;
   if(warnIn>0){
     setTimeout(()=>{
       document.getElementById('token-warning').classList.add('show');
-      toast('⚠️ Bitte bald neu einloggen!');
+      toast(t('toastExpiring'));
     },warnIn);
   }
-  // Auto-redirect bei Ablauf
   setTimeout(()=>{
-    token=null;
-    toast('⏱️ Session abgelaufen — bitte neu einloggen');
+    clearToken();
+    toast(t('toastExpired'));
     setTimeout(()=>doLogin(),2000);
   },expiresIn*1000);
 }
 
 async function ensureToken(){
   if(!token){
-    toast('⚠️ Bitte neu einloggen');
+    toast(t('toastRelogin'));
     setTimeout(()=>doLogin(),1500);
     return false;
   }
-  // Prüfe ob Token noch gültig
   if(tokenExpiry&&Date.now()>tokenExpiry-60000){
-    toast('⚠️ Session abgelaufen — einloggen…');
+    clearToken();
+    toast(t('toastExpired'));
     setTimeout(()=>doLogin(),1500);
     return false;
   }
@@ -498,11 +640,11 @@ function checkUser(){
     if(u&&u.p&&u.n){
       document.getElementById('user-av').src=u.p;
       document.getElementById('user-nm').textContent=u.n;
-      // Nur zur Suche navigieren, aber User warnen dass Token fehlt
+      // Token aus localStorage wiederherstellen
+      const hasToken=restoreToken();
       goTo('s-search');
-      // Token aus vorheriger Session ist nicht mehr gültig - Info anzeigen
-      if(!token){
-        setTimeout(()=>toast('⚠️ Bitte erneut einloggen für Likes & Kommentare'),1000);
+      if(!hasToken){
+        setTimeout(()=>toast(t('toastReloginForActions')),1000);
       }
     }
   }catch(e){}
@@ -551,32 +693,32 @@ function toggleSaveVideo(){
   videoSaved=!videoSaved;
   if(videoSaved){
     savedVids=[{...curVid,chName:curCh?.name,chEmoji:curCh?.emoji,savedAt:Date.now()},...savedVids.filter(v=>v.vid!==curVid.vid)].slice(0,20);
-    btn.textContent='✅ Gespeichert';btn.classList.add('saved');toast('🔖 Video gespeichert!');
+    btn.textContent=t('saved');btn.classList.add('saved');toast(t('toastSaved'));
   }else{
     savedVids=savedVids.filter(v=>v.vid!==curVid.vid);
-    btn.textContent='🔖 Speichern';btn.classList.remove('saved');toast('Gespeichert entfernt');
+    btn.textContent=t('save');btn.classList.remove('saved');toast(t('toastUnsaved'));
   }
   try{localStorage.setItem('vctv_saved',JSON.stringify(savedVids));}catch(e){}
 }
 function renderSaved(){
   const el=document.getElementById('saved-list');
-  if(!savedVids.length){el.innerHTML=`<div class="saved-empty">📭 Noch keine Videos gespeichert.</div>`;return;}
+  if(!savedVids.length){el.innerHTML=`<div class="saved-empty">${t('savedEmpty')}</div>`;return;}
   el.innerHTML=`<div class="rbox">`+savedVids.map(v=>`<div class="ri" onclick='startRemote(${safeOnclick(v)})'><div class="ri-av" style="background:var(--bg3);border-radius:10px;width:72px;height:40px;font-size:18px">${escHtml(v.chEmoji||'▶')}</div><div class="ri-info"><div class="ri-name" style="font-size:13px">${escHtml(v.title)}</div><div class="ri-sub">${escHtml(v.chName||'')}</div></div><span class="ri-arr">›</span></div>`).join('')+`</div>`;
 }
 
 // ===== TRENDING =====
 async function loadTrending(){
   const el=document.getElementById('trending-list');
-  el.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Lädt…</div></div></div>`;
+  el.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">${t('loading')}</div></div></div>`;
   try{
-    const r=await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=DE&maxResults=8&key=${YT_KEY}`);
+    const r=await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=${lang==='de'?'DE':'US'}&maxResults=8&key=${YT_KEY}`);
     const d=await r.json();
-    if(d.error||!d.items?.length){el.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Trending nicht verfügbar</div></div></div>`;return;}
+    if(d.error||!d.items?.length){el.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">${t('trendUnavail')}</div></div></div>`;return;}
     el.innerHTML=d.items.map(i=>{
       const v={title:i.snippet.title,vid:i.id,thumb:i.snippet.thumbnails?.medium?.url,chName:i.snippet.channelTitle,live:false};
       return `<div class="ri" onclick='startRemote(${safeOnclick(v)})'><div class="ri-av" style="width:72px;height:40px;border-radius:10px;background:var(--bg3)">${v.thumb?`<img src="${escHtml(v.thumb)}" style="width:100%;height:100%;object-fit:cover;border-radius:10px"/>`:'🔥'}</div><div class="ri-info"><div class="ri-name" style="font-size:13px">${escHtml(i.snippet.title)}</div><div class="ri-sub">${escHtml(i.snippet.channelTitle)}</div></div><span class="ri-arr">›</span></div>`;
     }).join('');
-  }catch(e){el.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Fehler</div></div></div>`;}
+  }catch(e){el.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">${t('error')}</div></div></div>`;}
 }
 
 // ===== SEARCH =====
@@ -590,7 +732,7 @@ function onSearch(v){
   const r=document.getElementById('search-res'),h=document.getElementById('hist-sec');
   if(v.length<2){r.style.display='none';if(hist.length)h.style.display='block';return;}
   h.style.display='none';r.style.display='block';
-  r.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Suche…</div></div></div>`;
+  r.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">${t('searching')}</div></div></div>`;
   clearTimeout(sDebounce);sDebounce=setTimeout(()=>doSearch(v),400);
 }
 
@@ -602,19 +744,19 @@ async function doSearch(q){
     const res=await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=${encodeURIComponent(q)}&maxResults=5&key=${YT_KEY}`);
     const d=await res.json();
     if(d.items?.length){r.innerHTML=d.items.map(i=>chRow({name:i.snippet.title,handle:i.snippet.customUrl||'',subs:'',color:'#FF4422',emoji:'📺',id:i.snippet.channelId||i.id.channelId,thumb:i.snippet.thumbnails?.default?.url})).join('');}
-    else if(!local.length)r.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Nichts gefunden</div></div></div>`;
+    else if(!local.length)r.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">${t('noResult')}</div></div></div>`;
   }catch(e){}
 }
 
 function voiceSearch(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){toast('❗ Spracheingabe nicht unterstützt');return;}
+  if(!SR){toast(t('toastVoiceNo'));return;}
   const btn=document.getElementById('mic-s');
   if(sRec){sRec.stop();return;}
-  sRec=new SR();sRec.lang='de-DE';sRec.interimResults=false;
-  btn.classList.add('on');btn.textContent='⏹';toast('🎤 Kanal sprechen…');
-  sRec.onresult=e=>{const t=e.results[0][0].transcript;document.getElementById('sinput').value=t;onSearch(t);};
-  sRec.onerror=()=>toast('❗ Fehler');
+  sRec=new SR();sRec.lang=lang==='de'?'de-DE':'en-US';sRec.interimResults=false;
+  btn.classList.add('on');btn.textContent='⏹';toast('🎤 '+(lang==='de'?'Kanal sprechen…':'Speak channel name…'));
+  sRec.onresult=e=>{const tx=e.results[0][0].transcript;document.getElementById('sinput').value=tx;onSearch(tx);};
+  sRec.onerror=()=>toast(t('toastVoiceErr'));
   sRec.onend=()=>{btn.classList.remove('on');btn.textContent='🎤';sRec=null;};
   sRec.start();
 }
@@ -627,7 +769,7 @@ async function pickCh(ch){
 
 async function loadVideos(ch){
   const r=document.getElementById('search-res');
-  r.style.display='block';r.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">Videos laden…</div></div></div>`;
+  r.style.display='block';r.innerHTML=`<div class="ri"><div class="ri-info"><div class="ri-name" style="color:var(--text2)">${t('loadingVids')}</div></div></div>`;
   try{
     const cr=await fetch(`https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${ch.id}&key=${YT_KEY}`);
     const cd=await cr.json();
@@ -656,8 +798,8 @@ function startRemote(v){
   videoSaved=savedVids.some(s=>s.vid===v.vid);
   document.getElementById('r-title').textContent=v.title;
   document.getElementById('r-ch').textContent=v.chName||curCh?.name||'';
-  document.getElementById('like-lb').textContent='Liken';
-  document.getElementById('sub-lb').textContent='Abonnieren';
+  document.getElementById('like-lb').textContent=t('likeLabel');
+  document.getElementById('sub-lb').textContent=t('subLabel');
   document.getElementById('like-btn').className='big-btn btn-like';
   document.getElementById('sub-btn').className='big-btn btn-sub';
   document.getElementById('com-txt').value='';
@@ -668,7 +810,7 @@ function startRemote(v){
   document.getElementById('token-warning').classList.remove('show');
   document.querySelectorAll('.react-btn').forEach(b=>b.classList.remove('on'));
   const sb=document.getElementById('save-vid-btn');
-  sb.textContent=videoSaved?'✅ Gespeichert':'🔖 Speichern';
+  sb.textContent=videoSaved?t('saved'):t('save');
   sb.className='save-btn'+(videoSaved?' saved':'');
   document.getElementById('yt-frame').src=`https://www.youtube.com/embed/${v.vid}?autoplay=1&mute=1&rel=0&modestbranding=1&enablejsapi=1`;
   goTo('s-remote');
@@ -700,8 +842,8 @@ async function doReaction(emoji,label){
       const res=await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:emoji+' '+label+'! #VoiceCommentTV'}}}})});
       if(!res.ok)throw new Error('API error '+res.status);
     }
-    toast(emoji+' Reaktion gesendet!');showLastAction(emoji+' '+label+' kommentiert');
-  }catch(e){toast('❗ Reaktion konnte nicht gesendet werden');}
+    toast(emoji+t('toastReactionSent'));showLastAction(emoji+' '+label);
+  }catch(e){toast(t('toastReactionFail'));}
 }
 
 async function doLike(){
@@ -709,14 +851,14 @@ async function doLike(){
   liked=!liked;
   const btn=document.getElementById('like-btn');
   if(liked){
-    btn.classList.add('on');document.getElementById('like-lb').textContent='✓ Geliked!';
+    btn.classList.add('on');document.getElementById('like-lb').textContent=t('liked');
     try{
       const res=await fetch(`https://www.googleapis.com/youtube/v3/videos/rate?id=${curVid.vid}&rating=like`,{method:'POST',headers:{Authorization:'Bearer '+token}});
-      if(res.ok){toast('👍 Video geliked!');showLastAction('👍 Video geliked');}
-      else{toast('❗ Like fehlgeschlagen — bitte erneut einloggen');liked=false;btn.classList.remove('on');document.getElementById('like-lb').textContent='Liken';}
-    }catch(e){toast('❗ Netzwerkfehler beim Liken');liked=false;btn.classList.remove('on');document.getElementById('like-lb').textContent='Liken';}
+      if(res.ok){toast(t('toastLiked'));showLastAction(t('toastLiked'));}
+      else{toast(t('toastLikeFail'));liked=false;btn.classList.remove('on');document.getElementById('like-lb').textContent=t('likeLabel');}
+    }catch(e){toast(t('toastLikeNet'));liked=false;btn.classList.remove('on');document.getElementById('like-lb').textContent=t('likeLabel');}
   }else{
-    btn.classList.remove('on');document.getElementById('like-lb').textContent='Liken';
+    btn.classList.remove('on');document.getElementById('like-lb').textContent=t('likeLabel');
     try{await fetch(`https://www.googleapis.com/youtube/v3/videos/rate?id=${curVid.vid}&rating=none`,{method:'POST',headers:{Authorization:'Bearer '+token}});}catch(e){}
   }
 }
@@ -726,72 +868,72 @@ async function doSub(){
   subbed=!subbed;
   const btn=document.getElementById('sub-btn');
   if(subbed){
-    btn.classList.add('on');document.getElementById('sub-lb').textContent='✓ Abonniert!';
+    btn.classList.add('on');document.getElementById('sub-lb').textContent=t('subbed');
     try{
       const res=await fetch('https://www.googleapis.com/youtube/v3/subscriptions?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{resourceId:{kind:'youtube#channel',channelId:curCh?.id}}})});
-      if(res.ok){toast('🔔 Kanal abonniert!');showLastAction('🔔 '+curCh?.name+' abonniert');}
-      else{toast('❗ Abo fehlgeschlagen — bitte erneut einloggen');subbed=false;btn.classList.remove('on');document.getElementById('sub-lb').textContent='Abonnieren';}
-    }catch(e){toast('❗ Netzwerkfehler beim Abonnieren');subbed=false;btn.classList.remove('on');document.getElementById('sub-lb').textContent='Abonnieren';}
-  }else{btn.classList.remove('on');document.getElementById('sub-lb').textContent='Abonnieren';}
+      if(res.ok){toast(t('toastSubbed'));showLastAction('🔔 '+curCh?.name);}
+      else{toast(t('toastSubFail'));subbed=false;btn.classList.remove('on');document.getElementById('sub-lb').textContent=t('subLabel');}
+    }catch(e){toast(t('toastSubNet'));subbed=false;btn.classList.remove('on');document.getElementById('sub-lb').textContent=t('subLabel');}
+  }else{btn.classList.remove('on');document.getElementById('sub-lb').textContent=t('subLabel');}
 }
 
 async function sendCom(){
   if(!await ensureToken())return;
   const txt=document.getElementById('com-txt').value.trim();
-  if(!txt){toast('❗ Kommentar schreiben!');return;}
+  if(!txt){toast(t('toastComWrite'));return;}
   try{
     const res=await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:txt+'\n#VoiceCommentTV'}}}})});
     if(res.ok){
-      toast('💬 Kommentar gesendet!');showLastAction('💬 Kommentar gesendet');
+      toast(t('toastComSent'));showLastAction(t('toastComSent'));
       document.getElementById('com-txt').value='';closeModal('com-modal');
     }else{
       const err=await res.json();
-      toast('❗ Fehler: '+(err?.error?.message||'Unbekannt'));
+      toast(t('toastComFail')+(err?.error?.message||''));
     }
-  }catch(e){toast('❗ Netzwerkfehler');}
+  }catch(e){toast(t('toastNetErr'));}
 }
 
 function toggleRec(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){toast('❗ Spracheingabe nicht unterstützt');return;}
+  if(!SR){toast(t('toastVoiceNo'));return;}
   const btn=document.getElementById('vrec-btn'),timer=document.getElementById('vtimer'),txt=document.getElementById('vtxt'),send=document.getElementById('vsend');
   if(vRecOn&&vRec){vRec.stop();return;}
-  vRec=new SR();vRec.lang='de-DE';vRec.interimResults=true;vRec.continuous=true;
+  vRec=new SR();vRec.lang=lang==='de'?'de-DE':'en-US';vRec.interimResults=true;vRec.continuous=true;
   vRecOn=true;btn.classList.add('on');vSecs=0;txt.textContent='';txt.style.display='block';send.classList.remove('show');
   vTimer=setInterval(()=>{vSecs++;timer.textContent=`🔴 ${vSecs}s / 60s`;if(vSecs>=60)vRec.stop();},1000);
-  vRec.onresult=e=>{let t='';for(let i=0;i<e.results.length;i++)t+=e.results[i][0].transcript;txt.textContent=t;};
+  vRec.onresult=e=>{let tx='';for(let i=0;i<e.results.length;i++)tx+=e.results[i][0].transcript;txt.textContent=tx;};
   vRec.onerror=()=>{clearInterval(vTimer);vRecOn=false;btn.classList.remove('on');};
-  vRec.onend=()=>{clearInterval(vTimer);vRecOn=false;btn.classList.remove('on');timer.textContent='Aufnahme beendet';if(txt.textContent.trim())send.classList.add('show');};
+  vRec.onend=()=>{clearInterval(vTimer);vRecOn=false;btn.classList.remove('on');timer.textContent=t('voiceTimerDone');if(txt.textContent.trim())send.classList.add('show');};
   vRec.start();
 }
 
 async function sendVoice(){
   if(!await ensureToken())return;
   let txt=document.getElementById('vtxt').textContent.trim();
-  if(!txt){toast('❗ Kein Text');return;}
+  if(!txt){toast(t('toastNoText'));return;}
   if(txt.length>500)txt=txt.substring(0,500);
   try{
     const res=await fetch('https://www.googleapis.com/youtube/v3/commentThreads?part=snippet',{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({snippet:{videoId:curVid.vid,topLevelComment:{snippet:{textOriginal:txt+'\n#VoiceCommentTV'}}}})});
     if(res.ok){
-      toast('🎙️ Sprachkommentar gesendet!');showLastAction('🎙️ Sprachkommentar gesendet');
+      toast(t('toastVoiceSent'));showLastAction(t('toastVoiceSent'));
       document.getElementById('vtxt').textContent='';document.getElementById('vtxt').style.display='none';
       document.getElementById('vsend').classList.remove('show');
-      document.getElementById('vtimer').textContent='Auf den Button tippen und sprechen';
+      document.getElementById('vtimer').textContent=t('voiceTimerDefault');
       closeModal('voice-modal');
-    }else toast('❗ Fehler beim Senden');
-  }catch(e){toast('❗ Netzwerkfehler');}
+    }else toast(t('toastVoiceFail'));
+  }catch(e){toast(t('toastNetErr'));}
 }
 
 function doAffiliate(){
   const url=curCh?.id?`https://www.youtube.com/channel/${curCh.id}/store`:'https://youtube.com';
-  window.open(url,'_blank');toast('🛒 Shop geöffnet!');showLastAction('🛒 Shop geöffnet');
+  window.open(url,'_blank');toast(t('toastShop'));showLastAction(t('toastShop'));
 }
 
 // ===== QR =====
 function generateQR(){
   const handle=document.getElementById('qr-channel-input').value.trim();
   const name=document.getElementById('qr-name-input').value.trim();
-  if(!handle||!name){toast('❗ Bitte beide Felder ausfüllen!');return;}
+  if(!handle||!name){toast(t('toastQrFields'));return;}
   const cleanHandle=handle.startsWith('@')?handle:'@'+handle;
   const url=`https://voicecomment-tv.vip?channel=${encodeURIComponent(cleanHandle)}&name=${encodeURIComponent(name)}`;
   const box=document.getElementById('qr-box');box.innerHTML='';
@@ -799,18 +941,24 @@ function generateQR(){
   catch(e){box.innerHTML=`<div style="padding:16px;font-size:12px;color:var(--navy)">${url}</div>`;}
   document.getElementById('qr-ch-name').textContent=name;
   document.getElementById('qr-ch-url').textContent='voicecomment-tv.vip → '+cleanHandle;
-  document.getElementById('qr-result').classList.add('show');toast('✅ QR-Code erstellt!');
+  document.getElementById('qr-result').classList.add('show');toast(t('toastQrDone'));
 }
 
 function downloadQR(){
   const canvas=document.querySelector('#qr-box canvas');
-  if(!canvas){toast('❗ QR-Code zuerst erstellen');return;}
+  if(!canvas){toast(t('toastQrFirst'));return;}
   const link=document.createElement('a');link.download='vctv-qr-code.png';link.href=canvas.toDataURL();link.click();
 }
 
 // ===== INIT =====
-loadHist();loadSaved();renderPop();renderHist();
+try{const sl=localStorage.getItem('vctv_lang');if(sl)lang=sl;}catch(e){}
+document.getElementById('lang-btn').textContent='🌐 '+lang.toUpperCase();
+document.documentElement.lang=lang;
+loadHist();loadSaved();renderPop();renderHist();applyLang();
 if(!checkTokenFromUrl()){checkUser();}
+
+// Service Worker registrieren
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}
 </script>
 </body>
 </html>
